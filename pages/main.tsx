@@ -1,5 +1,4 @@
 import type {NextPage} from "next";
-import Nav from './nav';
 
 const Main: NextPage = () => {
     return (

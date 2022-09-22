@@ -5,16 +5,17 @@ import Link from 'next/link'
 
 const Nav: NextPage = () => {
   return (
-      <div style={{display: "inline"}}>
+      <div style={{display: 'flex', flexDirection:'row', justifyContent:'space-between', alignItems:'center', width:'70%'}}>
         <Link href="/nav">
           <a>
-            <div style={{position:'relative', display: "inline-block", width: "30px", height: "30px"}}>
+            <div style={{position:'relative', width: "100px", height: "100px"}}>
               <Image src={homeImg} width={200} height={200} layout={"fill"}/>
             </div>
           </a>
         </Link>
-        <div style={{display: "inline-block", color: 'red', fontSize: '10px'}}>Nav1</div>
-        <div style={{display: "inline-block", color: 'blue', fontSize: '10px'}}>Nav2</div>
+        <Link href="/" style={{fontSize: '50px'}}>Nav1</Link>
+        <Link href="/" style={{fontSize: '50px'}}>Nav2</Link>
+        <Link href="/" style={{fontSize: '50px'}}>Nav3</Link>
       </div>
   )
 }

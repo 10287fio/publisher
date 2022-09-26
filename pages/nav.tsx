@@ -8,8 +8,8 @@ const Nav: NextPage = () => {
       <div style={{display: 'flex', flexDirection:'row', justifyContent:'space-between', alignItems:'center', width:'70%'}}>
         <Link href="/nav">
           <a>
-            <div style={{position:'relative', width: "100px", height: "100px"}}>
-              <Image src={homeImg} width={200} height={200} layout={"fill"}/>
+            <div style={{width: "100px", height:"100px"}}>
+              <Image src={homeImg} width={100} height={100} layout={"responsive"}/>
             </div>
           </a>
         </Link>

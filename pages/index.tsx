@@ -1,12 +1,14 @@
 import type {NextPage} from 'next'
-import Main from './main'
 import Nav from './nav'
+import Main from './main'
+import Footer from './footer'
 
 const Home: NextPage = () => {
     return (
         <div>
-            <Nav />
-            <Main />
+          <Nav />
+          <Main />
+          <Footer />
         </div>
     )
 }

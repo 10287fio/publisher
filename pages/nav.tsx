@@ -13,9 +13,8 @@ const Nav: NextPage = () => {
             </div>
           </a>
         </Link>
-        <Link href="/" style={{fontSize: '50px'}}>Nav1</Link>
-        <Link href="/" style={{fontSize: '50px'}}>Nav2</Link>
-        <Link href="/" style={{fontSize: '50px'}}>Nav3</Link>
+        <Link href="/" style={{fontSize: '50px'}}>서문</Link>
+        <Link href="/" style={{fontSize: '50px'}}>진:가장 최소의 단위</Link>
       </div>
   )
 }

@@ -24,7 +24,7 @@ const Nav: NextPage = () => {
             </a>
           </Link>
         </div>
-        <div style={{flexBasis: '100%'}}>
+        <div style={{flexBasis: '50%'}}>
           <div style={{
             display: 'flex',
             flexDirection: 'row',

@@ -5,7 +5,7 @@ import Link from 'next/link'
 import React from 'react'
 
 const Nav: NextPage = () => {
-  const navItems: String[] = ["PREFACE", "ZIN:THE SMALLEST UNIT"];
+  const navItems: String[] = ["Enterprise", "ZIN:THE SMALLEST UNIT", "Feedback", "Support"];
 
   return (
       <div style={{

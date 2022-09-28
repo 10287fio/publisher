@@ -2,12 +2,23 @@ import type {NextPage, GetStaticPaths, GetStaticProps, InferGetStaticPropsType} 
 import Nav from './nav'
 import Main from './main'
 import Footer from './footer'
+import { useState, useEffect } from 'react'
 
-const LangPage: NextPage = ({lang}: InferGetStaticPropsType<typeof getStaticProps>) => {
+const LangPage: NextPage = ({contents}: InferGetStaticPropsType<typeof getStaticProps>) => {
+  let [screenWidth, setScreenWidth] = useState(0)
+
+  function test(){
+    setScreenWidth(window.document.body.offsetWidth)
+    console.log(window.document.body.offsetWidth)
+  }
+
   return (
-      <div>
+      <div style={{position:'relative'}}>
+        <div style={{position:'absolute', width:'1000px', left:'30%'}}>
         <Nav/>
-        {lang}
+        </div>
+        <div>{screenWidth}</div>
+        <button onClick={test}>+</button>
         <Main/>
         <Footer/>
       </div>
@@ -27,9 +38,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
-  let lang: String = params?.lang == 'kor' ? 'kor' : 'jp'
+  let contents: String = params?.lang == 'kor' ? 'kor' : 'jp'
 
-  return {props: {lang}}
+  return {props: {contents}}
 }
 
 export default LangPage

@@ -3,20 +3,29 @@ import Nav from './nav'
 import Main from './main'
 import Footer from './footer'
 import { useState, useEffect } from 'react'
+import styles from './test.module.scss'
 
 const LangPage: NextPage = ({contents}: InferGetStaticPropsType<typeof getStaticProps>) => {
   let [screenWidth, setScreenWidth] = useState(0)
+  let [initialCnt, setInitialCnt] = useState(0)
 
   function test(){
     setScreenWidth(window.document.body.offsetWidth)
-    console.log(window.document.body.offsetWidth)
   }
+
+  useEffect(() => {
+    if(initialCnt == 0) {
+      setInitialCnt(initialCnt + 1)
+    }
+  })
 
   return (
       <div style={{position:'relative'}}>
-        <div style={{position:'absolute', width:'1000px', left:'30%'}}>
+        <div className={styles.test}>
         <Nav/>
         </div>
+        {contents}
+        <div>{initialCnt}</div>
         <div>{screenWidth}</div>
         <button onClick={test}>+</button>
         <Main/>

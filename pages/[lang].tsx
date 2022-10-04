@@ -1,23 +1,23 @@
 import type {NextPage, GetStaticPaths, GetStaticProps, InferGetStaticPropsType} from 'next'
-import Nav from './nav'
-import Main from './main'
-import Footer from './footer'
-import langStyles from './lang.module.scss'
 import type {NextPageWithLayout} from './_app'
 import type {ReactElement} from 'react'
+import {useRouter} from 'next/router'
+import Nav from './common/nav'
+import Footer from './common/footer'
 
 const LangPage: NextPageWithLayout = ({contents}: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const router = useRouter()
+  const param1 = router.asPath
+  const {test} = router.query
+
   return (
       <div>
-        <div className={langStyles.nav}>
-          <Nav/>
-        </div>
-        <div className={langStyles.main}>
-          <Main/>
-        </div>
-        <div className={langStyles.footer}>
-          <Footer/>
-        </div>
+        <span>
+        {param1}
+        </span>
+        <span>
+        {test}
+      </span>
       </div>
   )
 
@@ -40,11 +40,12 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   return {props: {contents}}
 }
 
-LangPage.getLayout = function getLayout(page:ReactElement){
+LangPage.getLayout = function getLayout(page: ReactElement) {
   return (
       <div>
-        test Layout
+        <Nav/>
         {page}
+        <Footer/>
       </div>
   )
 }

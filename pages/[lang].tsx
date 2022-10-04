@@ -12,10 +12,10 @@ const LangPage: NextPageWithLayout = ({contents}: InferGetStaticPropsType<typeof
 
   return (
       <div>
-        <span>
+        <span style={{display:'block'}}>
         {param1}
         </span>
-        <span>
+        <span style={{display:'block'}}>
         {test}
       </span>
       </div>

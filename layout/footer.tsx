@@ -1,5 +1,5 @@
 import type {NextPage} from 'next'
-import langStyles from '@/pages/common/styles/common.module.scss'
+import langStyles from '@/layout/styles/layout.module.scss'
 
 const Footer: NextPage = () => {
   return <div className={langStyles.footer}>Footer</div>

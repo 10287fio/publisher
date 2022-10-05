@@ -1,12 +1,24 @@
 import type {NextPage} from "next"
 import Image from 'next/image'
-import homeImg from '../../public/fragranceia.png'
+import homeImg from '../public/fragranceia.png'
 import Link from 'next/link'
 import React from 'react'
-import langStyles from '@/pages/common/styles/common.module.scss'
+import langStyles from '@/layout/styles/layout.module.scss'
 
 const Nav: NextPage = () => {
-  const navItems: String[] = ["Enterprise", "ZIN:THE SMALLEST UNIT", "Feedback", "Support"];
+  const navItems: string[] = ["Enterprise", "ZIN:THE SMALLEST UNIT", "Feedback", "Support"]
+
+  const navUrl : {value:string, url:string}[]= [
+    {value:"Enterprise" , url: "/kor/enterprise"}
+    , {value:"ZIN:THE SMALLEST UNIT", url:"/kor/zin"}
+    , {value:"Feedback", url : "/kor/feedback"}
+    , {value:"Support", url : "/kor/support"}
+  ]
+
+  const navItem  = navUrl.reduce((a:{[key:string]:any}, c) => {
+    a[c.value] = {name:c.value, url:c.url}
+    return a
+  }, {})
 
   return (
       <div className={langStyles.nav}>
@@ -18,7 +30,7 @@ const Nav: NextPage = () => {
           alignItems: 'center'
         }}>
           <div style={{flexBasis: '100px'}}>
-            <Link href="/common/nav">
+            <Link href="/">
               <a>
                 <div style={{width: "100px", height: "100px"}}>
                   <Image src={homeImg} width={100} height={100} layout={"responsive"}/>
@@ -36,7 +48,7 @@ const Nav: NextPage = () => {
             }}>
               {navItems.map((item) =>
                   <div key={item.toString()} style={{flexBasis: '50%', textAlign: 'center'}}>
-                    <Link href="/Users/apple/fragranceia/pages">{item}</Link>
+                    <Link href={navItem[item].url}>{item}</Link>
                   </div>)}
             </div>
           </div>

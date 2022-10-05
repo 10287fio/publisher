@@ -1,26 +1,15 @@
 import type {NextPage, GetStaticPaths, GetStaticProps, InferGetStaticPropsType} from 'next'
 import type {NextPageWithLayout} from './_app'
-import type {ReactElement} from 'react'
 import {useRouter} from 'next/router'
-import Nav from './common/nav'
-import Footer from './common/footer'
+import Enterprise from './[lang]/enterprise'
 
 const LangPage: NextPageWithLayout = ({contents}: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const router = useRouter()
-  const param1 = router.asPath
-  const {test} = router.query
 
   return (
       <div>
-        <span style={{display:'block'}}>
-        {param1}
-        </span>
-        <span style={{display:'block'}}>
-        {test}
-      </span>
+        {contents}
       </div>
   )
-
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -38,16 +27,6 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   let contents: String = params?.lang == 'kor' ? 'kor' : 'jp'
 
   return {props: {contents}}
-}
-
-LangPage.getLayout = function getLayout(page: ReactElement) {
-  return (
-      <div>
-        <Nav/>
-        {page}
-        <Footer/>
-      </div>
-  )
 }
 
 export default LangPage

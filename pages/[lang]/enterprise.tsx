@@ -1,5 +1,5 @@
-import type {NextPage} from 'next'
 import {useRouter} from "next/router"
+import EnterpriseStyle from './styles/enterprise.module.scss'
 
 type Props = {
   lang : String
@@ -10,7 +10,7 @@ const Enterprise = ({lang} : Props) => {
   const param1 = router.asPath
   const {test} = router.query
 
-  return <div>enterprise</div>
+  return <div className={EnterpriseStyle.body}>enterprise</div>
 
 }
 

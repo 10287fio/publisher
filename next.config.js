@@ -4,7 +4,7 @@ const path = require('path')
 
 const nextConfig = {
   images:{
-    domains:['image.flaticon.com', 'images.rawpixel.com', 'e1.pngegg.com', 'raw.githubusercontent.com']
+    domains:['raw.githubusercontent.com']
   },
   reactStrictMode: true,
   swcMinify: true,

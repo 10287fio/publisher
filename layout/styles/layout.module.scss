@@ -1,7 +1,23 @@
 .nav {
   position : relative;
   width : 80%;
-  left : 22%;
+  left : 25%;
+}
+
+.navLayout {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.navItem {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .footer {

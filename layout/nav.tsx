@@ -18,11 +18,9 @@ const Nav: NextPage = () => {
         <div className={langStyles.navLayout}>
           <div style={{flexBasis: '100px'}}>
             <Link href="/">
-              <a>
                 <div>
                   <Image src="https://raw.githubusercontent.com/vercel/next.js/canary/examples/image-component/public/vercel.png" width={100} height={100} layout={"responsive"} alt={"fragranceia"}/>
                 </div>
-              </a>
             </Link>
           </div>
           <div style={{flexBasis: '50%'}}>

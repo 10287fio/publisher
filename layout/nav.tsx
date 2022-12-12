@@ -4,14 +4,21 @@ import Link from 'next/link'
 import React from 'react'
 import langStyles from '@/layout/styles/layout.module.scss'
 import DeliveryServiceEnum from '../enums/layoutEnum'
+import {useRouter} from "next/router";
 
 const Nav: NextPage = () => {
-  const navItems: string[] = DeliveryServiceEnum.NavItemsEnum.map((x)=> x.value)
+  const router = useRouter()
+  const test = router.query.lang
 
-  const navItem  = DeliveryServiceEnum.NavItemsEnum.reduce((a:{[key:string]:any}, c) => {
+  console.log(test);
+
+  const navItems: string[] = DeliveryServiceEnum.NavItemsEnum.filter(x => x.lang == (test ?? 'default')).map((x)=> x.value)
+  const navItem  = DeliveryServiceEnum.NavItemsEnum.filter(x => x.lang == (test ?? 'default')).reduce((a:{[key:string]:any}, c) => {
     a[c.value] = {name:c.value, url:c.url}
     return a
   }, {})
+
+  console.log(navItem);
 
   return (
       <div className={langStyles.nav}>

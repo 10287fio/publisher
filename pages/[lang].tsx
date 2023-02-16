@@ -1,6 +1,5 @@
-import type {NextPage, GetStaticPaths, GetStaticProps, InferGetStaticPropsType} from 'next'
+import type {GetStaticPaths, GetStaticProps, InferGetStaticPropsType} from 'next'
 import type {NextPageWithLayout} from './_app'
-import {useRouter} from 'next/router'
 
 const LangPage: NextPageWithLayout = ({contents}: InferGetStaticPropsType<typeof getStaticProps>) => {
 

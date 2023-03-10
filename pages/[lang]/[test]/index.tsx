@@ -15,7 +15,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
         paths:
             [
                 {params: {lang:'kor', test: 'enterprise'}},
-                {params: {lang:'jp', test: 'essay'}}
+                {params: {lang:'kor', test: 'zin'}},
+                {params: {lang:'kor', test: 'essay'}},
+                {params: {lang:'kor', test: 'feedback'}},
+                {params: {lang:'kor', test: 'support'}},
+                {params: {lang:'jp', test: 'enterprise'}},
+                {params: {lang:'jp', test: 'zin'}},
+                {params: {lang:'jp', test: 'essay'}},
+                {params: {lang:'jp', test: 'feedback'}},
+                {params: {lang:'jp', test: 'support'}},
             ],
         fallback: false
     }

@@ -1,28 +1,19 @@
-const NavItems = {
-  enterprise : 0,
-  zin : 1,
-  essay : 2,
-  feedback : 3,
-  support : 4
-} as const
-type NavItems = typeof NavItems[keyof typeof NavItems]
-
-const NavItemsLang: { value:string, key:string, lang:string }[] = [
-  {value: "Enterprise", key: "enterprise", lang: "default"}
-  , {value: "ZIN : THE SMALLEST UNIT", key: "zin", lang: "default"}
-  , {value: "Essay", key: "essay", lang: "default"}
-  , {value: "Feedback", key: "feedback", lang: "default"}
-  , {value: "Support", key: "support", lang: "default"}
-  , {value: "회사", key: "enterprise", lang: "kor"}
-  , {value: "진 : 가장 최소의 단위", key: "zin", lang: "kor"}
-  , {value: "수필", key: "essay", lang: "kor"}
-  , {value: "문의", key: "feedback", lang: "kor"}
-  , {value: "후원", key: "support", lang: "kor"}
-  , {value: "会社", key: "enterprise", lang: "jp"}
-  , {value: "真：最も最小の単位", key: "zin", lang: "jp"}
-  , {value: "エッセー", key: "essay", lang: "jp"}
-  , {value: "問合せ", key: "feedback", lang: "jp"}
-  , {value: "後援", key: "support", lang: "jp"}
+const NavItemsLang: { value:string, key:string, url:string, lang:string }[] = [
+  {value: "Enterprise", key: "enterprise", url: "/enterprise", lang: "default"}
+  , {value: "ZIN : THE SMALLEST UNIT", key: "zin", url: "/zin", lang: "default"}
+  , {value: "Essay", key: "essay", url: "/essay", lang: "default"}
+  , {value: "Feedback", key: "feedback", url: "/feedback", lang: "default"}
+  , {value: "Support", key: "support", url: "/support", lang: "default"}
+  , {value: "회사", key: "kor_enterprise", url: "/kor/enterprise", lang: "kor"}
+  , {value: "진 : 가장 최소의 단위", key: "kor_zin", url: "/kor/zin", lang: "kor"}
+  , {value: "수필", key: "kor_essay", url: "/kor/essay", lang: "kor"}
+  , {value: "문의", key: "kor_feedback", url: "/kor/feedback", lang: "kor"}
+  , {value: "후원", key: "kor_support", url: "/kor/support", lang: "kor"}
+  , {value: "会社", key: "jp_enterprise", url: "/jp/enterprise", lang: "jp"}
+  , {value: "真：最も最小の単位", key: "jp_zin", url: "/jp/zin", lang: "jp"}
+  , {value: "エッセー", key: "jp_essay", url: "/jp/essay", lang: "jp"}
+  , {value: "問合せ", key: "jp_feedback", url: "/jp/feedback", lang: "jp"}
+  , {value: "後援", key: "jp_support", url: "/jp/support", lang: "jp"}
 ]
 
 const NavItemsUrl:{ key:string, url:string }[] = [
@@ -34,7 +25,6 @@ const NavItemsUrl:{ key:string, url:string }[] = [
 ]
 
 export default {
-  NavItems,
   NavItemsLang,
   NavItemsUrl
 }

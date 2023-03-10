@@ -8,14 +8,10 @@ import {useRouter} from "next/router";
 
 const Nav: NextPage = () => {
   const router = useRouter()
-  const test = router.query.lang
-    const navItems = DeliveryServiceEnum.NavItemsLang.filter(x => x.lang == (test ?? 'default'))
-    const navItemsUrl = DeliveryServiceEnum.NavItemsUrl.reduce((a:{[key:string]:any}, c) => {
-        a[c.key] = c.url
-        return a
-    }, {})
+  const lang = router.query.lang
+    const navItems = DeliveryServiceEnum.NavItemsLang.filter(x => x.lang == (lang ?? 'default'))
     const navItemsLang = navItems.reduce((a:{[key:string]:any}, c) => {
-        a[c.key] = {name:c.value, url:navItemsUrl[c.key]}
+        a[c.key] = {name:c.value, url:c.url}
         return a
     }, {})
 

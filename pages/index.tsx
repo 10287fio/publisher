@@ -4,8 +4,7 @@ import Dropdown from "../components/dropdown/Dropdown"
 const Home: NextPageWithLayout = () => {
   return (
       <div style={{textAlign:"center"}}>
-          test
-          <Dropdown></Dropdown>
+          <Dropdown aaa="aaaaa"></Dropdown>
       </div>
   )
 }

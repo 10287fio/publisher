@@ -5,8 +5,8 @@ import {NextPage} from "next";
 interface test {
 
 }
-const dropdown  = (props: { aaa:string;} ) : JSX.Element => (
-    <div className={dropdownStyle.header}>test{props.aaa}</div>
+const dropdown  = (props:{aaa : {value:String}[]}): JSX.Element  => (
+    <div className={dropdownStyle.header}>{props.aaa[0].value}</div>
 )
 
 export default dropdown

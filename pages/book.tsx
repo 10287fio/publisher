@@ -4,7 +4,7 @@ type Props = {
 
 const Feedback = () => {
 
-  return <div>feedback</div>
+  return <div>buy ZIN</div>
 
 }
 

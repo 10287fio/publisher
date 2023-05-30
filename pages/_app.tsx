@@ -1,4 +1,6 @@
 import '../styles/globals.scss'
+import { combineReducers } from "redux";
+import withRedux from 'next-redux-wrapper';
 import type {ReactElement, ReactNode} from 'react'
 import type {NextPage} from 'next'
 import type {AppProps} from 'next/app'
@@ -9,6 +11,7 @@ export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {getLayout?:(
 type AppPropsWithLayout = AppProps & {Component:NextPageWithLayout}
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+
   const getLayouts = Component.getLayout ?? Layout
 
   return getLayouts(<Component {...pageProps} />)

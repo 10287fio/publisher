@@ -4,13 +4,13 @@ interface langType {
     lang : string | null
 }
 
-const initialState : langType = {
+const initState : langType = {
     lang : null,
 }
 
 export const  slice = createSlice({
     name:'lang',
-    initialState,
+    initialState:initState,
     reducers:{
         change : (state, action) => {
             state.lang = action.payload

@@ -15,7 +15,7 @@ const Nav: NextPage = () => {
   const router = useRouter()
     const customUseSelector :TypedUseSelectorHook<RootState> = useSelector
     const lang = customUseSelector(state => state.lang)
-    console.log(selectLang);
+    console.log(lang);
   // const lang = router.query.lang
     const navItems = DeliveryServiceEnum.NavItemsLang.filter(x => x.lang == (lang ?? 'default'))
     const navItemsLang = navItems.reduce((a:{[key:string]:any}, c) => {

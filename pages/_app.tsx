@@ -1,5 +1,5 @@
-import wrapper, {RootState} from '../store'
-import {Provider, TypedUseSelectorHook, useSelector} from 'react-redux'
+import wrapper from '../store'
+import {Provider} from 'react-redux'
 import '../styles/globals.scss'
 import type {ReactElement, ReactNode} from 'react'
 import type {NextPage} from 'next'

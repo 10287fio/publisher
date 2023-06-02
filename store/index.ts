@@ -1,5 +1,5 @@
-import {configureStore} from '@reduxjs/toolkit'
-import {HYDRATE, createWrapper} from 'next-redux-wrapper'
+import {combineReducers, configureStore} from '@reduxjs/toolkit'
+import {createWrapper, HYDRATE} from 'next-redux-wrapper'
 import langReducer from './reducer/lang'
 
 export const store = configureStore(
@@ -7,9 +7,9 @@ export const store = configureStore(
         reducer: (state, action) => {
             switch (action.type) {
                 case HYDRATE :
-                    return action.payload
+                    return {...state, ...action.payload}
                 default:
-                    return {lang: langReducer}
+                    return combineReducers({lang: langReducer})(state, action)
             }
         },
         devTools: process.env.NODE_ENV !== 'production',

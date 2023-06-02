@@ -4,19 +4,13 @@ import Link from 'next/link'
 import React from 'react'
 import langStyles from '@/layout/styles/layout.module.scss'
 import DeliveryServiceEnum from '../enums/layoutEnum'
-import {useRouter} from "next/router";
 import {TypedUseSelectorHook, useSelector} from 'react-redux'
 import type {RootState} from '../store'
 
 
 const Nav: NextPage = () => {
-    const router = useRouter()
     const customUseSelector: TypedUseSelectorHook<RootState> = useSelector
     const lang = customUseSelector(state => state.lang.lang)
-    const id = customUseSelector(state => state.lang.id)
-    console.log(lang);
-    console.log(id);
-    // const lang = router.query.lang
     const navItems = DeliveryServiceEnum.NavItemsLang.filter(x => x.lang == (lang ?? 'default'))
     const navItemsLang = navItems.reduce((a: { [key: string]: any }, c) => {
         a[c.key] = {name: c.value, url: c.url}

@@ -1,6 +1,4 @@
-import {NextPageWithLayout} from "../../pages/_app"
 import dropdownStyle from '@/components/dropdown/dropdown.module.scss'
-import {NextPage} from "next";
 
 interface test {
 

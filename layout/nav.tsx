@@ -6,6 +6,8 @@ import langStyles from '@/layout/styles/layout.module.scss'
 import DeliveryServiceEnum from '../enums/layoutEnum'
 import {TypedUseSelectorHook, useSelector} from 'react-redux'
 import type {RootState} from '../store'
+import Dropdown from '../components/dropdown/Dropdown'
+import ManyLang from "../enums/manyLang";
 
 
 const Nav: NextPage = () => {
@@ -37,6 +39,9 @@ const Nav: NextPage = () => {
                                 <Link href={navItemsLang[item.key].url}>{item.value}</Link>
                             </div>)}
                     </div>
+                </div>
+                <div>
+                    <Dropdown lang={ManyLang}/>
                 </div>
             </div>
         </div>

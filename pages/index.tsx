@@ -5,7 +5,6 @@ import ManyLang from "../enums/manyLang";
 const Home: NextPageWithLayout = () => {
   return (
       <div style={{textAlign:"center"}}>
-          <Dropdown lang={ManyLang.ManyLang}></Dropdown>
 
       </div>
   )

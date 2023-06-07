@@ -2,12 +2,10 @@ import {createSlice, nanoid} from '@reduxjs/toolkit';
 import {RootState} from "../../store";
 
 interface langType {
-    id : string,
     lang: string | null
 }
 
 const initState: langType = {
-    id:nanoid(),
     lang: 'default',
 }
 
@@ -15,10 +13,10 @@ export const slice = createSlice({
     name: 'lang',
     initialState: initState,
     reducers: {
-        // change: (state) => state.lang='kor'
+        change: (state, action) => {console.log(action); state.lang=action.payload.lang;}
     },
 })
 
-export const langAction = slice.actions
+export const {change} = slice.actions
 export const selectLang = (state:RootState) => state.lang
 export default slice.reducer

@@ -1,12 +1,12 @@
 import Nav from './nav'
 import Footer from './footer'
-import {ReactElement, ReactNode} from "react";
+import {ReactElement} from 'react';
 
 const Layout = (page: ReactElement) => (
     <div>
-      <Nav/>
-      {page}
-      <Footer/>
+        <Nav/>
+        {page}
+        <Footer/>
     </div>
 )
 

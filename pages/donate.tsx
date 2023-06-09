@@ -1,10 +1,10 @@
 type Props = {
-  lang : String
+    lang: String
 }
 
 const Donate = () => {
 
-  return <div>donate Bitcoin to fragranceia.</div>
+    return <div>donate Bitcoin to fragranceia.</div>
 
 }
 

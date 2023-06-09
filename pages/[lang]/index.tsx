@@ -24,8 +24,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({params}) => {
     let contents: String = ''
     switch (params?.lang) {
-        case 'kor' : contents = 'kor'; break;
-        case 'jp' : contents = 'jp'; break;
+        case 'kor' :
+            contents = 'kor';
+            break;
+        case 'jp' :
+            contents = 'jp';
+            break;
     }
 
     return {props: {contents}}

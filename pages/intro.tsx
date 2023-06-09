@@ -1,9 +1,9 @@
 type Props = {
-  lang : String
+    lang: String
 }
 
 const Intro = () => {
-  return <div>introduce ZIN</div>
+    return <div>introduce ZIN</div>
 
 }
 

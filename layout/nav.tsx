@@ -1,13 +1,14 @@
-import type {NextPage} from "next"
+import type {NextPage} from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import langStyles from '@/layout/styles/layout.module.scss'
 import NavItemsLang from '../enums/layoutEnum'
-import {TypedUseSelectorHook, useSelector} from 'react-redux'
+import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux'
 import type {RootState} from '../store'
 import Dropdown from '../components/dropdown/Dropdown'
-import ManyLang from "../enums/manyLang";
+import ManyLang from '../enums/manyLang';
+import {useRouter} from 'next/router'
 
 
 const Nav: NextPage = () => {
@@ -18,18 +19,26 @@ const Nav: NextPage = () => {
         a[c.key] = {name: c.value, url: c.url}
         return a
     }, {})
+    const dispatch = useDispatch()
+    const router = useRouter();
+
+    const home = () => {
+        if (lang == 'default') {
+            router.push(`/`)
+        } else {
+            router.push(`/${lang}`)
+        }
+    }
 
     return (
         <div className={langStyles.nav}>
             <div className={langStyles.navLayout}>
                 <div style={{flexBasis: '100px'}}>
-                    <Link href="/">
-                        <div>
-                            <Image
-                                src="https://raw.githubusercontent.com/vercel/next.js/canary/examples/image-component/public/vercel.png"
-                                width={100} height={100} layout={"responsive"} alt={"fragranceia"}/>
-                        </div>
-                    </Link>
+                    <div onClick={home} style={{cursor: 'pointer'}}>
+                        <Image
+                            src='https://raw.githubusercontent.com/vercel/next.js/canary/examples/image-component/public/vercel.png'
+                            width={100} height={100} layout={'responsive'} alt={'fragranceia'}/>
+                    </div>
                 </div>
                 <div style={{flexBasis: '50%'}}>
                     <div className={langStyles.navItem}>

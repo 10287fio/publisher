@@ -16,7 +16,7 @@ export const store = configureStore(
     }
 );
 
-export const makeStore =　() => {
+export const makeStore = () => {
     return store
 }
 

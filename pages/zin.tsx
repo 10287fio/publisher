@@ -1,9 +1,9 @@
 type Props = {
-  lang : String
+    lang: String
 }
 
 const Zin = () => {
-  return <div>zin</div>
+    return <div>zin</div>
 
 }
 

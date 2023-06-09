@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import langStyles from '@/layout/styles/layout.module.scss'
-import DeliveryServiceEnum from '../enums/layoutEnum'
+import NavItemsLang from '../enums/layoutEnum'
 import {TypedUseSelectorHook, useSelector} from 'react-redux'
 import type {RootState} from '../store'
 import Dropdown from '../components/dropdown/Dropdown'
@@ -13,7 +13,7 @@ import ManyLang from "../enums/manyLang";
 const Nav: NextPage = () => {
     const customUseSelector: TypedUseSelectorHook<RootState> = useSelector
     const lang = customUseSelector(state => state.lang.lang)
-    const navItems = DeliveryServiceEnum.NavItemsLang.filter(x => x.lang == (lang ?? 'default'))
+    const navItems = NavItemsLang.NavItemsLang.filter(x => x.lang == (lang ?? 'default'))
     const navItemsLang = navItems.reduce((a: { [key: string]: any }, c) => {
         a[c.key] = {name: c.value, url: c.url}
         return a

@@ -4,7 +4,7 @@ import Link from 'next/link'
 import React from 'react'
 import langStyles from '@/layout/styles/layout.module.scss'
 import NavItemsLang from '../enums/layoutEnum'
-import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux'
+import {TypedUseSelectorHook, useSelector} from 'react-redux'
 import type {RootState} from '../store'
 import Dropdown from '../components/dropdown/Dropdown'
 import ManyLang from '../enums/manyLang';
@@ -19,8 +19,7 @@ const Nav: NextPage = () => {
         a[c.key] = {name: c.value, url: c.url}
         return a
     }, {})
-    const dispatch = useDispatch()
-    const router = useRouter();
+    const router = useRouter()
 
     const home = () => {
         if (lang == 'default') {

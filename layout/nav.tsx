@@ -22,11 +22,7 @@ const Nav: NextPage = () => {
     const router = useRouter()
 
     const home = () => {
-        if (lang == 'default') {
-            router.push(`/`)
-        } else {
-            router.push(`/${lang}`)
-        }
+        (lang == 'default') ? router.push(`/`) : router.push(`/${lang}`)
     }
 
     return (

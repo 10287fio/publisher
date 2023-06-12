@@ -31,7 +31,7 @@ const Nav: NextPage = () => {
                 <div style={{flexBasis: '100px'}}>
                     <div onClick={home} style={{cursor: 'pointer'}}>
                         <Image
-                            src='https://raw.githubusercontent.com/vercel/next.js/canary/examples/image-component/public/vercel.png'
+                            src='/fragranceia.png'
                             width={100} height={100} layout={'responsive'} alt={'fragranceia'}/>
                     </div>
                 </div>

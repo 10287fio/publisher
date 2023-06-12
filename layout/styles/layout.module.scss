@@ -1,6 +1,10 @@
 .nav {
   position: relative;
   left: 10%;
+
+  @media(min-width: 1500px){
+    left: 20%;
+  }
 }
 
 .navLayout {
@@ -28,10 +32,15 @@
   @media(min-width: 1px) and (max-width: 800px) {
     display: block;
   }
+
+  @media(min-width: 1500px){
+    flex-basis: 30%;
+  }
 }
 
 .navMargin1 {
   flex-basis: 5%;
+
   @media(min-width: 1px) and (max-width: 700px) {
     flex-basis: 0%;
   }

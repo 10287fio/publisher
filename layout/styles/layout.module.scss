@@ -1,5 +1,6 @@
 .nav {
-  position : relative;
+  position: relative;
+  left: 10%;
 }
 
 .navLayout {
@@ -10,6 +11,10 @@
   align-items: center;
 }
 
+.navItemHome {
+  flex-basis: 100px;
+}
+
 .navItem {
   display: flex;
   flex-direction: row;
@@ -17,11 +22,30 @@
   justify-content: space-between;
   align-items: center;
   text-align: center;
+  flex-basis: 50%;
   color: gray;
+
+  @media(min-width: 1px) and (max-width: 800px) {
+    display: block;
+  }
+}
+
+.navMargin1 {
+  flex-basis: 5%;
+  @media(min-width: 1px) and (max-width: 700px) {
+    flex-basis: 0%;
+  }
+}
+
+.navMargin2 {
+  flex-basis: 10%;
+  @media(min-width: 1px) and (max-width: 700px) {
+    flex-basis: 0%;
+  }
 }
 
 .footer {
-  position : absolute;
+  position: absolute;
   bottom: 0;
-  left :50%;
+  left: 50%;
 }

@@ -28,24 +28,22 @@ const Nav: NextPage = () => {
     return (
         <div className={langStyles.nav}>
             <div className={langStyles.navLayout}>
-                <div style={{flexBasis: '100px'}}>
+                <div className={langStyles.navItemHome}>
                     <div onClick={home} style={{cursor: 'pointer'}}>
                         <Image
                             src='/fragranceia.png'
                             width={100} height={100} layout={'responsive'} alt={'fragranceia'}/>
                     </div>
                 </div>
-                <div style={{flexBasis: '20%'}}></div>
-                <div style={{flexBasis: '50%'}}>
-                    <div className={langStyles.navItem}>
-                        {navItems.map((item) =>
-                            <div key={item.key.toString()}>
-                                <Link href={navItemsLang[item.key].url}>{item.value}</Link>
-                            </div>)}
-                    </div>
+                <div className={langStyles.navMargin1}></div>
+                <div className={langStyles.navItem}>
+                    {navItems.map((item) =>
+                        <div key={item.key.toString()}>
+                            <Link href={navItemsLang[item.key].url}>{item.value}</Link>
+                        </div>)}
                 </div>
-                <div style={{flexBasis: '10%'}}></div>
-                <div>
+                <div className={langStyles.navMargin2}></div>
+                <div className={langStyles.navItemLang}>
                     <Dropdown lang={ManyLang}/>
                 </div>
             </div>

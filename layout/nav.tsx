@@ -39,15 +39,16 @@ const Nav: NextPage = () => {
                             width={100} height={100} layout={'responsive'} alt={'fragranceia'}/>
                     </div>
                 </div>
+                <div style={{flexBasis: '20%'}}></div>
                 <div style={{flexBasis: '50%'}}>
                     <div className={langStyles.navItem}>
                         {navItems.map((item) =>
-                            <div key={item.key.toString()}
-                                 style={{flexBasis: '50%', textAlign: 'center', color: 'gray'}}>
+                            <div key={item.key.toString()}>
                                 <Link href={navItemsLang[item.key].url}>{item.value}</Link>
                             </div>)}
                     </div>
                 </div>
+                <div style={{flexBasis: '10%'}}></div>
                 <div>
                     <Dropdown lang={ManyLang}/>
                 </div>

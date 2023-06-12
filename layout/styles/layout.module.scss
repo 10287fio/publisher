@@ -1,7 +1,5 @@
 .nav {
   position : relative;
-  width : 125%;
-  left : 15%;
 }
 
 .navLayout {
@@ -18,6 +16,8 @@
   flex-wrap: nowrap;
   justify-content: space-between;
   align-items: center;
+  text-align: center;
+  color: gray;
 }
 
 .footer {

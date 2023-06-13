@@ -26,7 +26,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
 
     switch (params?.test) {
         case 'zin' :
-            contents = params.test;
+            contents = params?.lang == 'kor' ? '가장 최소의 단위는 진입니다.' : '最も最小の単位は真です。'
             break;
         case 'donate' :
             contents = params.test;

@@ -1,14 +1,16 @@
 .wrapper {
   height: auto;
-  position:relative;
+  position: relative;
   min-height: calc(100vh - 5rem);
 }
 
 .nav {
-  position:fixed;
-  left:0;
-  top:0;
-  right:0;
+  position: fixed;
+  background-color: white;
+  opacity: 0.8;
+  left: 0;
+  top: 0;
+  right: 0;
 }
 
 .navLayout {
@@ -59,7 +61,7 @@
 }
 
 .footer {
-  position:relative;
+  position: relative;
   height: 5rem;
-  transform:translateY(0%);
+  transform: translateY(0%);
 }

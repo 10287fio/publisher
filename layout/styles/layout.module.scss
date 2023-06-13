@@ -1,3 +1,9 @@
+.wrapper {
+  height: auto;
+  position:relative;
+  min-height: 500px;
+}
+
 .nav {
   position:fixed;
   left:0;
@@ -53,7 +59,6 @@
 }
 
 .footer {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
+  position:relative;
+  transform:translateY(0%);
 }

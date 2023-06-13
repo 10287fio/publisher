@@ -2,7 +2,7 @@
   position: relative;
   left: 10%;
 
-  @media(min-width: 1500px){
+  @media(min-width: 1500px) {
     left: 20%;
   }
 }
@@ -16,7 +16,7 @@
 }
 
 .navItemHome {
-  flex-basis: 100px;
+  flex-basis: 90px;
 }
 
 .navItem {
@@ -33,7 +33,7 @@
     display: block;
   }
 
-  @media(min-width: 1500px){
+  @media(min-width: 1500px) {
     flex-basis: 30%;
   }
 }

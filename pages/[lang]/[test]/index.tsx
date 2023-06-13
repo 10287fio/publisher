@@ -10,11 +10,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
     return {
         paths: [
             {params: {lang: 'kor', test: 'zin'}},
-            {params: {lang: 'kor', test: 'intro'}},
             {params: {lang: 'kor', test: 'donate'}},
             {params: {lang: 'kor', test: 'book'}},
             {params: {lang: 'jp', test: 'zin'}},
-            {params: {lang: 'jp', test: 'intro'}},
             {params: {lang: 'jp', test: 'donate'}},
             {params: {lang: 'jp', test: 'book'}}
         ],
@@ -28,9 +26,6 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
 
     switch (params?.test) {
         case 'zin' :
-            contents = params.test;
-            break;
-        case 'intro' :
             contents = params.test;
             break;
         case 'donate' :

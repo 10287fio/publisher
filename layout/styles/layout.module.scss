@@ -1,7 +1,7 @@
 .wrapper {
   height: auto;
   position:relative;
-  min-height: 500px;
+  min-height: calc(100vh - 5rem);
 }
 
 .nav {
@@ -60,5 +60,6 @@
 
 .footer {
   position:relative;
+  height: 5rem;
   transform:translateY(0%);
 }

@@ -5,7 +5,9 @@ import {ReactElement} from 'react';
 const Layout = (page: ReactElement) => (
     <div>
         <Nav/>
+        <div style={{paddingTop:'85px'}}>
         {page}
+        </div>
         <Footer/>
     </div>
 )

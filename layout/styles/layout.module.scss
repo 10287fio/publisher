@@ -6,14 +6,14 @@
 
 .nav {
   position: fixed;
-  background-color: white;
-  opacity: 0.8;
   left: 0;
   top: 0;
   right: 0;
+  border-bottom: 1px solid lightgray;
 }
 
 .navLayout {
+  backdrop-filter: blur(0.5rem);
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;

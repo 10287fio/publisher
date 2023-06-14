@@ -1,8 +1,8 @@
 import type {GetStaticPaths, GetStaticProps, InferGetStaticPropsType} from 'next'
 import type {NextPageWithLayout} from '../_app'
 import ReactDOMServer from 'react-dom/server'
-import KorIndex from '../../dynamicPages/lang/index/KorIndex'
-import JpIndex from '../../dynamicPages/lang/index/JpIndex'
+import KorIndex from '../../dynamicPages/lang/index/korIndex'
+import JpIndex from '../../dynamicPages/lang/index/jpIndex'
 import parse from 'html-react-parser'
 
 

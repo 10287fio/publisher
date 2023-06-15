@@ -8,7 +8,6 @@ const KorIndex = () => {
             진은 다른 것과 섞일 수 없는 기본 단위입니다.&#039;<br/>
         </div>
     )
-
 }
 
 export default KorIndex

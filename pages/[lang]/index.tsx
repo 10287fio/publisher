@@ -1,16 +1,13 @@
 import type {GetStaticPaths, GetStaticProps, InferGetStaticPropsType} from 'next'
 import type {NextPageWithLayout} from '../_app'
-import ReactDOMServer from 'react-dom/server'
 import KorIndex from '../../dynamicPages/lang/index/korIndex'
 import JpIndex from '../../dynamicPages/lang/index/jpIndex'
-import parse from 'html-react-parser'
-
 
 const LangPage: NextPageWithLayout = ({contents}: InferGetStaticPropsType<typeof getStaticProps>) => {
 
     return (
         <div>
-            {parse(contents)}
+            {contents == 'kor' ? <KorIndex/> : <JpIndex/>}
         </div>
     )
 }
@@ -27,13 +24,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
-    let contents = ReactDOMServer.renderToString(<div></div>)
+    let contents = ''
     switch (params?.lang) {
         case 'kor' :
-            contents = ReactDOMServer.renderToString(<KorIndex/>)
+            contents = 'kor'
             break;
         case 'jp' :
-            contents = ReactDOMServer.renderToString(<JpIndex/>)
+            contents = 'jp'
             break;
     }
 

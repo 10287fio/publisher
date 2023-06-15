@@ -11,7 +11,6 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
     "anything": "^1.0.0",
-    "html-react-parser": "^4.0.0",
     "nanoid": "^4.0.2",
     "next": "^13.0.6",
     "next-redux-wrapper": "^8.1.0",

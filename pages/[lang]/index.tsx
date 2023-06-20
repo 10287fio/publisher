@@ -3,13 +3,13 @@ import type {NextPageWithLayout} from '../_app'
 import KorIndex from '../../dynamicPages/lang/index/korIndex'
 import JpIndex from '../../dynamicPages/lang/index/jpIndex'
 
-const LangPage: NextPageWithLayout = ({contents}: InferGetStaticPropsType<typeof getStaticProps>) => {
-
-    return (
-        <div>
-            {contents == 'kor' ? <KorIndex/> : <JpIndex/>}
-        </div>
-    )
+const LangPage: NextPageWithLayout = ({params}: InferGetStaticPropsType<typeof getStaticProps>) => {
+    if(params.lang == 'kor'){
+        return <KorIndex/>
+    } else if(params.lang == 'jp'){
+        return <JpIndex/>
+    }
+    return <div/>
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -24,17 +24,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
-    let contents = ''
-    switch (params?.lang) {
-        case 'kor' :
-            contents = 'kor'
-            break;
-        case 'jp' :
-            contents = 'jp'
-            break;
-    }
 
-    return {props: {contents}}
+    return {props: {params}}
 }
 
 export default LangPage

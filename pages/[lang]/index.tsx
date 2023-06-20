@@ -4,9 +4,9 @@ import KorIndex from '../../dynamicPages/lang/index/korIndex'
 import JpIndex from '../../dynamicPages/lang/index/jpIndex'
 
 const LangPage: NextPageWithLayout = ({params}: InferGetStaticPropsType<typeof getStaticProps>) => {
-    if(params.lang == 'kor'){
+    if (params.lang == 'kor') {
         return <KorIndex/>
-    } else if(params.lang == 'jp'){
+    } else if (params.lang == 'jp') {
         return <JpIndex/>
     }
     return <div/>

@@ -1,7 +1,9 @@
+import commonStyle from '@/common/styles/common.module.scss'
+
 const JpDonate = () => {
     return (
-        <div>
-            寄付&#039;
+        <div className={commonStyle.donateArticle}>
+            寄付<br/>
             ビットコイン財布アドレス：1KBB6yTQvnjQUZAnq2ZYKh9KECSaQvtx38
         </div>
     )

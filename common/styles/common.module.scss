@@ -1,5 +1,13 @@
 .indexArticle {
-  font-size: 500px;
+  font-size: 50px;
   text-align: center;
   white-space: pre-line;
+}
+
+.donateArticle {
+  position: absolute;
+  top: 50%;
+  min-width: 100vw;
+  text-align: center;
+  font-size: 50px;
 }

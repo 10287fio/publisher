@@ -10,6 +10,7 @@
   top: 0;
   right: 0;
   border-bottom: 1px solid lightgray;
+  min-height: 5rem;
 }
 
 .navLayout {
@@ -60,9 +61,14 @@
   }
 }
 
-.navItemLang{
-  position:absolute;
-  right:10px;
+.navItemLang {
+  position: absolute;
+  right: 10px;
+}
+
+.body {
+  padding-top: 100px;
+  min-height: calc(100vh - 5rem - 5rem);
 }
 
 .footer {

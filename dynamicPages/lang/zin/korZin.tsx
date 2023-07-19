@@ -1,5 +1,5 @@
 const KorZin = () => {
-    return <div>korZin</div>
+    return <div>kor</div>
 }
 
 export default KorZin

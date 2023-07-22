@@ -2,7 +2,7 @@ import type {NextPage} from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import langStyles from '@/layout/styles/layout.module.scss'
+import layoutStyles from '@/layout/styles/layout.module.scss'
 import NavItemsLang from '../enums/layoutEnum'
 import {TypedUseSelectorHook, useSelector} from 'react-redux'
 import type {RootState} from '../store'
@@ -26,24 +26,24 @@ const Nav: NextPage = () => {
     }
 
     return (
-        <div className={langStyles.nav}>
-            <div className={langStyles.navLayout}>
-                <div className={langStyles.navItemHome}>
+        <div className={layoutStyles.nav}>
+            <div className={layoutStyles.navLayout}>
+                <div className={layoutStyles.navItemHome}>
                     <div onClick={home} style={{cursor: 'pointer'}}>
                         <Image
                             src='/fragranceia.png'
                             width={100} height={100} layout={'responsive'} alt={'fragranceia'}/>
                     </div>
                 </div>
-                <div className={langStyles.navMargin1}></div>
-                <div className={langStyles.navItem}>
+                <div className={layoutStyles.navMargin1}></div>
+                <div className={layoutStyles.navItem}>
                     {navItems.map((item) =>
                         <div key={item.key.toString()}>
                             <Link href={navItemsLang[item.key].url}>{item.value}</Link>
                         </div>)}
                 </div>
-                <div className={langStyles.navMargin2}></div>
-                <div className={langStyles.navItemLang}>
+                <div className={layoutStyles.navMargin2}></div>
+                <div className={layoutStyles.navItemLang}>
                     <Dropdown lang={ManyLang}/>
                 </div>
             </div>

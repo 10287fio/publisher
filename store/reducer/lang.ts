@@ -6,7 +6,7 @@ interface langType {
 }
 
 const initState: langType = {
-    lang: 'default',
+    lang: 'en',
 }
 
 export const slice = createSlice({

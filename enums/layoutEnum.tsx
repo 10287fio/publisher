@@ -1,7 +1,7 @@
 const NavItemsLang: { value: string, key: string, url: string, lang: string }[] = [
-    {value: 'ZIN : THE SMALLEST UNIT', key: 'zin', url: '/zin', lang: 'default'}
-    , {value: 'Donate', key: 'donate', url: '/donate', lang: 'default'}
-    , {value: 'Book', key: 'book', url: '/book', lang: 'default'}
+    {value: 'ZIN : THE SMALLEST UNIT', key: 'zin', url: '/zin', lang: 'en'}
+    , {value: 'Donate', key: 'donate', url: '/donate', lang: 'en'}
+    , {value: 'Book', key: 'book', url: '/book', lang: 'en'}
     , {value: '진 : 가장 최소의 단위', key: 'kor_zin', url: '/kor/zin', lang: 'kor'}
     , {value: '후원', key: 'kor_donate', url: '/kor/donate', lang: 'kor'}
     , {value: '책', key: 'kor_book', url: '/kor/book', lang: 'kor'}

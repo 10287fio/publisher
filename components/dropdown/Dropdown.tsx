@@ -8,7 +8,7 @@ const Dropdown = (props: { lang: { value: string, name: string }[] }): JSX.Eleme
     const router = useRouter()
     const langChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         dispatch(change({lang: event.target.value}))
-        event.target.value == 'default' ? router.push('/') : router.push(`/${event.target.value}`)
+        event.target.value == 'en' ? router.push('/') : router.push(`/${event.target.value}`)
     }
 
     return (

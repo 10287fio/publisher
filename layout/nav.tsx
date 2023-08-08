@@ -14,7 +14,7 @@ import {useRouter} from 'next/router'
 const Nav: NextPage = () => {
     const customUseSelector: TypedUseSelectorHook<RootState> = useSelector
     const lang = customUseSelector(state => state.lang.lang)
-    const navItems = NavItemsLang.NavItemsLang.filter(x => x.lang == (lang ?? 'default'))
+    const navItems = NavItemsLang.NavItemsLang.filter(x => x.lang == (lang ?? 'en'))
     const navItemsLang = navItems.reduce((a: { [key: string]: any }, c) => {
         a[c.key] = {name: c.value, url: c.url}
         return a
@@ -22,7 +22,7 @@ const Nav: NextPage = () => {
     const router = useRouter()
 
     const home = () => {
-        (lang == 'default') ? router.push(`/`) : router.push(`/${lang}`)
+        (lang == 'en') ? router.push(`/`) : router.push(`/${lang}`)
     }
 
     return (

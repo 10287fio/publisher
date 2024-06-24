@@ -3,12 +3,12 @@ import Footer from './footer'
 import layoutStyles from '@/layout/styles/layout.module.scss'
 import {ReactNode} from 'react';
 
-const Layout = (page?: ReactNode) => (
+const Layout = (page?: {children:ReactNode}) => (
     <div>
         <div className={layoutStyles.wrapper}>
             <div>test1</div>
             <div className={layoutStyles.body}>
-                {page}
+                {page?.children}
             </div>
         </div>
         <Footer/>

@@ -1,12 +1,12 @@
 import Nav from './nav'
 import Footer from './footer'
 import layoutStyles from '@/layout/styles/layout.module.scss'
-import {ReactElement} from 'react';
+import {ReactNode} from 'react';
 
-const Layout = (page: ReactElement) => (
+const Layout = (page?: ReactNode) => (
     <div>
         <div className={layoutStyles.wrapper}>
-            <Nav/>
+            <div>test1</div>
             <div className={layoutStyles.body}>
                 {page}
             </div>

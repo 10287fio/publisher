@@ -1,9 +1,8 @@
-import Nav from './nav'
 import Footer from './footer'
 import layoutStyles from '@/layout/styles/layout.module.scss'
 import {ReactNode} from 'react';
 
-const Layout = (page?: {children:ReactNode}) => (
+const Layout = (page?: { children: ReactNode }) => (
     <div>
         <div className={layoutStyles.wrapper}>
             <div>test1</div>

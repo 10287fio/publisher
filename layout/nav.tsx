@@ -6,7 +6,7 @@ import layoutStyles from '@/layout/styles/layout.module.scss'
 import NavItemsLang from '../enums/layoutEnum'
 import {TypedUseSelectorHook, useSelector} from 'react-redux'
 import type {RootState} from '../store'
-import Dropdown from '../components/dropdown/Dropdown'
+import Dropdown from '@/component/dropdown/Dropdown'
 import ManyLang from '../enums/manyLang';
 
 

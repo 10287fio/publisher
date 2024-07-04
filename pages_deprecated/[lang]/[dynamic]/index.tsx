@@ -1,11 +1,11 @@
 import type {GetStaticPaths, GetStaticProps, InferGetStaticPropsType} from 'next'
 import type {NextPageWithLayout} from '../../_app'
-import KorZin from "../../../dynamicPages/lang/zin/korZin"
-import JpZin from "../../../dynamicPages/lang/zin/jpZin"
-import KorDonate from "../../../dynamicPages/lang/donate/korDonate"
-import JpDonate from "../../../dynamicPages/lang/donate/jpDonate"
-import KorBook from "../../../dynamicPages/lang/book/korBook"
-import JpBook from "../../../dynamicPages/lang/book/jpBook"
+import KorZin from "@/composition/lang/zin/korZin"
+import JpZin from "@/composition/lang/zin/jpZin"
+import KorDonate from "@/composition/lang/donate/korDonate"
+import JpDonate from "@/composition/lang/donate/jpDonate"
+import KorBook from "@/composition/lang/book/korBook"
+import JpBook from "@/composition/lang/book/jpBook"
 
 const DynamicPage: NextPageWithLayout = ({params}: InferGetStaticPropsType<typeof getStaticProps>) => {
     if (params.lang == 'kor') {

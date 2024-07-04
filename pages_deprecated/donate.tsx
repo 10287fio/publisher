@@ -1,4 +1,4 @@
-import commonStyle from '@/common/styles/common.module.scss'
+import commonStyle from '@/style/styles/common.module.scss'
 
 const Donate = () => {
 

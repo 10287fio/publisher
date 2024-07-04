@@ -1,5 +1,5 @@
 import Footer from './footer'
-import layoutStyles from '@/layout/styles/layout.module.scss'
+import layoutStyles from '@/composition/layout/styles/layout.module.scss'
 import {ReactNode} from 'react';
 
 const Layout = (page?: { children: ReactNode }) => (

@@ -1,6 +1,6 @@
 import './global.css'
 import {Metadata} from "next";
-import Layout from "../layout/layout";
+import Layout from "composition/layout/layout";
 
 export const metadata: Metadata = {
     title: 'Fragranceia test',

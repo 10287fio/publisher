@@ -1,19 +1,14 @@
 import type {NextPage} from 'next'
 import Image from 'next/image'
-import Link from 'next/link'
 import React from 'react'
-import layoutStyles from '@/layout/styles/layout.module.scss'
-import NavItemsLang from '../enums/layoutEnum'
+import layoutStyles from '@/composition/layout/styles/layout.module.scss'
+import NavItemsLang from "store/enum/layoutEnum"
 import {TypedUseSelectorHook, useSelector} from 'react-redux'
-import type {RootState} from '../store'
-import Dropdown from '@/component/dropdown/Dropdown'
-import ManyLang from '../enums/manyLang';
-
 
 const Nav: NextPage = () => {
     const customUseSelector: TypedUseSelectorHook<RootState> = useSelector
     const lang = customUseSelector(state => state.lang.lang)
-    const navItems = NavItemsLang.NavItemsLang.filter(x => x.lang == (lang ?? 'en'))
+    const navItems = NavItemsLang.filter(x => x.lang == (lang ?? 'en'))
     const navItemsLang = navItems.reduce((a: { [key: string]: any }, c) => {
         a[c.key] = {name: c.value, url: c.url}
         return a

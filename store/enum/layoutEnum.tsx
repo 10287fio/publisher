@@ -10,6 +10,4 @@ const NavItemsLang: { value: string, key: string, url: string, lang: string }[] 
     , {value: '本', key: 'jp_book', url: '/jp/book', lang: 'jp'}
 ]
 
-export default {
-    NavItemsLang
-}
+export default NavItemsLang

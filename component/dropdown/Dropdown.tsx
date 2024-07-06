@@ -1,5 +1,5 @@
 import {useDispatch} from 'react-redux';
-import {change} from '../../store/reducer/lang'
+import {change} from '@/store/reducer/lang'
 import {useRouter} from 'next/router'
 
 const Dropdown = (props: { lang: { value: string, name: string }[] }): JSX.Element => {

@@ -6,6 +6,7 @@ import type {NextPage} from 'next'
 import type {AppProps} from 'next/app'
 import Layout from '@/composition/layout/layout'
 
+
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & { getLayout?: (page: ReactElement) => ReactNode }
 
 type AppPropsWithLayout = AppProps & { Component: NextPageWithLayout }
@@ -16,7 +17,6 @@ function MyApp({Component, pageProps}: AppPropsWithLayout) {
 
 
     return <Provider store={store}>
-        {getLayouts(<Component {...props} />)}
     </Provider>
 }
 

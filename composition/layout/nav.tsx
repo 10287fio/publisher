@@ -2,8 +2,9 @@ import type {NextPage} from 'next'
 import Image from 'next/image'
 import React from 'react'
 import layoutStyles from '@/composition/layout/styles/layout.module.scss'
-import NavItemsLang from "store/enum/layoutEnum"
+import NavItemsLang from "@/store/enum/layoutEnum"
 import {TypedUseSelectorHook, useSelector} from 'react-redux'
+import {RootState} from "@/store"
 
 const Nav: NextPage = () => {
     const customUseSelector: TypedUseSelectorHook<RootState> = useSelector

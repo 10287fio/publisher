@@ -1,3 +1,5 @@
+'use client';
+
 import type {NextPage} from 'next'
 import Image from 'next/image'
 import React from 'react'
@@ -5,6 +7,7 @@ import layoutStyles from '@/composition/layout/styles/layout.module.scss'
 import NavItemsLang from "@/store/enum/layoutEnum"
 import {TypedUseSelectorHook, useSelector} from 'react-redux'
 import {RootState} from "@/store"
+import fragranceia from "@/resource/Fragranceia.png"
 
 const Nav: NextPage = () => {
     const customUseSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -21,7 +24,7 @@ const Nav: NextPage = () => {
                 <div className={layoutStyles.navItemHome}>
                     <div style={{cursor: 'pointer'}}>
                         <Image
-                            src='/fragranceia.png'
+                            src={fragranceia}
                             width={100} height={100} layout={'responsive'} alt={'fragranceia'}/>
                     </div>
                 </div>

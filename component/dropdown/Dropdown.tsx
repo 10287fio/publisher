@@ -1,14 +1,15 @@
+'use client';
+
 import {useDispatch} from 'react-redux';
 import {change} from '@/store/reducer/lang'
-import {useRouter} from 'next/router'
+import {redirect} from 'next/navigation'
 
 const Dropdown = (props: { lang: { value: string, name: string }[] }): JSX.Element => {
 
-    const dispatch = useDispatch()
-    const router = useRouter()
+    const dispatch = useDispatch();
     const langChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         dispatch(change({lang: event.target.value}))
-        event.target.value == 'en' ? router.push('/') : router.push(`/${event.target.value}`)
+        event.target.value == 'en' ? redirect('/') : redirect(`/${event.target.value}`)
     }
 
     return (

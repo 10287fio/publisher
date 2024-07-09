@@ -1,5 +1,3 @@
-'use client';
-
 import {useDispatch} from 'react-redux';
 import {change} from '@/store/reducer/lang'
 import {redirect} from 'next/navigation'

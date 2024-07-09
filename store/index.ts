@@ -1,5 +1,3 @@
-'use client';
-
 import {combineReducers, configureStore} from '@reduxjs/toolkit'
 import {createWrapper, HYDRATE} from 'next-redux-wrapper'
 import langReducer from './reducer/lang'

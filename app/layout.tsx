@@ -1,7 +1,6 @@
 'use client';
 
 import './global.css'
-import {Metadata} from "next";
 import Layout from "@/composition/layout/layout";
 import {Provider} from "react-redux";
 import {store} from "@/store";

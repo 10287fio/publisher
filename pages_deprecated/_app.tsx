@@ -1,4 +1,4 @@
-import wrapper from '../store'
+import wrapper from '../src/store'
 import {Provider} from 'react-redux'
 import '../styles/globals.scss'
 import type {ReactElement, ReactNode} from 'react'

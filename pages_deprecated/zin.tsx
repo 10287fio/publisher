@@ -1,4 +1,4 @@
-import commonStyle from "@/style/styles/common.module.scss";
+import commonStyle from "./style/styles/common.module.scss";
 
 type Props = {
     lang: String

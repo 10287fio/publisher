@@ -1,5 +1,4 @@
 import {useDispatch} from 'react-redux';
-import {redirect} from 'next/navigation';
 import {change} from '@/store/reducer/lang';
 
 const Dropdown = (props: { lang: { value: string, name: string }[] }): JSX.Element => {
@@ -7,7 +6,6 @@ const Dropdown = (props: { lang: { value: string, name: string }[] }): JSX.Eleme
     const dispatch = useDispatch();
     const langChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         dispatch(change({lang: event.target.value}));
-        event.target.value == 'en' ? redirect('/') : redirect(`/${event.target.value}`);
     };
 
     return (

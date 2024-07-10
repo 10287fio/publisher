@@ -1,7 +1,7 @@
-import Footer from './footer'
-import layoutStyles from '@/composition/layout/styles/layout.module.scss'
 import {ReactNode} from 'react';
+import layoutStyles from '@/composition/layout/styles/layout.module.scss';
 import Nav from "@/composition/layout/nav";
+import Footer from '@/composition/layout/footer';
 
 const Layout = (page?: { children: ReactNode }) => (
     <div>
@@ -13,6 +13,6 @@ const Layout = (page?: { children: ReactNode }) => (
         </div>
         <Footer/>
     </div>
-)
+);
 
-export default Layout
+export default Layout;

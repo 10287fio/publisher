@@ -3,11 +3,11 @@ import {RootState} from '@/store';
 
 interface langType {
     lang: string | null
-}
+};
 
 const initState: langType = {
     lang: 'en',
-}
+};
 
 export const slice = createSlice({
     name: 'lang',
@@ -17,8 +17,8 @@ export const slice = createSlice({
             state.lang = action.payload.lang;
         }
     },
-})
+});
 
-export const {change} = slice.actions
-export const selectLang = (state: RootState) => state.lang
-export default slice.reducer
+export const {change} = slice.actions;
+export const selectLang = (state: RootState) => state.lang;
+export default slice.reducer;

@@ -8,6 +8,6 @@ const NavItemsLang: { value: string, key: string, url: string, lang: string }[] 
     , {value: '真：最も最小の単位', key: 'jp_zin', url: '/jp/zin', lang: 'jp'}
     , {value: '後援', key: 'jp_donate', url: '/jp/donate', lang: 'jp'}
     , {value: '本', key: 'jp_book', url: '/jp/book', lang: 'jp'}
-]
+];
 
-export default NavItemsLang
+export default NavItemsLang;

@@ -1,8 +1,8 @@
 'use client';
 
 import {Provider} from "react-redux";
-import {store} from "src/store";
-import '@/app/global.css';
+import {store} from "@/store";
+import "@/app/global.css";
 import Layout from "@/composition/layout/layout";
 
 export default function RootLayout({

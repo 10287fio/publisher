@@ -1,20 +1,27 @@
 'use client';
 
-import {useEffect} from "react";
+import {useEffect, useRef} from "react";
 
 export default function Manuscript(): JSX.Element {
 
+    const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
     useEffect(() => {
-        console.log("test");
+        if(canvasRef.current){
+            const canvas = canvasRef.current;
+            if(canvas.getContext){
+                const context = canvas.getContext("2d");
+
+                if(context){
+                    context.strokeStyle = "blue";
+                    context.strokeRect(0, 0, 150, 150);
+                }
+            }
+        }
     }, []);
 
-    // canvas.getContext("2d")
-    // if(canvas.getContext()){
-    //
-    // }
-
     const manuscript = <div>
-        <canvas id="canvas" width="200" height="200"></canvas>
+        <canvas ref={canvasRef} id="canvas" width="200" height="200"></canvas>
     </div>;
 
     return manuscript;

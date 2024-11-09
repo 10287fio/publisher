@@ -6,7 +6,7 @@ import {RootState} from "@/store";
 import ManyLang from "@/store/enum/manyLang";
 import Link from "next/link";
 import {redirect} from "next/navigation";
-import layoutStyles from '@/composition/layout/styles/layout.module.scss';
+import layoutStyles from '@/composition/layout/styles/Layout.module.scss';
 import NavItemsLang from "@/store/enum/layoutEnum";
 import fragranceiaImg from "@/resource/Fragranceia.png";
 import Dropdown from "@/component/dropdown/Dropdown";

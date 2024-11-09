@@ -1,7 +1,7 @@
 import type {GetStaticPaths, GetStaticProps, InferGetStaticPropsType} from 'next'
 import type {NextPageWithLayout} from '../_app'
-import KorIndex from '@/composition/lang/index/korIndex'
-import JpIndex from '@/composition/lang/index/jpIndex'
+import KorIndex from '../lang/index/korIndex'
+import JpIndex from '../lang/index/jpIndex'
 
 const LangPage: NextPageWithLayout = ({params}: InferGetStaticPropsType<typeof getStaticProps>) => {
     if (params.lang == 'kor') {

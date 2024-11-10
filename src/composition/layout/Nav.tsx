@@ -2,14 +2,14 @@ import React from 'react';
 import type {NextPage} from 'next';
 import Image from 'next/image';
 import {TypedUseSelectorHook, useSelector} from 'react-redux';
-import {RootState} from "@/store";
-import ManyLang from "@/store/enum/manyLang";
-import Link from "next/link";
-import {redirect} from "next/navigation";
-import layoutStyles from '@/composition/layout/styles/Layout.module.scss';
-import NavItemsLang from "@/store/enum/layoutEnum";
-import fragranceiaImg from "@/resource/Fragranceia.png";
-import Dropdown from "@/component/dropdown/Dropdown";
+import {RootState} from '@/store';
+import ManyLang from '@/store/enum/manyLang';
+import Link from 'next/link';
+import {redirect} from 'next/navigation';
+import layoutStyles from '@/composition/layout/Layout.module.scss';
+import NavItemsLang from '@/store/enum/layoutEnum';
+import fragranceiaImg from '@/resource/Fragranceia.png';
+import Dropdown from '@/component/dropdown/Dropdown';
 
 const Nav: NextPage = () => {
     const customUseSelector: TypedUseSelectorHook<RootState> = useSelector;

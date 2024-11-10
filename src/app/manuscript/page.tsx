@@ -1,24 +1,24 @@
 'use client';
 
-import {useEffect, useRef} from "react";
+import {useEffect, useRef} from 'react';
 
 export default function Manuscript(): JSX.Element {
 
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
     useEffect(() => {
-        if(canvasRef.current){
+        if (canvasRef.current) {
             const canvas = canvasRef.current;
-            if(canvas.getContext){
+            if (canvas.getContext) {
                 const ctx = canvas.getContext("2d");
 
                 let offsetX;
                 let offsetY;
 
-                if(ctx){
+                if (ctx) {
                     ctx.strokeStyle = "blue";
                     ctx.strokeRect(0, 0, 150, 150);
-                    canvas.addEventListener("mousemove", (e:MouseEvent) => {
+                    canvas.addEventListener("mousemove", (e: MouseEvent) => {
                         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
                         offsetX = e.offsetX;
@@ -35,9 +35,20 @@ export default function Manuscript(): JSX.Element {
         }
     }, []);
 
-    const manuscript = <div>
-        <canvas ref={canvasRef} id="canvas" width="1000" height="1000"></canvas>
-    </div>;
+    const manuscript = (
+        <div>
+            <style jsx>
+                {
+                    `.container {
+                        display: grid;
+                        width: 2000px;
+                        height: 2000px;
+                        grid-template-areas:'overlap'
+                    }`
+                }
+            </style>
+            <canvas ref={canvasRef} id="canvas" width="1000" height="1000"></canvas>
+        </div>);
 
     return manuscript;
 };

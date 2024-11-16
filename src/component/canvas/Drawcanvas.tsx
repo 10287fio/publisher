@@ -6,12 +6,36 @@ const Drawcanvas = (): JSX.Element => {
 
     useEffect(() => {
         if (drawCanvasRef.current) {
+            const drawCanvas = drawCanvasRef.current;
+            if (drawCanvas.getContext) {
+                const drawCtx = drawCanvas.getContext("2d");
 
+                if (drawCtx) {
+                    let offsetX;
+                    let offsetY;
+
+                    drawCtx.strokeStyle = "blue";
+                    drawCtx.strokeRect(0, 0, 150, 150);
+
+                    drawCanvas.addEventListener("mousemove", (e: MouseEvent) => {
+                        drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
+
+                        offsetX = e.offsetX;
+                        offsetY = e.offsetY;
+
+                        drawCtx.beginPath();
+                        drawCtx.moveTo(0, 0);
+                        drawCtx.lineTo(offsetX, offsetY);
+                        drawCtx.closePath();
+                        drawCtx.stroke();
+                    });
+                }
+            }
         }
     });
 
     return (
-        <canvas id={canvasStyle.drawCanvas} ref={drawCanvasRef}></canvas>
+        <canvas className={canvasStyle.canvas} id={canvasStyle.drawCanvas} ref={drawCanvasRef}></canvas>
     )
 };
 

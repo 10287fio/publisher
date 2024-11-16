@@ -11,7 +11,7 @@ const Resultcanvas = (): JSX.Element => {
     });
 
     return (
-        <canvas id={canvasStyle.resultCanvas} ref={resultCanvasRef}></canvas>
+        <canvas className={canvasStyle.canvas} id={canvasStyle.resultCanvas} ref={resultCanvasRef}></canvas>
     );
 }
 

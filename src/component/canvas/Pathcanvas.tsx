@@ -11,7 +11,7 @@ const Pathcanvas = (): JSX.Element => {
     });
 
     return (
-        <canvas id={canvasStyle.pathCanvas} ref={pathCanvasRef}></canvas>
+        <canvas className={canvasStyle.canvas} id={canvasStyle.pathCanvas} ref={pathCanvasRef}></canvas>
     );
 }
 

@@ -1,14 +1,10 @@
 .container {
   display: grid;
-  width: 2000px;
-  height: 2000px;
   grid-template-areas: 'overlap';
 }
 
 .canvas {
   grid-area: overlaps;
-  width: 100%;
-  height: 100%;
 }
 
 #drawCanvas {

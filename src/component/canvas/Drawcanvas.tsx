@@ -6,7 +6,11 @@ const Drawcanvas = (): JSX.Element => {
 
     useEffect(() => {
         if (drawCanvasRef.current) {
-            const drawCanvas = drawCanvasRef.current;
+            const drawCanvas:HTMLCanvasElement = drawCanvasRef.current;
+
+            drawCanvas.width = window.innerWidth;
+            drawCanvas.height = window.innerWidth;
+
             if (drawCanvas.getContext) {
                 const drawCtx = drawCanvas.getContext("2d");
 

@@ -1,21 +1,11 @@
-.container {
-  display: grid;
-  grid-template-areas: 'overlap';
-  place-content:stretch;
-}
-
-.canvas {
-  grid-area: overlaps;
-}
-
 #drawCanvas {
   z-index: 2;
 }
 
-#resultCanvas {
+#reserveCanvas {
   z-index: 1;
 }
 
-#pathCanvas {
+#resultCanvas {
   z-index: 0;
 }

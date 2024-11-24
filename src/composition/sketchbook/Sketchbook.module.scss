@@ -1,0 +1,8 @@
+.canvasContainer {
+  display: grid;
+  grid-template-areas: 'overlap';
+}
+
+.canvas {
+  grid-area: overlaps;
+}

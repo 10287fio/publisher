@@ -1,12 +1,12 @@
-import canvasStyle from '@/component/canvas/Canvas.module.scss';
-import Pathcanvas from '@/component/canvas/Pathcanvas';
+import sketchbookStyle from '@/composition/sketchbook/Sketchbook.module.scss';
+import Reservecanvas from '@/component/canvas/Reservecanvas';
 import Drawcanvas from '@/component/canvas/Drawcanvas';
 import Resultcanvas from '@/component/canvas/Resultcanvas';
 
 const Sketchbook = (props: any): JSX.Element => {
     return (
-        <div className={canvasStyle.container}>
-            <Pathcanvas/>
+        <div className={sketchbookStyle.canvasContainer}>
+            <Reservecanvas/>
             <Drawcanvas/>
             <Resultcanvas/>
         </div>

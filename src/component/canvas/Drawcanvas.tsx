@@ -1,4 +1,5 @@
 import canvasStyle from '@/component/canvas/Canvas.module.scss';
+import sketchbookStyle from '@/composition/sketchbook/Sketchbook.module.scss';
 import {useRef, useEffect} from 'react';
 
 const Drawcanvas = (): JSX.Element => {
@@ -39,7 +40,7 @@ const Drawcanvas = (): JSX.Element => {
     });
 
     return (
-        <canvas className={canvasStyle.canvas} id={canvasStyle.drawCanvas} ref={drawCanvasRef}></canvas>
+        <canvas className={sketchbookStyle.canvas} id={canvasStyle.drawCanvas} ref={drawCanvasRef}></canvas>
     )
 };
 

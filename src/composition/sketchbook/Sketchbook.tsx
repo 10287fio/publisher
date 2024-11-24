@@ -5,7 +5,6 @@ import Resultcanvas from '@/component/canvas/Resultcanvas';
 import {useEffect, useState} from 'react';
 import {Draw, Reserve, Result, Shape, Point, Line, Arc, CurrentId} from "@/ts";
 
-
 const Sketchbook = (props: any): JSX.Element => {
     const [draw, setDraw] = useState<Draw>({id: "d1"});
     const [reserve, setReserve] = useState<Reserve[]>([{id: "rv1"}]);

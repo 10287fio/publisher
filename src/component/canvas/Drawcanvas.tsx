@@ -1,13 +1,50 @@
 import canvasStyle from '@/component/canvas/Canvas.module.scss';
 import sketchbookStyle from '@/composition/sketchbook/Sketchbook.module.scss';
 import {useRef, useEffect} from 'react';
+import {Draw, Reserve, Result, Shape, Point, Line, Arc, CurrentId} from '@/ts';
 
-const Drawcanvas = (): JSX.Element => {
+function calQuadCoord(lastPoint: { x: number, y: number }, x: number, y: number) {
+    if (((lastPoint?.x < x) && (lastPoint?.y > y)) || ((lastPoint?.x > x) && (lastPoint?.y < y))) {
+        if ((Math.round((y - lastPoint?.y) / (x - lastPoint?.x) * 10) / 10) > -1) {
+            return "x";
+        } else {
+            return "y";
+        }
+    } else if (((lastPoint?.x < x) && (lastPoint?.y < y)) || ((lastPoint?.x > x) && (lastPoint?.y > y))) {
+        if ((Math.round((y - lastPoint?.y) / (x - lastPoint?.x) * 10) / 10) < 1) {
+            return "x";
+        } else {
+            return "y";
+        }
+    }
+
+    return "x";
+}
+
+interface StateProps {
+    draw: Draw;
+    reserve: Reserve[];
+    result: Result;
+    shape?: Shape[];
+    point?: Point[];
+    line?: Line[];
+    arc?: Arc[];
+    currentId?: CurrentId;
+}
+
+// Define the props for the child component
+interface ChildComponentProps {
+    stateProps: StateProps;
+}
+
+const Drawcanvas: React.FC<ChildComponentProps> = ({stateProps}) => {
     const drawCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
     useEffect(() => {
+        console.log(stateProps.reserve);
+
         if (drawCanvasRef.current) {
-            const drawCanvas:HTMLCanvasElement = drawCanvasRef.current;
+            const drawCanvas: HTMLCanvasElement = drawCanvasRef.current;
 
             drawCanvas.width = window.innerWidth;
             drawCanvas.height = window.innerWidth;
@@ -33,6 +70,10 @@ const Drawcanvas = (): JSX.Element => {
                         drawCtx.lineTo(offsetX, offsetY);
                         drawCtx.closePath();
                         drawCtx.stroke();
+                    });
+
+                    drawCanvas.addEventListener("click", () => {
+
                     });
                 }
             }

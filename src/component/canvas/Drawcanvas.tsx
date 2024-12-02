@@ -1,7 +1,18 @@
 import canvasStyle from '@/component/canvas/Canvas.module.scss';
 import sketchbookStyle from '@/composition/sketchbook/Sketchbook.module.scss';
 import {useRef, useEffect} from 'react';
-import {Draw, Reserve, Result, Shape, Point, Line, Arc, CurrentId, ShapeStateProps, ShapeChildComponentProps} from '@/ts';
+import {
+    Draw,
+    Reserve,
+    Result,
+    Shape,
+    Point,
+    Line,
+    Arc,
+    CurrentId,
+    ShapeStateProps,
+    ShapeChildComponentProps
+} from '@/ts';
 
 function calQuadCoord(lastPoint: { x: number, y: number }, x: number, y: number) {
     if (((lastPoint?.x < x) && (lastPoint?.y > y)) || ((lastPoint?.x > x) && (lastPoint?.y < y))) {
@@ -23,10 +34,24 @@ function calQuadCoord(lastPoint: { x: number, y: number }, x: number, y: number)
 
 const Drawcanvas: React.FC<ShapeChildComponentProps> = ({shapeStateProps, updateShapeStateProps}) => {
     const drawCanvasRef = useRef<HTMLCanvasElement | null>(null);
+    const point: Point[] = shapeStateProps.point;
+    const setPoint = updateShapeStateProps.setPoint;
+
+    function test() {
+        updateShapeStateProps.setReserve("test");
+    }
+
+    function drawcanvasClickEventListener(event: MouseEvent) {
+        setPoint([...point, {
+            id: "p1",
+            shape_id: "s1",
+            x: 200,
+            y: 200
+        }]);
+    }
 
     useEffect(() => {
-        console.log(shapeStateProps.reserve);
-
+        console.log(point);
         if (drawCanvasRef.current) {
             const drawCanvas: HTMLCanvasElement = drawCanvasRef.current;
 
@@ -41,7 +66,6 @@ const Drawcanvas: React.FC<ShapeChildComponentProps> = ({shapeStateProps, update
                     let offsetY;
 
                     drawCtx.strokeStyle = "blue";
-                    drawCtx.strokeRect(0, 0, 150, 150);
 
                     drawCanvas.addEventListener("mousemove", (e: MouseEvent) => {
                         drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
@@ -56,9 +80,7 @@ const Drawcanvas: React.FC<ShapeChildComponentProps> = ({shapeStateProps, update
                         drawCtx.stroke();
                     });
 
-                    drawCanvas.addEventListener("click", () => {
-
-                    });
+                    drawCanvas.addEventListener("click", drawcanvasClickEventListener);
                 }
             }
         }
@@ -68,5 +90,6 @@ const Drawcanvas: React.FC<ShapeChildComponentProps> = ({shapeStateProps, update
         <canvas className={sketchbookStyle.canvas} id={canvasStyle.drawCanvas} ref={drawCanvasRef}></canvas>
     )
 };
+
 
 export default Drawcanvas;

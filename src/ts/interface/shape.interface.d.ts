@@ -48,10 +48,10 @@ export interface ShapeStateProps {
     draw: Draw;
     reserve: Reserve[];
     result: Result;
-    shape?: Shape[];
-    point?: Point[];
-    line?: Line[];
-    arc?: Arc[];
+    shape: Shape[];
+    point: Point[];
+    line: Line[];
+    arc: Arc[];
     currentId?: CurrentId;
 }
 

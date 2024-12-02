@@ -1,7 +1,7 @@
 import canvasStyle from '@/component/canvas/Canvas.module.scss';
 import sketchbookStyle from '@/composition/sketchbook/Sketchbook.module.scss';
 import {useRef, useEffect} from 'react';
-import {Draw, Reserve, Result, Shape, Point, Line, Arc, CurrentId} from '@/ts';
+import {Draw, Reserve, Result, Shape, Point, Line, Arc, CurrentId, ShapeStateProps, ShapeChildComponentProps} from '@/ts';
 
 function calQuadCoord(lastPoint: { x: number, y: number }, x: number, y: number) {
     if (((lastPoint?.x < x) && (lastPoint?.y > y)) || ((lastPoint?.x > x) && (lastPoint?.y < y))) {
@@ -21,27 +21,11 @@ function calQuadCoord(lastPoint: { x: number, y: number }, x: number, y: number)
     return "x";
 }
 
-interface StateProps {
-    draw: Draw;
-    reserve: Reserve[];
-    result: Result;
-    shape?: Shape[];
-    point?: Point[];
-    line?: Line[];
-    arc?: Arc[];
-    currentId?: CurrentId;
-}
-
-// Define the props for the child component
-interface ChildComponentProps {
-    stateProps: StateProps;
-}
-
-const Drawcanvas: React.FC<ChildComponentProps> = ({stateProps}) => {
+const Drawcanvas: React.FC<ShapeChildComponentProps> = ({shapeStateProps, updateShapeStateProps}) => {
     const drawCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
     useEffect(() => {
-        console.log(stateProps.reserve);
+        console.log(shapeStateProps.reserve);
 
         if (drawCanvasRef.current) {
             const drawCanvas: HTMLCanvasElement = drawCanvasRef.current;

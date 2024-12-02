@@ -15,11 +15,11 @@ const Sketchbook = (props: any): JSX.Element => {
     const [arc, setArc] = useState<Arc[] | undefined>();
     const [currentId, setCurrentId] = useState<CurrentId | undefined>();
 
-    const stateProps = {
+    const shapeStateProps = {
         draw, reserve, result, shape, point, line, arc, currentId
     };
 
-    const updateProps = {
+    const updateShapeStateProps = {
         setDraw, setReserve, setResult, setShape, setPoint, setLine, setArc, setCurrentId
     };
 
@@ -30,7 +30,7 @@ const Sketchbook = (props: any): JSX.Element => {
         <div className={sketchbookStyle.canvasContainer}>
             <Reservecanvas/>
             <Resultcanvas/>
-            <Drawcanvas stateProps={stateProps}/>
+            <Drawcanvas shapeStateProps={shapeStateProps} updateShapeStateProps={updateShapeStateProps}/>
         </div>
     )
 };

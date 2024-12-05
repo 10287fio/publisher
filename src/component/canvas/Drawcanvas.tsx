@@ -1,6 +1,6 @@
 import canvasStyle from '@/component/canvas/Canvas.module.scss';
 import sketchbookStyle from '@/composition/sketchbook/Sketchbook.module.scss';
-import {useRef, useEffect} from 'react';
+import {useRef, useEffect, MouseEvent} from 'react';
 import {
     Draw,
     Reserve,
@@ -41,17 +41,35 @@ const Drawcanvas: React.FC<ShapeChildComponentProps> = ({shapeStateProps, update
         updateShapeStateProps.setReserve("test");
     }
 
-    function drawcanvasClickEventListener(event: MouseEvent) {
-        setPoint([...point, {
-            id: "p1",
-            shape_id: "s1",
-            x: 200,
-            y: 200
-        }]);
+    function drawcanvasMoveEventListener(event: MouseEvent, drawCanvas: HTMLCanvasElement) {
+        drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
+
+        offsetX = event.offsetX;
+        offsetY = event.offsetY;
+
+        drawCtx.beginPath();
+        drawCtx.moveTo(0, 0);
+        drawCtx.lineTo(offsetX, offsetY);
+        drawCtx.closePath();
+        drawCtx.stroke();
+
+    }
+
+    function drawcanvasClickEventListener(event: MouseEvent, drawCanvas: HTMLCanvasElement) {
+        let offsetX = event.offsetX;
+        let offsetY = event.offsetY;
+
+        console.log(point.at(-1));
+
+        // setPoint([...point, {
+        //     id: "p1",
+        //     shape_id: "s1",
+        //     x: 200,
+        //     y: 200
+        // }]);
     }
 
     useEffect(() => {
-        console.log(point);
         if (drawCanvasRef.current) {
             const drawCanvas: HTMLCanvasElement = drawCanvasRef.current;
 
@@ -62,25 +80,17 @@ const Drawcanvas: React.FC<ShapeChildComponentProps> = ({shapeStateProps, update
                 const drawCtx = drawCanvas.getContext("2d");
 
                 if (drawCtx) {
-                    let offsetX;
-                    let offsetY;
-
                     drawCtx.strokeStyle = "blue";
 
-                    drawCanvas.addEventListener("mousemove", (e: MouseEvent) => {
-                        drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
+                    const handleMouseMove =
 
-                        offsetX = e.offsetX;
-                        offsetY = e.offsetY;
+                        drawCanvas.addEventListener("mousemove", (event: MouseEvent) => {
+                            drawcanvasMoveEventListener(event, drawCanvas);
+                        });
 
-                        drawCtx.beginPath();
-                        drawCtx.moveTo(0, 0);
-                        drawCtx.lineTo(offsetX, offsetY);
-                        drawCtx.closePath();
-                        drawCtx.stroke();
+                    drawCanvas.addEventListener("click", (event: Event) => {
+                        drawcanvasClickEventListener(event, drawCanvas)
                     });
-
-                    drawCanvas.addEventListener("click", drawcanvasClickEventListener);
                 }
             }
         }

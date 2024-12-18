@@ -55,9 +55,13 @@ export interface ShapeStateProps {
     currentId?: CurrentId;
 }
 
-export interface ShapeChildComponentProps {
+export interface CanvasComponentProps {
     shapeStateProps: ShapeStateProps;
     updateShapeStateProps: UpdateShapeStateProps;
+}
+
+export interface GessoComponentProps {
+    shapeStateProps: ShapeStateProps;
 }
 
 export interface UpdateShapeStateProps {

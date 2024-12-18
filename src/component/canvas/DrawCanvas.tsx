@@ -11,7 +11,7 @@ import {
     Arc,
     CurrentId,
     ShapeStateProps,
-    ShapeChildComponentProps
+    CanvasComponentProps
 } from '@/ts';
 
 function calQuadCoord(lastPoint: { x: number, y: number }, x: number, y: number) {
@@ -32,7 +32,7 @@ function calQuadCoord(lastPoint: { x: number, y: number }, x: number, y: number)
     return "x";
 }
 
-const Drawcanvas: React.FC<ShapeChildComponentProps> = ({shapeStateProps, updateShapeStateProps}) => {
+const DrawCanvas: React.FC<CanvasComponentProps> = ({shapeStateProps, updateShapeStateProps}) => {
     const drawCanvasRef = useRef<HTMLCanvasElement | null>(null);
     const point: Point[] = shapeStateProps.point;
     const setPoint = updateShapeStateProps.setPoint;
@@ -41,23 +41,29 @@ const Drawcanvas: React.FC<ShapeChildComponentProps> = ({shapeStateProps, update
         updateShapeStateProps.setReserve("test");
     }
 
-    function drawcanvasMoveEventListener(event: MouseEvent, drawCanvas: HTMLCanvasElement) {
-        drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
+    function drawcanvasMoveEventListener(event: MouseEvent, drawCanvas: HTMLCanvasElement | null) {
+        if (drawCanvas == null) return false;
 
-        offsetX = event.offsetX;
-        offsetY = event.offsetY;
+        if (drawCanvas.getContext) {
+            const drawCtx = drawCanvas.getContext("2d");
 
-        drawCtx.beginPath();
-        drawCtx.moveTo(0, 0);
-        drawCtx.lineTo(offsetX, offsetY);
-        drawCtx.closePath();
-        drawCtx.stroke();
+            if (drawCtx) {
+                drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
+                let offsetX: number = event.nativeEvent.offsetX;
+                let offsetY: number = event.nativeEvent.offsetY;
 
+                drawCtx.beginPath();
+                drawCtx.moveTo(0, 0);
+                drawCtx.lineTo(offsetX, offsetY);
+                drawCtx.closePath();
+                drawCtx.stroke();
+            }
+        }
     }
 
     function drawcanvasClickEventListener(event: MouseEvent, drawCanvas: HTMLCanvasElement) {
-        let offsetX = event.offsetX;
-        let offsetY = event.offsetY;
+        // let offsetX = event.offsetX;
+        // let offsetY = event.offsetY;
 
         console.log(point.at(-1));
 
@@ -76,30 +82,14 @@ const Drawcanvas: React.FC<ShapeChildComponentProps> = ({shapeStateProps, update
             drawCanvas.width = window.innerWidth;
             drawCanvas.height = window.innerWidth;
 
-            if (drawCanvas.getContext) {
-                const drawCtx = drawCanvas.getContext("2d");
-
-                if (drawCtx) {
-                    drawCtx.strokeStyle = "blue";
-
-                    const handleMouseMove =
-
-                        drawCanvas.addEventListener("mousemove", (event: MouseEvent) => {
-                            drawcanvasMoveEventListener(event, drawCanvas);
-                        });
-
-                    drawCanvas.addEventListener("click", (event: Event) => {
-                        drawcanvasClickEventListener(event, drawCanvas)
-                    });
-                }
-            }
         }
     });
 
     return (
-        <canvas className={sketchbookStyle.canvas} id={canvasStyle.drawCanvas} ref={drawCanvasRef}></canvas>
+        <canvas className={sketchbookStyle.canvas} id={canvasStyle.drawCanvas} ref={drawCanvasRef}
+                onMouseMove={(event: MouseEvent) => drawcanvasMoveEventListener(event, drawCanvasRef.current)}></canvas>
     )
 };
 
 
-export default Drawcanvas;
+export default DrawCanvas;

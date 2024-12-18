@@ -1,9 +1,9 @@
 import canvasStyle from '@/component/canvas/Canvas.module.scss';
-import sketchbookStyle from "@/composition/sketchbook/Sketchbook.module.scss";
+import sketchbookStyle from '@/composition/sketchbook/Sketchbook.module.scss';
 import {useRef, useEffect} from 'react';
-import {ShapeChildComponentProps} from "@/ts";
+import {CanvasComponentProps} from '@/ts';
 
-const Reservecanvas: React.FC<ShapeChildComponentProps> = (): JSX.Element => {
+const ReserveCanvas: React.FC<CanvasComponentProps> = (): JSX.Element => {
     const reserveCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
     useEffect(() => {
@@ -17,4 +17,4 @@ const Reservecanvas: React.FC<ShapeChildComponentProps> = (): JSX.Element => {
     );
 }
 
-export default Reservecanvas;
+export default ReserveCanvas;

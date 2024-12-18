@@ -1,7 +1,7 @@
 import sketchbookStyle from '@/composition/sketchbook/Sketchbook.module.scss';
-import Reservecanvas from '@/component/canvas/Reservecanvas';
-import Drawcanvas from '@/component/canvas/Drawcanvas';
-import Resultcanvas from '@/component/canvas/Resultcanvas';
+import ReserveCanvas from '@/component/canvas/ReserveCanvas';
+import DrawCanvas from '@/component/canvas/DrawCanvas';
+import ResultCanvas from '@/component/canvas/ResultCanvas';
 import {useEffect, useState} from 'react';
 import {Draw, Reserve, Result, Shape, Point, Line, Arc, CurrentId} from "@/ts";
 
@@ -28,9 +28,9 @@ const Sketchbook = (props: any): JSX.Element => {
 
     return (
         <div className={sketchbookStyle.canvasContainer}>
-            <Reservecanvas shapeStateProps={shapeStateProps} updateShapeStateProps={updateShapeStateProps}/>
-            <Resultcanvas shapeStateProps={shapeStateProps} updateShapeStateProps={updateShapeStateProps}/>
-            <Drawcanvas shapeStateProps={shapeStateProps} updateShapeStateProps={updateShapeStateProps}/>
+            <ReserveCanvas shapeStateProps={shapeStateProps} updateShapeStateProps={updateShapeStateProps}/>
+            <ResultCanvas shapeStateProps={shapeStateProps} updateShapeStateProps={updateShapeStateProps}/>
+            <DrawCanvas shapeStateProps={shapeStateProps} updateShapeStateProps={updateShapeStateProps}/>
         </div>
     )
 };

@@ -1,13 +1,13 @@
 import canvasStyle from '@/component/canvas/Canvas.module.scss';
 import sketchbookStyle from '@/composition/sketchbook/Sketchbook.module.scss';
 import {useRef, useEffect} from 'react';
-import {ShapeChildComponentProps} from "@/ts";
+import {CanvasComponentProps} from '@/ts';
 
-const Resultcanvas: React.FC<ShapeChildComponentProps> = ({shapeStateProps, updateShapeStateProps}) => {
+const ResultCanvas: React.FC<CanvasComponentProps> = ({shapeStateProps, updateShapeStateProps}) => {
     const resultCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
     useEffect(() => {
-        console.log("result : "+shapeStateProps.point[0]?.id);
+        console.log("result : " + shapeStateProps.point[0]?.id);
 
         if (resultCanvasRef.current) {
 
@@ -19,4 +19,4 @@ const Resultcanvas: React.FC<ShapeChildComponentProps> = ({shapeStateProps, upda
     );
 }
 
-export default Resultcanvas;
+export default ResultCanvas;

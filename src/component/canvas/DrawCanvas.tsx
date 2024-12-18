@@ -13,6 +13,8 @@ import {
     ShapeStateProps,
     CanvasComponentProps
 } from '@/ts';
+import DisplayGesso from '@/component/gesso/DisplayGesso';
+import MagnifierGesso from '@/component/gesso/MagnifierGesso';
 
 function calQuadCoord(lastPoint: { x: number, y: number }, x: number, y: number) {
     if (((lastPoint?.x < x) && (lastPoint?.y > y)) || ((lastPoint?.x > x) && (lastPoint?.y < y))) {

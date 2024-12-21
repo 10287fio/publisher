@@ -15,7 +15,10 @@ const ReserveCanvas: React.FC<CanvasComponentProps> = (): JSX.Element => {
     });
 
     return (
-        <canvas className={sketchbookStyle.canvas} id={canvasStyle.reserveCanvas} ref={reserveCanvasRef}></canvas>
+        <>
+            {/*<DisplayGesso className={canvasStyle.canvas} id={canvasStyle.reserveCanvas} ref={reserveCanvasRef}></DisplayGesso>*/}
+            {/*<MagnifierGesso></MagnifierGesso>*/}
+        </>
     );
 }
 

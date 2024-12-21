@@ -17,7 +17,10 @@ const ResultCanvas: React.FC<CanvasComponentProps> = ({shapeStateProps, updateSh
     });
 
     return (
-        <canvas className={sketchbookStyle.canvas} id={canvasStyle.resultCanvas} ref={resultCanvasRef}></canvas>
+        <>
+            {/*<DisplayGesso className={canvasStyle.canvas} id={canvasStyle.resultCanvas} ref={resultCanvasRef}></DisplayGesso>*/}
+            {/*<MagnifierGesso></MagnifierGesso>*/}
+        </>
     );
 }
 

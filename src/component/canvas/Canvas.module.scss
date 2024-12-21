@@ -1,3 +1,7 @@
+.canvas {
+  grid-area: overlaps;
+}
+
 #drawCanvas {
   z-index: 2;
 }

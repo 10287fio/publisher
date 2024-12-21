@@ -13,8 +13,6 @@ import {
     ShapeStateProps,
     CanvasComponentProps
 } from '@/ts';
-import DisplayGesso from '@/component/gesso/DisplayGesso';
-import MagnifierGesso from '@/component/gesso/MagnifierGesso';
 
 function calQuadCoord(lastPoint: { x: number, y: number }, x: number, y: number) {
     if (((lastPoint?.x < x) && (lastPoint?.y > y)) || ((lastPoint?.x > x) && (lastPoint?.y < y))) {
@@ -34,16 +32,26 @@ function calQuadCoord(lastPoint: { x: number, y: number }, x: number, y: number)
     return "x";
 }
 
+function generationID() {
+
+}
+
 const DrawCanvas: React.FC<CanvasComponentProps> = ({shapeStateProps, updateShapeStateProps}) => {
     const drawCanvasRef = useRef<HTMLCanvasElement | null>(null);
+    const shape: Shape[] = shapeStateProps.shape;
     const point: Point[] = shapeStateProps.point;
+    const line: Line[] = shapeStateProps.line;
+    const CurrentId: CurrentId | undefined = shapeStateProps.currentId;
+    const setShape = updateShapeStateProps.setShape;
     const setPoint = updateShapeStateProps.setPoint;
+    const setLine = updateShapeStateProps.setLine;
+    const setCurrentId = updateShapeStateProps.setCurrentId;
 
     function test() {
         updateShapeStateProps.setReserve("test");
     }
 
-    function drawcanvasMoveEventListener(event: MouseEvent, drawCanvas: HTMLCanvasElement | null) {
+    function drawCanvasMoveEventListener(event: MouseEvent, drawCanvas: HTMLCanvasElement | null) {
         if (drawCanvas == null) return false;
 
         if (drawCanvas.getContext) {
@@ -63,18 +71,18 @@ const DrawCanvas: React.FC<CanvasComponentProps> = ({shapeStateProps, updateShap
         }
     }
 
-    function drawcanvasClickEventListener(event: MouseEvent, drawCanvas: HTMLCanvasElement) {
-        // let offsetX = event.offsetX;
-        // let offsetY = event.offsetY;
+    function drawCanvasClickEventListener(event: MouseEvent, drawCanvas: HTMLCanvasElement | null) {
+        if (drawCanvas == null) return false;
 
-        console.log(point.at(-1));
+        if (drawCanvas.getContext) {
+            const drawCtx = drawCanvas.getContext("2d");
 
-        // setPoint([...point, {
-        //     id: "p1",
-        //     shape_id: "s1",
-        //     x: 200,
-        //     y: 200
-        // }]);
+            if (drawCtx) {
+                let offsetX: number = event.nativeEvent.offsetX;
+                let offsetY: number = event.nativeEvent.offsetY;
+
+            }
+        }
     }
 
     useEffect(() => {
@@ -88,8 +96,12 @@ const DrawCanvas: React.FC<CanvasComponentProps> = ({shapeStateProps, updateShap
     });
 
     return (
-        <canvas className={sketchbookStyle.canvas} id={canvasStyle.drawCanvas} ref={drawCanvasRef}
-                onMouseMove={(event: MouseEvent) => drawcanvasMoveEventListener(event, drawCanvasRef.current)}></canvas>
+        <>
+            <canvas className={sketchbookStyle.canvas} id={canvasStyle.drawCanvas} ref={drawCanvasRef}
+                    onMouseMove={(event: MouseEvent) => drawCanvasMoveEventListener(event, drawCanvasRef.current)}
+                    onClick={(event: MouseEvent) => drawCanvasClickEventListener(event, drawCanvasRef.current)}></canvas>
+        </>
+
     )
 };
 

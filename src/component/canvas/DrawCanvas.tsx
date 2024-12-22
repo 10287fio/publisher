@@ -32,11 +32,14 @@ function calQuadCoord(lastPoint: { x: number, y: number }, x: number, y: number)
     return "x";
 }
 
-function generationID(shape_id: string|null) {
-    if(shape_id == null){
+function generationID(shape_id: string | null): string {
+    if (shape_id == null) {
         return "s1"
     }
-    console.log(shape_id.slice(1));
+
+    let idNum: number = Number(shape_id.slice(1));
+    idNum++;
+    return "s".concat(idNum.toString());
 }
 
 const DrawCanvas: React.FC<CanvasComponentProps> = ({shapeStateProps, updateShapeStateProps}) => {

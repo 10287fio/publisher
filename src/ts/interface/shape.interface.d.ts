@@ -1,4 +1,4 @@
-import {CurrentId} from "@/ts";
+import {CurrentId, ShapeType} from '@/ts';
 
 export interface Draw {
     id: string;
@@ -14,7 +14,7 @@ export interface Result {
 
 export interface Shape {
     id: string;
-    type: string;
+    type: ShapeType;
     status: string;
     canvas_id: string;
 }
@@ -53,15 +53,6 @@ export interface ShapeStateProps {
     line: Line[];
     arc: Arc[];
     currentId?: CurrentId;
-}
-
-export interface CanvasComponentProps {
-    shapeStateProps: ShapeStateProps;
-    updateShapeStateProps: UpdateShapeStateProps;
-}
-
-export interface GessoComponentProps {
-    shapeStateProps: ShapeStateProps;
 }
 
 export interface UpdateShapeStateProps {

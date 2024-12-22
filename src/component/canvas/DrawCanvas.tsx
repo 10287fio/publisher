@@ -47,10 +47,6 @@ const DrawCanvas: React.FC<CanvasComponentProps> = ({shapeStateProps, updateShap
     const setLine = updateShapeStateProps.setLine;
     const setCurrentId = updateShapeStateProps.setCurrentId;
 
-    function test() {
-        updateShapeStateProps.setReserve("test");
-    }
-
     function drawCanvasMoveEventListener(event: MouseEvent, drawCanvas: HTMLCanvasElement | null) {
         if (drawCanvas == null) return false;
 
@@ -80,6 +76,10 @@ const DrawCanvas: React.FC<CanvasComponentProps> = ({shapeStateProps, updateShap
             if (drawCtx) {
                 let offsetX: number = event.nativeEvent.offsetX;
                 let offsetY: number = event.nativeEvent.offsetY;
+
+                if(CurrentId?.shape_id != undefined){
+
+                }
 
             }
         }

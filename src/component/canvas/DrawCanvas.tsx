@@ -32,8 +32,11 @@ function calQuadCoord(lastPoint: { x: number, y: number }, x: number, y: number)
     return "x";
 }
 
-function generationID() {
-
+function generationID(shape_id: string|null) {
+    if(shape_id == null){
+        return "s1"
+    }
+    console.log(shape_id.slice(1));
 }
 
 const DrawCanvas: React.FC<CanvasComponentProps> = ({shapeStateProps, updateShapeStateProps}) => {
@@ -77,7 +80,19 @@ const DrawCanvas: React.FC<CanvasComponentProps> = ({shapeStateProps, updateShap
                 let offsetX: number = event.nativeEvent.offsetX;
                 let offsetY: number = event.nativeEvent.offsetY;
 
-                if(CurrentId?.shape_id != undefined){
+                // In case of shape's existence
+                if (CurrentId?.shape_id != undefined) {
+                    //
+                    if (shape.length != 0) {
+
+
+                    } else {
+
+                    }
+                } // In case of shape's nonexistence
+                else {
+                    generationID("s1111");
+                    // setShape((preShape: Shape[]) => [...preShape, {}]);
 
                 }
 

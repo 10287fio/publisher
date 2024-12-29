@@ -1,5 +1,7 @@
 import canvasStyle from '@/component/canvas/Canvas.module.scss';
 import sketchbookStyle from '@/composition/sketchbook/Sketchbook.module.scss';
+import DisplayGesso from '@/component/gesso/DisplayGesso';
+import MagnifierGesso from '@/component/gesso/MagnifierGesso';
 import {useRef, useEffect, MouseEvent} from 'react';
 import {
     Draw,
@@ -104,6 +106,10 @@ const DrawCanvas: React.FC<CanvasComponentProps> = ({shapeStateProps, updateShap
     }
 
     useEffect(() => {
+        if (typeof window !== 'undefined' && 'OffscreenCanvas' in window) {
+            const offscreenCanvas = new OffscreenCanvas(500, 500);
+        }
+
         if (drawCanvasRef.current) {
             const drawCanvas: HTMLCanvasElement = drawCanvasRef.current;
 
@@ -115,6 +121,8 @@ const DrawCanvas: React.FC<CanvasComponentProps> = ({shapeStateProps, updateShap
 
     return (
         <>
+            <DisplayGesso shapeStateProps={shapeStateProps}></DisplayGesso>
+            <MagnifierGesso shapeStateProps={shapeStateProps}></MagnifierGesso>
             <canvas className={sketchbookStyle.canvas} id={canvasStyle.drawCanvas} ref={drawCanvasRef}
                     onMouseMove={(event: MouseEvent) => drawCanvasMoveEventListener(event, drawCanvasRef.current)}
                     onClick={(event: MouseEvent) => drawCanvasClickEventListener(event, drawCanvasRef.current)}></canvas>

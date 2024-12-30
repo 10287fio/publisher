@@ -5,7 +5,7 @@ import {CanvasComponentProps} from '@/ts';
 import DisplayGesso from '@/component/gesso/DisplayGesso';
 import MagnifierGesso from '@/component/gesso/MagnifierGesso';
 
-const ReserveCanvas: React.FC<CanvasComponentProps> = (): JSX.Element => {
+const ReserveCanvas: React.FC<CanvasComponentProps> = ({shapeStateProps, updateShapeStateProps}): JSX.Element => {
     const reserveCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
     useEffect(() => {
@@ -16,8 +16,8 @@ const ReserveCanvas: React.FC<CanvasComponentProps> = (): JSX.Element => {
 
     return (
         <>
-            {/*<DisplayGesso className={canvasStyle.canvas} id={canvasStyle.reserveCanvas} ref={reserveCanvasRef}></DisplayGesso>*/}
-            {/*<MagnifierGesso></MagnifierGesso>*/}
+            <DisplayGesso shapeStateProps={shapeStateProps}></DisplayGesso>
+            <MagnifierGesso shapeStateProps={shapeStateProps}></MagnifierGesso>
         </>
     );
 }

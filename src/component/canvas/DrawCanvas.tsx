@@ -1,7 +1,7 @@
+'use client'
+
 import canvasStyle from '@/component/canvas/Canvas.module.scss';
 import sketchbookStyle from '@/composition/sketchbook/Sketchbook.module.scss';
-import DisplayGesso from '@/component/gesso/DisplayGesso';
-import MagnifierGesso from '@/component/gesso/MagnifierGesso';
 import {useRef, useEffect, MouseEvent} from 'react';
 import {
     Draw,
@@ -34,14 +34,10 @@ function calQuadCoord(lastPoint: { x: number, y: number }, x: number, y: number)
     return "x";
 }
 
-function generationID(shape_id: string | null): string {
-    if (shape_id == null) {
-        return "s1"
-    }
-
-    let idNum: number = Number(shape_id.slice(1));
+function generationIdNum(id: string): string {
+    let idNum: number = Number(id.slice(1));
     idNum++;
-    return "s".concat(idNum.toString());
+    return id.slice(0, 1).concat(idNum.toString());
 }
 
 const DrawCanvas: React.FC<CanvasComponentProps> = ({shapeStateProps, updateShapeStateProps}) => {
@@ -85,20 +81,15 @@ const DrawCanvas: React.FC<CanvasComponentProps> = ({shapeStateProps, updateShap
                 let offsetX: number = event.nativeEvent.offsetX;
                 let offsetY: number = event.nativeEvent.offsetY;
 
-                // In case of shape's existence
-                if (CurrentId?.shape_id != undefined) {
-                    //
-                    if (shape.length != 0) {
+                // In case of shape's nonexistence
+                if (CurrentId?.shape_id == undefined) {
+                    setShape((preShape: Shape[]) => [...preShape, {}]);
 
 
-                    } else {
-
-                    }
-                } // In case of shape's nonexistence
+                } // In case of shape's existence
                 else {
-                    generationID("s1111");
-                    // setShape((preShape: Shape[]) => [...preShape, {}]);
-
+                    generationIdNum("s1111");
+                    //
                 }
 
             }
@@ -106,9 +97,9 @@ const DrawCanvas: React.FC<CanvasComponentProps> = ({shapeStateProps, updateShap
     }
 
     useEffect(() => {
-        if (typeof window !== 'undefined' && 'OffscreenCanvas' in window) {
-            const offscreenCanvas = new OffscreenCanvas(500, 500);
-        }
+        // if (typeof window !== 'undefined' && 'OffscreenCanvas' in window) {
+        //     const offscreenCanvas = new OffscreenCanvas(500, 500);
+        // }
 
         if (drawCanvasRef.current) {
             const drawCanvas: HTMLCanvasElement = drawCanvasRef.current;
@@ -121,9 +112,7 @@ const DrawCanvas: React.FC<CanvasComponentProps> = ({shapeStateProps, updateShap
 
     return (
         <>
-            <DisplayGesso shapeStateProps={shapeStateProps}></DisplayGesso>
-            <MagnifierGesso shapeStateProps={shapeStateProps}></MagnifierGesso>
-            <canvas className={sketchbookStyle.canvas} id={canvasStyle.drawCanvas} ref={drawCanvasRef}
+            <canvas className={canvasStyle.canvas} id={canvasStyle.drawCanvas} ref={drawCanvasRef}
                     onMouseMove={(event: MouseEvent) => drawCanvasMoveEventListener(event, drawCanvasRef.current)}
                     onClick={(event: MouseEvent) => drawCanvasClickEventListener(event, drawCanvasRef.current)}></canvas>
         </>

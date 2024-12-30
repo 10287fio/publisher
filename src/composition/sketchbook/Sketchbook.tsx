@@ -28,6 +28,20 @@ const Sketchbook = (props: any): JSX.Element => {
 
     return (
         <div className={sketchbookStyle.canvasContainer}>
+
+            <div>
+                <button id="line">Line</button>
+                &nbsp;
+                <button id="arc">Arc</button>
+                &nbsp;
+                <button id="triangle">Triangle</button>
+                &nbsp;
+                <button id="quadrangle">Quadrangle</button>
+                &nbsp;
+                <button id="sector">Sector</button>
+                &nbsp;
+                <button id="circle">Circle</button>
+            </div>
             <ReserveCanvas shapeStateProps={shapeStateProps} updateShapeStateProps={updateShapeStateProps}/>
             <ResultCanvas shapeStateProps={shapeStateProps} updateShapeStateProps={updateShapeStateProps}/>
             <DrawCanvas shapeStateProps={shapeStateProps} updateShapeStateProps={updateShapeStateProps}/>

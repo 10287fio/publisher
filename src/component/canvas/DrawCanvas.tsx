@@ -61,7 +61,8 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                 drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
                 let offsetX: number = event.nativeEvent.offsetX;
                 let offsetY: number = event.nativeEvent.offsetY;
-
+console.log(offsetX);
+console.log(offsetY);
                 drawCtx.beginPath();
                 drawCtx.moveTo(0, 0);
                 drawCtx.lineTo(offsetX, offsetY);
@@ -83,7 +84,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
 
                 // In case of shape's nonexistence
                 if (CurrentId?.shape_id == undefined) {
-                    setShape((preShape: Shape[]) => [...preShape, {}]);
+                    // setShape((preShape: Shape[]) => [...preShape, {}]);
 
 
                 } // In case of shape's existence
@@ -107,14 +108,25 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
             drawCanvas.width = window.innerWidth;
             drawCanvas.height = window.innerWidth;
 
+            const drawCtx = drawCanvas.getContext("2d");
+
+            if (drawCtx) {
+                drawCtx.beginPath();
+                drawCtx.moveTo(0, 0);
+                drawCtx.lineTo(50, 50);
+                drawCtx.closePath();
+                drawCtx.stroke();
+            }
+
         }
     });
 
     return (
-        <>
+        <div>
             <canvas className={canvasStyle.canvas} id={canvasStyle.drawCanvas} ref={drawCanvasRef}
-                    onClick={(event: React.MouseEvent) => drawCanvasClickEventListener(event, drawCanvasRef.current)}></canvas>
-        </>
+                    onClick={(event: React.MouseEvent) => drawCanvasClickEventListener(event, drawCanvasRef.current)}
+                    onMouseMove={(event: React.MouseEvent) => drawCanvasMoveEventListener(event, drawCanvasRef.current)}></canvas>
+        </div>
 
     )
 };

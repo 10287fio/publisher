@@ -4,4 +4,5 @@ export type CurrentId = {
     pre_point_id1: string;
     pre_point_id2: string;
     pre_point_id3: string;
+    is_closed: boolean;
 }

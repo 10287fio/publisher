@@ -1,5 +1,34 @@
-const Tools = (): JSX.Element => {
-    function toolsClickEventListener(e:React.MouseEvent<HTMLButtonElement>) {
+import {CanvasComponentProps, CurrentId} from '@/ts';
+
+const Tools = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): JSX.Element => {
+    const currentId:CurrentId | undefined = shapeStateProps.currentId;
+
+
+    function toolsClickEventListener(event: React.MouseEvent<HTMLButtonElement>) {
+        if(currentId?.is_closed){
+
+        }
+
+        switch (event.currentTarget.id) {
+            case "line" :
+                console.log("l");
+                break;
+            case "arc" :
+                console.log("a");
+                break;
+            case "triangle" :
+                console.log("t");
+                break;
+            case "quadrangle" :
+                console.log("q");
+                break;
+            case "sector" :
+                console.log("s");
+                break;
+            case "circle" :
+                console.log("c");
+                break;
+        }
     }
 
     return (

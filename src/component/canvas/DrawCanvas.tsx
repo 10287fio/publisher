@@ -40,7 +40,7 @@ function generationIdNum(id: string): string {
     return id.slice(0, 1).concat(idNum.toString());
 }
 
-const DrawCanvas: React.FC<CanvasComponentProps> = ({shapeStateProps, updateShapeStateProps}) => {
+const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): JSX.Element => {
     const drawCanvasRef = useRef<HTMLCanvasElement | null>(null);
     const shape: Shape[] = shapeStateProps.shape;
     const point: Point[] = shapeStateProps.point;
@@ -71,7 +71,7 @@ const DrawCanvas: React.FC<CanvasComponentProps> = ({shapeStateProps, updateShap
         }
     }
 
-    function drawCanvasClickEventListener(event: MouseEvent, drawCanvas: HTMLCanvasElement | null) {
+    function drawCanvasClickEventListener(event: React.MouseEvent, drawCanvas: HTMLCanvasElement | null) {
         if (drawCanvas == null) return false;
 
         if (drawCanvas.getContext) {
@@ -113,8 +113,7 @@ const DrawCanvas: React.FC<CanvasComponentProps> = ({shapeStateProps, updateShap
     return (
         <>
             <canvas className={canvasStyle.canvas} id={canvasStyle.drawCanvas} ref={drawCanvasRef}
-                    onMouseMove={(event: MouseEvent) => drawCanvasMoveEventListener(event, drawCanvasRef.current)}
-                    onClick={(event: MouseEvent) => drawCanvasClickEventListener(event, drawCanvasRef.current)}></canvas>
+                    onClick={(event: React.MouseEvent) => drawCanvasClickEventListener(event, drawCanvasRef.current)}></canvas>
         </>
 
     )

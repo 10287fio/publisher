@@ -1,31 +1,39 @@
 import {CanvasComponentProps, CurrentId} from '@/ts';
+import {ToolType} from '@/store/enum/shape'
+
+function checkClose(currentId:CurrentId):Boolean{
+    let resultFlag = true;
+
+    if(currentId.is_closed){
+
+    }
+
+    return resultFlag;
+}
 
 const Tools = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): JSX.Element => {
     const currentId:CurrentId | undefined = shapeStateProps.currentId;
 
-
     function toolsClickEventListener(event: React.MouseEvent<HTMLButtonElement>) {
-        if(currentId?.is_closed){
 
-        }
 
         switch (event.currentTarget.id) {
-            case "line" :
+            case ToolType.Line :
                 console.log("l");
                 break;
-            case "arc" :
+            case ToolType.Arc :
                 console.log("a");
                 break;
-            case "triangle" :
+            case ToolType.Triangle :
                 console.log("t");
                 break;
-            case "quadrangle" :
+            case ToolType.Quadrangle :
                 console.log("q");
                 break;
-            case "sector" :
+            case ToolType.Sector :
                 console.log("s");
                 break;
-            case "circle" :
+            case ToolType.Circle :
                 console.log("c");
                 break;
         }
@@ -33,17 +41,17 @@ const Tools = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): 
 
     return (
         <div>
-            <button id="line" onClick={toolsClickEventListener}>Line</button>
+            <button id={ToolType.Line} onClick={toolsClickEventListener}>{ToolType.Line}</button>
             &nbsp;
-            <button id="arc" onClick={toolsClickEventListener}>Arc</button>
+            <button id={ToolType.Arc} onClick={toolsClickEventListener}>{ToolType.Arc}</button>
             &nbsp;
-            <button id="triangle" onClick={toolsClickEventListener}>Triangle</button>
+            <button id={ToolType.Triangle} onClick={toolsClickEventListener}>{ToolType.Triangle}</button>
             &nbsp;
-            <button id="quadrangle" onClick={toolsClickEventListener}>Quadrangle</button>
+            <button id={ToolType.Quadrangle} onClick={toolsClickEventListener}>{ToolType.Quadrangle}</button>
             &nbsp;
-            <button id="sector" onClick={toolsClickEventListener}>Sector</button>
+            <button id={ToolType.Sector} onClick={toolsClickEventListener}>{ToolType.Sector}</button>
             &nbsp;
-            <button id="circle" onClick={toolsClickEventListener}>Circle</button>
+            <button id={ToolType.Circle} onClick={toolsClickEventListener}>{ToolType.Circle}</button>
         </div>
     );
 };

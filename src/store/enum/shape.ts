@@ -6,3 +6,12 @@ export enum ShapeType {
     Circle = "Circle",
     Composition = "Composition"
 }
+
+export enum ToolType {
+    Line = "Line",
+    Arc = "Arc",
+    Triangle = "Triangle",
+    Quadrangle = "Quadrangle",
+    Sector = "Sector",
+    Circle = "Circle"
+}

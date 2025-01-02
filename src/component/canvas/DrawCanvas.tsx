@@ -61,8 +61,8 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                 drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
                 let offsetX: number = event.nativeEvent.offsetX;
                 let offsetY: number = event.nativeEvent.offsetY;
-console.log(offsetX);
-console.log(offsetY);
+                console.log(offsetX);
+                console.log(offsetY);
                 drawCtx.beginPath();
                 drawCtx.moveTo(0, 0);
                 drawCtx.lineTo(offsetX, offsetY);
@@ -105,8 +105,8 @@ console.log(offsetY);
         if (drawCanvasRef.current) {
             const drawCanvas: HTMLCanvasElement = drawCanvasRef.current;
 
-            drawCanvas.width = window.innerWidth;
-            drawCanvas.height = window.innerWidth;
+            drawCanvas.width = 2000;
+            drawCanvas.height = 2000;
 
             const drawCtx = drawCanvas.getContext("2d");
 

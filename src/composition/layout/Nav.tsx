@@ -3,18 +3,18 @@ import type {NextPage} from 'next';
 import Image from 'next/image';
 import {TypedUseSelectorHook, useSelector} from 'react-redux';
 import {RootState} from '@/store';
-import ManyLang from '@/store/enum/manyLang';
+import LangEnum from '@/store/enum/lang.enum';
 import Link from 'next/link';
 import {redirect} from 'next/navigation';
 import layoutStyles from '@/composition/layout/Layout.module.scss';
-import NavItemsLang from '@/store/enum/layoutEnum';
+import NavEnum from '@/store/enum/nav.enum';
 import fragranceiaImg from '@/resource/Fragranceia.png';
 import Dropdown from '@/component/dropdown/Dropdown';
 
 const Nav: NextPage = () => {
     const customUseSelector: TypedUseSelectorHook<RootState> = useSelector;
     const lang = customUseSelector(state => state.lang.lang);
-    const navItems = NavItemsLang.filter(x => x.lang == (lang ?? 'en'));
+    const navItems = NavEnum.filter(x => x.lang == (lang ?? 'en'));
     const navItemsLang = navItems.reduce((a: { [key: string]: any }, c) => {
         a[c.key] = {name: c.value, url: c.url}
         return a
@@ -44,7 +44,7 @@ const Nav: NextPage = () => {
                 </div>
                 <div className={layoutStyles.navMargin2}></div>
                 <div className={layoutStyles.navItemLang}>
-                    <Dropdown lang={ManyLang}/>
+                    <Dropdown lang={LangEnum}/>
                 </div>
             </div>
         </div>

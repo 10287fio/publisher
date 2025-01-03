@@ -14,22 +14,22 @@ export interface Result {
 
 export interface Shape {
     id: string;
-    type: ShapeType;
-    status: string;
-    canvas_id: string;
+    type: ShapeType | undefined;
+    status: string | undefined;
+    canvas_id: string | undefined;
 }
 
 export interface Point {
     id: string;
-    shape_id: string;
+    shape_id: string | null;
     x: number;
     y: number;
 }
 
 export interface Line {
     id: string;
-    shape_id: string;
-    equation: string;
+    shape_id: string | null;
+    equation: string | null;
     pre_point_id: string;
     post_point_id: string;
 }

@@ -1,4 +1,5 @@
 import {CanvasComponentProps, CurrentId} from '@/ts';
+import shapeUtil from '@/util/shape.util';
 import {ToolsObjectEnum, ToolsEnum} from '@/store/enum/shape.enum'
 
 function checkShift(toolId: String, currentId: CurrentId | undefined): Boolean {
@@ -8,7 +9,7 @@ function checkShift(toolId: String, currentId: CurrentId | undefined): Boolean {
         let selectedTool = ToolsObjectEnum.filter(x => x.value == toolId);
 
         if (selectedTool.length == 1) {
-            resultFlag = selectedTool[0].atomicity;
+            resultFlag = !selectedTool[0].atomicity;
         }
     }
 
@@ -19,8 +20,22 @@ const Tools = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): 
 
     const currentId: CurrentId | undefined = shapeStateProps.currentId;
 
+    const setShape = updateShapeStateProps.setShape;
+
     function toolsClickEventListener(event: React.MouseEvent<HTMLButtonElement>) {
-        console.log(checkShift(event.currentTarget.id, currentId));
+        if (checkShift(event.currentTarget.id, currentId)) {
+            let shapeId: string = "";
+
+            if (currentId?.shape_id == undefined) {
+                shapeId = "s1"
+            } else {
+                shapeId = shapeUtil.generationIdNum(currentId?.shape_id);
+            }
+
+            setShape
+
+
+        }
 
         switch (event.currentTarget.id) {
             case ToolsEnum.Line :

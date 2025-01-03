@@ -15,6 +15,7 @@ import {
     ShapeStateProps,
     CanvasComponentProps
 } from '@/ts';
+import shapeUtil from '@/util/shape.util';
 
 function calQuadCoord(lastPoint: { x: number, y: number }, x: number, y: number) {
     if (((lastPoint?.x < x) && (lastPoint?.y > y)) || ((lastPoint?.x > x) && (lastPoint?.y < y))) {
@@ -32,12 +33,6 @@ function calQuadCoord(lastPoint: { x: number, y: number }, x: number, y: number)
     }
 
     return "x";
-}
-
-function generationIdNum(id: string): string {
-    let idNum: number = Number(id.slice(1));
-    idNum++;
-    return id.slice(0, 1).concat(idNum.toString());
 }
 
 const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): JSX.Element => {
@@ -82,16 +77,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                 let offsetX: number = event.nativeEvent.offsetX;
                 let offsetY: number = event.nativeEvent.offsetY;
 
-                // In case of shape's nonexistence
-                if (CurrentId?.shape_id == undefined) {
-                    // setShape((preShape: Shape[]) => [...preShape, {}]);
 
-
-                } // In case of shape's existence
-                else {
-                    generationIdNum("s1111");
-                    //
-                }
 
             }
         }
@@ -109,14 +95,6 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
             drawCanvas.height = 2000;
 
             const drawCtx = drawCanvas.getContext("2d");
-
-            if (drawCtx) {
-                drawCtx.beginPath();
-                drawCtx.moveTo(0, 0);
-                drawCtx.lineTo(50, 50);
-                drawCtx.closePath();
-                drawCtx.stroke();
-            }
 
         }
     });

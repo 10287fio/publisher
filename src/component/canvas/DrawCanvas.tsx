@@ -1,6 +1,5 @@
 'use client'
 
-import canvasStyle from '@/component/canvas/Canvas.module.scss';
 import sketchbookStyle from '@/composition/sketchbook/Sketchbook.module.scss';
 import {useRef, useEffect, MouseEvent} from 'react';
 import {
@@ -16,24 +15,6 @@ import {
     CanvasComponentProps
 } from '@/ts';
 import shapeUtil from '@/util/shape.util';
-
-function calQuadCoord(lastPoint: { x: number, y: number }, x: number, y: number) {
-    if (((lastPoint?.x < x) && (lastPoint?.y > y)) || ((lastPoint?.x > x) && (lastPoint?.y < y))) {
-        if ((Math.round((y - lastPoint?.y) / (x - lastPoint?.x) * 10) / 10) > -1) {
-            return "x";
-        } else {
-            return "y";
-        }
-    } else if (((lastPoint?.x < x) && (lastPoint?.y < y)) || ((lastPoint?.x > x) && (lastPoint?.y > y))) {
-        if ((Math.round((y - lastPoint?.y) / (x - lastPoint?.x) * 10) / 10) < 1) {
-            return "x";
-        } else {
-            return "y";
-        }
-    }
-
-    return "x";
-}
 
 const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): JSX.Element => {
     const drawCanvasRef = useRef<HTMLCanvasElement | null>(null);

@@ -2,20 +2,6 @@ import {CanvasComponentProps, CurrentId} from '@/ts';
 import shapeUtil from '@/util/shape.util';
 import {ToolsObjectEnum, ToolsEnum} from '@/store/enum/shape.enum'
 
-function checkShift(toolId: String, currentId: CurrentId | undefined): Boolean {
-    let resultFlag = true;
-
-    if (currentId != undefined && currentId.is_closed) {
-        let selectedTool = ToolsObjectEnum.filter(x => x.value == toolId);
-
-        if (selectedTool.length == 1) {
-            resultFlag = !selectedTool[0].atomicity;
-        }
-    }
-
-    return resultFlag;
-}
-
 const Tools = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): JSX.Element => {
 
     const currentId: CurrentId | undefined = shapeStateProps.currentId;
@@ -23,7 +9,7 @@ const Tools = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): 
     const setShape = updateShapeStateProps.setShape;
 
     function toolsClickEventListener(event: React.MouseEvent<HTMLButtonElement>) {
-        if (checkShift(event.currentTarget.id, currentId)) {
+        if (shapeUtil.checkShift(event.currentTarget.id, currentId)) {
             let shapeId: string = "";
 
             if (currentId?.shape_id == undefined) {

@@ -21,15 +21,15 @@ export interface Shape {
 
 export interface Point {
     id: string;
-    shape_id: string | null;
+    shape_id: string | undefined;
     x: number;
     y: number;
 }
 
 export interface Line {
     id: string;
-    shape_id: string | null;
-    equation: string | null;
+    shape_id: string | undefined;
+    equation: string | undefined;
     pre_point_id: string;
     post_point_id: string;
 }

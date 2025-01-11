@@ -30,11 +30,13 @@ const Sketchbook = (props: any): JSX.Element => {
     });
 
     return (
-        <div className={sketchbookStyle.canvasContainer}>
-            {/*<Tools shapeStateProps={shapeStateProps} updateShapeStateProps={updateShapeStateProps}/>*/}
+        <div>
+            <Tools shapeStateProps={shapeStateProps} updateShapeStateProps={updateShapeStateProps}/>
+            <div className={sketchbookStyle.canvasContainer}>
                 {/*<ResultCanvas shapeStateProps={shapeStateProps} updateShapeStateProps={updateShapeStateProps}/>*/}
                 <DrawCanvas shapeStateProps={shapeStateProps} updateShapeStateProps={updateShapeStateProps}/>
-                <ReserveCanvas shapeStateProps={shapeStateProps} updateShapeStateProps={updateShapeStateProps} />
+                <ReserveCanvas shapeStateProps={shapeStateProps} updateShapeStateProps={updateShapeStateProps}/>
+            </div>
         </div>
     )
 };

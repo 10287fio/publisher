@@ -77,8 +77,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                 let offsetX: number = event.nativeEvent.offsetX;
                 let offsetY: number = event.nativeEvent.offsetY;
 
-
-
+                setPoint((prevPoint: Point[]) => [...prevPoint, {id: "p1", shape_id: null, x: offsetX, y: offsetY}]);
             }
         }
     }
@@ -100,13 +99,12 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
     });
 
     return (
-        <div>
-            <canvas className={canvasStyle.canvas} id={canvasStyle.drawCanvas} ref={drawCanvasRef}
+        <>
+            <canvas id={sketchbookStyle.drawCanvas} ref={drawCanvasRef} className={sketchbookStyle.canvas}
                     onClick={(event: React.MouseEvent) => drawCanvasClickEventListener(event, drawCanvasRef.current)}
                     onMouseMove={(event: React.MouseEvent) => drawCanvasMoveEventListener(event, drawCanvasRef.current)}></canvas>
-        </div>
-
-    )
+        </>
+    );
 };
 
 

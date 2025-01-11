@@ -32,7 +32,7 @@ const Tools = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): 
                 shapeId = shapeUtil.generationIdNum(currentId?.shape_id);
             }
 
-            setShape
+            setShape()
 
 
         }

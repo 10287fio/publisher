@@ -17,7 +17,7 @@ const ReserveCanvas: React.FC<CanvasComponentProps> = ({shapeStateProps, updateS
     return (
         <>
             <DisplayGesso shapeStateProps={shapeStateProps}></DisplayGesso>
-            <MagnifierGesso shapeStateProps={shapeStateProps}></MagnifierGesso>
+            {/*<MagnifierGesso shapeStateProps={shapeStateProps}></MagnifierGesso>*/}
         </>
     );
 }

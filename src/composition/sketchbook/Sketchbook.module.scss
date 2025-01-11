@@ -1,8 +1,21 @@
 .canvasContainer {
   display: grid;
-  grid-template-areas: 'overlap';
+  grid-template-areas: "overlap";
 }
 
 .canvas {
   grid-area: overlaps;
+}
+
+#drawCanvas {
+  z-index: 2;
+}
+
+#reserveCanvas {
+  z-index: 1;
+  background-color:red;
+}
+
+#resultCanvas {
+  z-index: 0;
 }

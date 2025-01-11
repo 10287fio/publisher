@@ -2,10 +2,12 @@ import {GessoComponentProps} from '@/ts';
 import {useRef} from 'react';
 
 const MagnifierGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
-    const magnifierGessoRef = useRef<HTMLCanvasElement|null>(null);
+    const magnifierGessoRef = useRef<HTMLCanvasElement | null>(null);
 
     return (
-        <canvas ref={magnifierGessoRef}></canvas>
+        <>
+            <canvas ref={magnifierGessoRef}></canvas>
+        </>
     );
 }
 

@@ -39,4 +39,16 @@ function checkShift(toolId: String, currentId: CurrentId | undefined): Boolean {
     return resultFlag;
 }
 
-export default {generationIdNum, calQuadCoord, checkShift};
+function checkAtomicity(toolId: String): Boolean {
+    let resultFlag = false;
+
+    let selectedTool = ToolsObjectEnum.filter(x => x.value == toolId);
+
+    if (selectedTool.length == 1) {
+        resultFlag = selectedTool[0].atomicity;
+    }
+
+    return resultFlag;
+}
+
+export default {generationIdNum, calQuadCoord, checkShift, checkAtomicity};

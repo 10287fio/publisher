@@ -1,10 +1,10 @@
-import {GessoComponentProps, Point} from '@/ts';
+import {GessoComponentProps, PointArray} from '@/ts';
 import sketchbookStyle from '@/composition/sketchbook/Sketchbook.module.scss';
 import {useEffect, useRef} from 'react';
 
 const DisplayGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
     const displayGessoRef = useRef<HTMLCanvasElement | null>(null);
-    const point: Point[] = shapeStateProps.point;
+    const point: PointArray = shapeStateProps.point;
 
     useEffect(() => {
         if (displayGessoRef.current) {

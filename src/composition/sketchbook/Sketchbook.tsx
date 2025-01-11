@@ -19,7 +19,7 @@ import ReserveCanvas from '@/component/canvas/ReserveCanvas';
 import DisplayGesso from '@/component/gesso/DisplayGesso';
 import ResultCanvas from '@/component/canvas/ResultCanvas';
 import DrawCanvas from '@/component/canvas/DrawCanvas';
-import Tools from '@/composition/tools/Tools';
+import Tool from '@/composition/tools/Tool';
 import canvasStyle from '@/component/canvas/Canvas.module.scss';
 
 const Sketchbook = (props: any): JSX.Element => {
@@ -45,7 +45,7 @@ const Sketchbook = (props: any): JSX.Element => {
 
     return (
         <div>
-            <Tools shapeStateProps={shapeStateProps} updateShapeStateProps={updateShapeStateProps}/>
+            <Tool shapeStateProps={shapeStateProps} updateShapeStateProps={updateShapeStateProps}/>
             <div className={sketchbookStyle.canvasContainer}>
                 {/*<ResultCanvas shapeStateProps={shapeStateProps} updateShapeStateProps={updateShapeStateProps}/>*/}
                 <DrawCanvas shapeStateProps={shapeStateProps} updateShapeStateProps={updateShapeStateProps}/>

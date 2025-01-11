@@ -7,7 +7,16 @@ export enum ShapeTypeEnum {
     Composition = "Composition"
 }
 
-export const ToolsObjectEnum: { value: string, key: string, atomicity: boolean }[] = [
+export enum ShapeStatusEnum {
+    New = "New",
+    Changed = "Changed",
+    Inprogress = "Inprogress",
+    Complete = "Complete"
+}
+
+export const OperationObjectEnum: {}[] = [] as const;
+
+export const ToolObjectEnum: { value: string, key: string, atomicity: boolean }[] = [
     {value: "Line", key: "Line", atomicity: false}
     , {value: "Arc", key: "Arc", atomicity: false}
     , {value: "Triangle", key: "Triangle", atomicity: true}
@@ -16,6 +25,6 @@ export const ToolsObjectEnum: { value: string, key: string, atomicity: boolean }
     , {value: "Circle", key: "Circle", atomicity: true}
 ] as const;
 
-export const ToolsEnum = Object.fromEntries(
-    ToolsObjectEnum.map((tool) => [tool.key, tool.value])
-) as { [key in typeof ToolsObjectEnum[number]["key"]]: string };
+export const ToolEnum = Object.fromEntries(
+    ToolObjectEnum.map((tool) => [tool.key, tool.value])
+) as { [key in typeof ToolObjectEnum[number]["key"]]: string };

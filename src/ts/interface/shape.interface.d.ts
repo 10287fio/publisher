@@ -1,4 +1,5 @@
-import {CurrentId, ShapeType} from '@/ts';
+import {CurrentId} from '@/ts';
+import {ShapeTypeEnum} from '@/store/enum/shape.enum';
 
 export interface Draw {
     id: string;
@@ -17,7 +18,7 @@ export interface Result {
 
 export interface Shape {
     id: string;
-    type: ShapeType | undefined;
+    type: ShapeTypeEnum | undefined;
     status: string | undefined;
     canvas_id: string | undefined;
 }
@@ -61,12 +62,12 @@ export interface ArcArray extends Array<Arc> {
 
 export interface ShapeStateProps {
     draw: Draw;
-    reserve: Reserve[];
+    reserve: ReserveArray;
     result: Result;
-    shape: Shape[];
-    point: Point[];
-    line: Line[];
-    arc: Arc[];
+    shape: ShapeArray;
+    point: PointArray;
+    line: LineArray;
+    arc: ArcArray;
     currentId?: CurrentId;
 }
 

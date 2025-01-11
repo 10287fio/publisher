@@ -7,8 +7,11 @@ import {
     Reserve,
     Result,
     Shape,
+    ShapeArray,
     Point,
+    PointArray,
     Line,
+    LineArray,
     Arc,
     CurrentId,
     ShapeStateProps,
@@ -18,9 +21,9 @@ import shapeUtil from '@/util/shape.util';
 
 const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): JSX.Element => {
     const drawCanvasRef = useRef<HTMLCanvasElement | null>(null);
-    const shape: Shape[] = shapeStateProps.shape;
-    const point: Point[] = shapeStateProps.point;
-    const line: Line[] = shapeStateProps.line;
+    const shape: ShapeArray = shapeStateProps.shape;
+    const point: PointArray = shapeStateProps.point;
+    const line: LineArray = shapeStateProps.line;
     const CurrentId: CurrentId | undefined = shapeStateProps.currentId;
     const setShape = updateShapeStateProps.setShape;
     const setPoint = updateShapeStateProps.setPoint;
@@ -58,7 +61,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                 let offsetX: number = event.nativeEvent.offsetX;
                 let offsetY: number = event.nativeEvent.offsetY;
 
-                setPoint((prevPoint: Point[]) => [...prevPoint, {id: "p1", shape_id: null, x: offsetX, y: offsetY}]);
+                setPoint((prevPoints: Point[]) => [...prevPoints, {id: "p1", shape_id: null, x: offsetX, y: offsetY}]);
             }
         }
     }

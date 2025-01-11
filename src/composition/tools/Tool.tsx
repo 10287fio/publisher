@@ -22,7 +22,7 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
             let shapeType: ShapeTypeEnum | null = null;
 
             if (shapeUtil.checkAtomicity(event.currentTarget.id)) {
-                shapeType = ShapeTypeEnum[event.currentTarget.id as keyof typeof ShapeTypeEnum];
+                shapeType = ShapeTypeEnum[event.currentTarget.id as typeof ShapeTypeEnum[keyof typeof ShapeTypeEnum]];
             }
 
             console.log(shapeType);

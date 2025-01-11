@@ -8,6 +8,9 @@ export interface Reserve {
     id: string;
 }
 
+export interface ReserveArray extends Array<Reserve> {
+}
+
 export interface Result {
     id: string;
 }
@@ -19,11 +22,17 @@ export interface Shape {
     canvas_id: string | undefined;
 }
 
+export interface ShapeArray extends Array<Shape> {
+}
+
 export interface Point {
     id: string;
     shape_id: string | undefined;
     x: number;
     y: number;
+}
+
+export interface PointArray extends Array<Point> {
 }
 
 export interface Line {
@@ -34,6 +43,9 @@ export interface Line {
     post_point_id: string;
 }
 
+export interface LineArray extends Array<Line> {
+}
+
 export interface Arc {
     id: string;
     shape_id: string;
@@ -42,6 +54,9 @@ export interface Arc {
     start_point_id: string;
     end_point_id: string;
     radius: number;
+}
+
+export interface ArcArray extends Array<Arc> {
 }
 
 export interface ShapeStateProps {

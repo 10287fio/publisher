@@ -1,5 +1,5 @@
 import {CurrentId} from '@/ts';
-import {ShapeTypeEnum} from '@/store/enum/shape.enum';
+import {ShapeTypeEnum, ShapeStatusEnum} from '@/store/enum/shape.enum';
 
 export interface Draw {
     id: string;
@@ -19,7 +19,7 @@ export interface Result {
 export interface Shape {
     id: string;
     type: ShapeTypeEnum | undefined;
-    status: string | undefined;
+    status: ShapeStatusEnum | undefined;
     canvas_id: string | undefined;
 }
 

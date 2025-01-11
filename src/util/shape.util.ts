@@ -1,5 +1,5 @@
 import {CurrentId} from '@/ts';
-import {ToolsObjectEnum} from '@/store/enum/shape.enum';
+import {ToolObjectEnum} from '@/store/enum/shape.enum';
 
 function generationIdNum(id: string): string {
     let idNum: number = Number(id.slice(1));
@@ -29,7 +29,7 @@ function checkShift(toolId: String, currentId: CurrentId | undefined): Boolean {
     let resultFlag = true;
 
     if (currentId != undefined && currentId.is_closed) {
-        let selectedTool = ToolsObjectEnum.filter(x => x.value == toolId);
+        let selectedTool = ToolObjectEnum.filter(x => x.value == toolId);
 
         if (selectedTool.length == 1) {
             resultFlag = !selectedTool[0].atomicity;
@@ -42,7 +42,7 @@ function checkShift(toolId: String, currentId: CurrentId | undefined): Boolean {
 function checkAtomicity(toolId: String): Boolean {
     let resultFlag = false;
 
-    let selectedTool = ToolsObjectEnum.filter(x => x.value == toolId);
+    let selectedTool = ToolObjectEnum.filter(x => x.value == toolId);
 
     if (selectedTool.length == 1) {
         resultFlag = selectedTool[0].atomicity;

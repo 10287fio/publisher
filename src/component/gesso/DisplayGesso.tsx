@@ -9,7 +9,6 @@ const DisplayGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
     useEffect(() => {
         if (displayGessoRef.current) {
             const displayGesso: HTMLCanvasElement = displayGessoRef.current;
-console.log(point);
             displayGesso.width = window.innerWidth;
             displayGesso.height = window.innerHeight;
 

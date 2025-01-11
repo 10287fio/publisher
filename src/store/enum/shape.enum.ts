@@ -14,7 +14,17 @@ export enum ShapeStatusEnum {
     Complete = "Complete"
 }
 
-export const OperationObjectEnum: {}[] = [] as const;
+export const OperationObjectEnum: { value: string, key: string }[] = [
+    {value: "Undo", key: "Undo"}
+    , {value: "Redo", key: "Redo"}
+    , {value: "Delete", key: "Delete"}
+    , {value: "Cancel", key: "Cancel"}
+    , {value: "Close", key: "Close"}
+] as const;
+
+export const OperationEnum = Object.fromEntries(
+    OperationObjectEnum.map((operation) => [operation.key, operation.value])
+) as { [key in typeof OperationObjectEnum[number]["key"]]: string };
 
 export const ToolObjectEnum: { value: string, key: string, atomicity: boolean }[] = [
     {value: "Line", key: "Line", atomicity: false}

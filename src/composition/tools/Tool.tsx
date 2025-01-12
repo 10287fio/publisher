@@ -5,6 +5,7 @@ import {ShapeTypeEnum, ToolObjectEnum, ToolEnum, ShapeStatusEnum} from '@/store/
 const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): JSX.Element => {
 
     const currentId: CurrentId | undefined = shapeStateProps.currentId;
+    const setCurrentId = updateShapeStateProps.setCurrentId;
 
     const shape: ShapeArray = shapeStateProps.shape;
     const setShape = updateShapeStateProps.setShape;
@@ -25,7 +26,6 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
                 shapeType = ShapeTypeEnum[event.currentTarget.id as typeof ShapeTypeEnum[keyof typeof ShapeTypeEnum]];
             }
 
-            console.log(shapeType);
 
             setShape((prevShapes: ShapeArray) => [...prevShapes, {
                 id: shapeId,
@@ -33,7 +33,16 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
                 status: ShapeStatusEnum.New
             }]);
 
-            console.log(shape);
+
+
+            let toolType = ToolEnum[event.currentTarget.id as typeof ToolEnum[keyof typeof ToolEnum]]
+
+            // console.log(toolType);
+            // setCurrentId((prevCurrentId:CurrentId | undefined) => ({...prevCurrentId, shape_id:shapeId, tool_type:toolType}));
+            setCurrentId({shape_id:shapeId, tool_type:toolType});
+
+            console.log(currentId);
+
         }
     }
 

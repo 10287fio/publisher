@@ -75,9 +75,9 @@ export interface UpdateShapeStateProps {
     setDraw: Dispatch<SetStateAction<Draw>>;
     setReserve: Dispatch<SetStateAction<Reserve>>;
     setResult: Dispatch<SetStateAction<Result>>;
-    setShape: Dispatch<SetStateAction<Shape>>;
-    setPoint: Dispatch<SetStateAction<Point>>;
-    setLine: Dispatch<SetStateAction<Line>>;
-    setArc: Dispatch<SetStateAction<Arc>>;
+    setShape: Dispatch<SetStateAction<ShapeArray>>;
+    setPoint: Dispatch<SetStateAction<PointArray>>;
+    setLine: Dispatch<SetStateAction<LineArray>>;
+    setArc: Dispatch<SetStateAction<ArcArray>>;
     setCurrentId: Dispatch<SetStateAction<CurrentId>>;
 }

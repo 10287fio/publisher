@@ -1,7 +1,7 @@
 'use client'
 
 import sketchbookStyle from '@/composition/sketchbook/Sketchbook.module.scss';
-import {useRef, useEffect, MouseEvent} from 'react';
+import {useRef, useEffect, MouseEvent, Dispatch, SetStateAction} from 'react';
 import {
     Draw,
     Reserve,
@@ -25,10 +25,10 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
     const point: PointArray = shapeStateProps.point;
     const line: LineArray = shapeStateProps.line;
     const CurrentId: CurrentId | undefined = shapeStateProps.currentId;
-    const setShape = updateShapeStateProps.setShape;
-    const setPoint = updateShapeStateProps.setPoint;
-    const setLine = updateShapeStateProps.setLine;
-    const setCurrentId = updateShapeStateProps.setCurrentId;
+    const setShape: Dispatch<SetStateAction<ShapeArray>> = updateShapeStateProps.setShape;
+    const setPoint: Dispatch<SetStateAction<PointArray>> = updateShapeStateProps.setPoint;
+    const setLine: Dispatch<SetStateAction<LineArray>> = updateShapeStateProps.setLine;
+    const setCurrentId: Dispatch<SetStateAction<CurrentId>> = updateShapeStateProps.setCurrentId;
 
     function drawCanvasMoveEventListener(event: MouseEvent, drawCanvas: HTMLCanvasElement | null) {
         if (drawCanvas == null) return false;
@@ -61,7 +61,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                 let offsetX: number = event.nativeEvent.offsetX;
                 let offsetY: number = event.nativeEvent.offsetY;
 
-                setPoint((prevPoints: Point[]) => [...prevPoints, {id: "p1", shape_id: null, x: offsetX, y: offsetY}]);
+                setPoint((prevPoints: PointArray) => [...prevPoints, {id: "p1", shape_id: undefined, x: offsetX, y: offsetY}]);
             }
         }
     }

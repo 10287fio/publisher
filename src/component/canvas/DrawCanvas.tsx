@@ -24,7 +24,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
     const shape: ShapeArray = shapeStateProps.shape;
     const point: PointArray = shapeStateProps.point;
     const line: LineArray = shapeStateProps.line;
-    const CurrentId: CurrentId | undefined = shapeStateProps.currentId;
+    const currentId: CurrentId | undefined = shapeStateProps.currentId;
     const setShape: Dispatch<SetStateAction<ShapeArray>> = updateShapeStateProps.setShape;
     const setPoint: Dispatch<SetStateAction<PointArray>> = updateShapeStateProps.setPoint;
     const setLine: Dispatch<SetStateAction<LineArray>> = updateShapeStateProps.setLine;
@@ -40,8 +40,6 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                 drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
                 let offsetX: number = event.nativeEvent.offsetX;
                 let offsetY: number = event.nativeEvent.offsetY;
-                // console.log(offsetX);
-                // console.log(offsetY);
                 drawCtx.beginPath();
                 drawCtx.moveTo(0, 0);
                 drawCtx.lineTo(offsetX, offsetY);
@@ -54,14 +52,21 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
     function drawCanvasClickEventListener(event: React.MouseEvent, drawCanvas: HTMLCanvasElement | null) {
         if (drawCanvas == null) return false;
 
-        if (drawCanvas.getContext) {
-            const drawCtx = drawCanvas.getContext("2d");
+        if (currentId != undefined && currentId?.shape_id) {
+            if (drawCanvas.getContext) {
+                const drawCtx = drawCanvas.getContext("2d");
 
-            if (drawCtx) {
-                let offsetX: number = event.nativeEvent.offsetX;
-                let offsetY: number = event.nativeEvent.offsetY;
+                if (drawCtx) {
+                    let offsetX: number = event.nativeEvent.offsetX;
+                    let offsetY: number = event.nativeEvent.offsetY;
 
-                setPoint((prevPoints: PointArray) => [...prevPoints, {id: "p1", shape_id: CurrentId?.shape_id, x: offsetX, y: offsetY}]);
+                    setPoint((prevPoints: PointArray) => [...prevPoints, {
+                        id: "p1",
+                        shape_id: currentId?.shape_id,
+                        x: offsetX,
+                        y: offsetY
+                    }]);
+                }
             }
         }
     }

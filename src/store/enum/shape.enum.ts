@@ -11,6 +11,7 @@ export enum ShapeStatusEnum {
     New = "New",
     Changed = "Changed",
     Inprogress = "Inprogress",
+    Closed = "Closed",
     Complete = "Complete"
 }
 

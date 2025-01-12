@@ -26,17 +26,18 @@ function calQuadCoord(lastPoint: { x: number, y: number }, x: number, y: number)
 }
 
 function checkShift(toolId: String, currentId: CurrentId | undefined): Boolean {
-    let resultFlag = true;
+    // let resultFlag: boolean = true;
 
-    if (currentId != undefined && currentId.is_closed) {
-        let selectedTool = ToolObjectEnum.filter(x => x.value == toolId);
-
-        if (selectedTool.length == 1) {
-            resultFlag = !selectedTool[0].atomicity;
-        }
+    if (currentId != undefined && !currentId?.is_closed) {
+        return false;
+        // let selectedTool = ToolObjectEnum.filter(x => x.value == toolId);
+        //
+        // if (selectedTool.length == 1) {
+        //     resultFlag = !selectedTool[0].atomicity;
+        // }
     }
 
-    return resultFlag;
+    return true;
 }
 
 function checkAtomicity(toolId: String): Boolean {

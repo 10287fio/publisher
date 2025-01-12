@@ -41,6 +41,8 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
                 pre_point_id2: undefined,
                 pre_point_id3: undefined, is_closed: false
             });
+        } else {
+            alert("It is not possible to create new shape.");
         }
     }
 

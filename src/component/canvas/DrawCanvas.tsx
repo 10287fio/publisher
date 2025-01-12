@@ -40,8 +40,8 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                 drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
                 let offsetX: number = event.nativeEvent.offsetX;
                 let offsetY: number = event.nativeEvent.offsetY;
-                console.log(offsetX);
-                console.log(offsetY);
+                // console.log(offsetX);
+                // console.log(offsetY);
                 drawCtx.beginPath();
                 drawCtx.moveTo(0, 0);
                 drawCtx.lineTo(offsetX, offsetY);
@@ -61,7 +61,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                 let offsetX: number = event.nativeEvent.offsetX;
                 let offsetY: number = event.nativeEvent.offsetY;
 
-                setPoint((prevPoints: PointArray) => [...prevPoints, {id: "p1", shape_id: undefined, x: offsetX, y: offsetY}]);
+                setPoint((prevPoints: PointArray) => [...prevPoints, {id: "p1", shape_id: CurrentId?.shape_id, x: offsetX, y: offsetY}]);
             }
         }
     }
@@ -70,6 +70,8 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
         // if (typeof window !== 'undefined' && 'OffscreenCanvas' in window) {
         //     const offscreenCanvas = new OffscreenCanvas(500, 500);
         // }
+
+        console.log(point);
 
         if (drawCanvasRef.current) {
             const drawCanvas: HTMLCanvasElement = drawCanvasRef.current;

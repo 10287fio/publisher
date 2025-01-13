@@ -52,7 +52,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
     function drawCanvasClickEventListener(event: React.MouseEvent, drawCanvas: HTMLCanvasElement | null) {
         if (drawCanvas == null) return false;
 
-        if (currentId != undefined && currentId?.shape_id) {
+        if (currentId != undefined && currentId?.shape_id && !shapeUtil.checkFinal(currentId.shape_status)) {
             if (drawCanvas.getContext) {
                 const drawCtx = drawCanvas.getContext("2d");
 
@@ -76,7 +76,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
         //     const offscreenCanvas = new OffscreenCanvas(500, 500);
         // }
 
-        console.log(shape);
+        console.log(point);
 
         if (drawCanvasRef.current) {
             const drawCanvas: HTMLCanvasElement = drawCanvasRef.current;

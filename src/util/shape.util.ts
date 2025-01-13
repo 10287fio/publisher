@@ -41,7 +41,8 @@ function checkShift(toolId: String, currentId: CurrentId | undefined): Boolean {
 }
 
 function checkFinal(shape_status: keyof typeof ShapeStatusObjectEnum): Boolean {
-    let result: boolean = false;
+    let result: boolean = true;
+
     const shapeStatus = ShapeStatusObjectEnum.find((shapeStatusObject) => shapeStatusObject.key == shape_status);
 
     if (shapeStatus) {
@@ -63,4 +64,4 @@ function checkAtomicity(toolId: String): Boolean {
     return resultFlag;
 }
 
-export default {generationIdNum, calQuadCoord, checkShift, checkAtomicity};
+export default {generationIdNum, calQuadCoord, checkShift, checkFinal, checkAtomicity};

@@ -9,8 +9,6 @@ const ResultCanvas: React.FC<CanvasComponentProps> = ({shapeStateProps, updateSh
     const resultCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
     useEffect(() => {
-        console.log("result : " + shapeStateProps.point[0]?.id);
-
         if (resultCanvasRef.current) {
 
         }

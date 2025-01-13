@@ -1,5 +1,5 @@
 import {CurrentId} from '@/ts';
-import {ToolObjectEnum} from '@/store/enum/shape.enum';
+import {ShapeStatusEnum, ShapeStatusObjectEnum, ToolObjectEnum} from '@/store/enum/shape.enum';
 
 function generationIdNum(id: string): string {
     let idNum: number = Number(id.slice(1));
@@ -28,7 +28,7 @@ function calQuadCoord(lastPoint: { x: number, y: number }, x: number, y: number)
 function checkShift(toolId: String, currentId: CurrentId | undefined): Boolean {
     // let resultFlag: boolean = true;
 
-    if (currentId != undefined && !currentId?.is_closed) {
+    if (currentId != undefined && !checkFinal(currentId.shape_status)) {
         return false;
         // let selectedTool = ToolObjectEnum.filter(x => x.value == toolId);
         //
@@ -38,6 +38,17 @@ function checkShift(toolId: String, currentId: CurrentId | undefined): Boolean {
     }
 
     return true;
+}
+
+function checkFinal(shape_status: keyof typeof ShapeStatusObjectEnum): Boolean {
+    let result: boolean = false;
+    const shapeStatus = ShapeStatusObjectEnum.find((shapeStatusObject) => shapeStatusObject.key == shape_status);
+
+    if (shapeStatus) {
+        result = shapeStatus.finalization;
+    }
+
+    return result;
 }
 
 function checkAtomicity(toolId: String): Boolean {

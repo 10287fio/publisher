@@ -5,15 +5,20 @@ export enum ShapeTypeEnum {
     Sector = "Sector",
     Circle = "Circle",
     Composition = "Composition"
-}
+};
 
-export enum ShapeStatusEnum {
-    New = "New",
-    Changed = "Changed",
-    Inprogress = "Inprogress",
-    Closed = "Closed",
-    Complete = "Complete"
-}
+export const ShapeStatusObjectEnum: { value: string, key: string, finalization: boolean }[] = [
+    {value: "New", key: "New", finalization: false}
+    , {value: "Changed", key: "Changed", finalization: false}
+    , {value: "Inprogress", key: "Inprogress", finalization: false}
+    , {value: "Closed", key: "Closed", finalization: false}
+    , {value: "Complete", key: "Complete", finalization: true}
+    , {value: "Modified", key: "Modified", finalization: true}
+] as const;
+
+export const ShapeStatusEnum = Object.fromEntries(
+    ShapeStatusObjectEnum.map((shapeStatus) => [shapeStatus.key, shapeStatus.value])
+) as { [key in typeof ShapeStatusObjectEnum[number]["key"]]: string };
 
 export const OperationObjectEnum: { value: string, key: string }[] = [
     {value: "Undo", key: "Undo"}

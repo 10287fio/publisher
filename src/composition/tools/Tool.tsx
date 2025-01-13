@@ -30,16 +30,16 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
             setShape((prevShapes: ShapeArray) => [...prevShapes, {
                 id: shapeId,
                 shapeId: shapeType,
-                status: ShapeStatusEnum.New
+                status: ShapeStatusEnum["New"]
             }]);
 
             let toolType = ToolEnum[event.currentTarget.id as typeof ToolEnum[keyof typeof ToolEnum]]
 
             setCurrentId({
-                shape_id: shapeId, tool_type: toolType, cur_point_id: undefined,
+                shape_id: shapeId, shape_status: ShapeStatusEnum["New"], tool_type: toolType, cur_point_id: undefined,
                 pre_point_id1: undefined,
                 pre_point_id2: undefined,
-                pre_point_id3: undefined, is_closed: false
+                pre_point_id3: undefined
             });
         } else {
             alert("It is not possible to create new shape.");

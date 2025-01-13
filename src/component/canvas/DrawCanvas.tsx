@@ -76,7 +76,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
         //     const offscreenCanvas = new OffscreenCanvas(500, 500);
         // }
 
-        console.log(point);
+        console.log(shape);
 
         if (drawCanvasRef.current) {
             const drawCanvas: HTMLCanvasElement = drawCanvasRef.current;

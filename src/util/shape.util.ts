@@ -1,4 +1,4 @@
-import {CurrentId} from '@/ts';
+import {Current} from '@/ts';
 import {ShapeStatusEnum, ShapeStatusObjectEnum, ToolObjectEnum} from '@/store/enum/shape.enum';
 
 function generationIdNum(id: string): string {
@@ -25,10 +25,10 @@ function calQuadCoord(lastPoint: { x: number, y: number }, x: number, y: number)
     return "x";
 }
 
-function checkShift(toolId: String, currentId: CurrentId | undefined): Boolean {
+function checkShift(toolId: String, current: Current | undefined): Boolean {
     // let resultFlag: boolean = true;
 
-    if (currentId != undefined && !checkFinal(currentId.shape_status)) {
+    if (current != undefined && !checkFinal(current.shape_status)) {
         return false;
         // let selectedTool = ToolObjectEnum.filter(x => x.value == toolId);
         //

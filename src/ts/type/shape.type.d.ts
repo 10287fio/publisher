@@ -1,6 +1,6 @@
 import {ShapeStatusEnum, ToolEnum} from '@/store/enum/shape.enum'
 
-export type CurrentId = {
+export type Current = {
     shape_id: string;
     shape_status: ShapeStatusEnum;
     tool_type: ToolEnum;

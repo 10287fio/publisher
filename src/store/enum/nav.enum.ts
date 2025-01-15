@@ -1,13 +1,13 @@
-const NavEnum: { value: string, key: string, url: string, lang: string }[] = [
-    {value: 'ZIN : THE SMALLEST UNIT', key: 'zin', url: '/zin', lang: 'en'}
-    , {value: 'Donate', key: 'donate', url: '/donate', lang: 'en'}
-    , {value: 'Book', key: 'book', url: '/book', lang: 'en'}
-    , {value: '진 : 가장 최소의 단위', key: 'kor_zin', url: '/kor/zin', lang: 'kor'}
-    , {value: '후원', key: 'kor_donate', url: '/kor/donate', lang: 'kor'}
-    , {value: '책', key: 'kor_book', url: '/kor/book', lang: 'kor'}
-    , {value: '真：最も最小の単位', key: 'jp_zin', url: '/jp/zin', lang: 'jp'}
-    , {value: '後援', key: 'jp_donate', url: '/jp/donate', lang: 'jp'}
-    , {value: '本', key: 'jp_book', url: '/jp/book', lang: 'jp'}
+const NavEnum: { key: string, value: string, url: string, lang: string }[] = [
+    {key: 'zin', value: 'ZIN : THE SMALLEST UNIT', url: '/zin', lang: 'en'}
+    , {key: 'donate', value: 'Donate', url: '/donate', lang: 'en'}
+    , {key: 'book', value: 'Book', url: '/book', lang: 'en'}
+    , {key: 'kor_zin', value: '진 : 가장 최소의 단위', url: '/kor/zin', lang: 'kor'}
+    , {key: 'kor_donate', value: '후원', url: '/kor/donate', lang: 'kor'}
+    , {key: 'kor_book', value: '책', url: '/kor/book', lang: 'kor'}
+    , {key: 'jp_zin', value: '真：最も最小の単位', url: '/jp/zin', lang: 'jp'}
+    , {key: 'jp_donate', value: '後援', url: '/jp/donate', lang: 'jp'}
+    , {key: 'jp_book', value: '本', url: '/jp/book', lang: 'jp'}
 ] as const;
 
 export default NavEnum;

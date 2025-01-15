@@ -7,38 +7,41 @@ export enum ShapeTypeEnum {
     Composition = "Composition"
 };
 
-export const ShapeStatusObjectEnum: { value: string, key: string, finalization: boolean }[] = [
-    {value: "New", key: "New", finalization: false}
-    , {value: "Changed", key: "Changed", finalization: false}
-    , {value: "Inprogress", key: "Inprogress", finalization: false}
-    , {value: "Closed", key: "Closed", finalization: false}
-    , {value: "Complete", key: "Complete", finalization: true}
-    , {value: "Modified", key: "Modified", finalization: true}
+export const ShapeStatusObjectEnum: { key: string, value: string, finalization: boolean }[] = [
+    {key: "New", value: "New", finalization: false}
+    , {key: "Updated", value: "Updated", finalization: false}
+    , {key: "Inprogress", value: "Inprogress", finalization: false}
+    , {key: "Closed", value: "Closed", finalization: false}
+    , {key: "Complete", value: "Complete", finalization: true}
+    , {key: "Modified", value: "Modified", finalization: true}
 ] as const;
 
 export const ShapeStatusEnum = Object.fromEntries(
     ShapeStatusObjectEnum.map((shapeStatus) => [shapeStatus.key, shapeStatus.value])
 ) as { [key in typeof ShapeStatusObjectEnum[number]["key"]]: string };
 
-export const OperationObjectEnum: { value: string, key: string }[] = [
-    {value: "Undo", key: "Undo"}
-    , {value: "Redo", key: "Redo"}
-    , {value: "Delete", key: "Delete"}
-    , {value: "Cancel", key: "Cancel"}
-    , {value: "Close", key: "Close"}
+export const OperationObjectEnum: { key: string, value: string }[] = [
+    {key: "Append", value: "Append"}
+    , {key: "Cancel", value: "Cancel"}
+    , {key: "Entire Cancel", value: "Entire Cancel"}
+    , {key: "Confirm", value: "Confirm"}
+    , {key: "Close", value: "Close"}
+    , {key: "Complete", value: "Complete"}
+    , {key: "Undo", value: "Undo"}
+    , {key: "Redo", value: "Redo"}
 ] as const;
 
 export const OperationEnum = Object.fromEntries(
     OperationObjectEnum.map((operation) => [operation.key, operation.value])
 ) as { [key in typeof OperationObjectEnum[number]["key"]]: string };
 
-export const ToolObjectEnum: { value: string, key: string, atomicity: boolean }[] = [
-    {value: "Line", key: "Line", atomicity: false}
-    , {value: "Arc", key: "Arc", atomicity: false}
-    , {value: "Triangle", key: "Triangle", atomicity: true}
-    , {value: "Quadrangle", key: "Quadrangle", atomicity: true}
-    , {value: "Sector", key: "Sector", atomicity: true}
-    , {value: "Circle", key: "Circle", atomicity: true}
+export const ToolObjectEnum: { key: string, value: string, atomicity: boolean }[] = [
+    {key: "Line", value: "Line", atomicity: false}
+    , {key: "Arc", value: "Arc", atomicity: false}
+    , {key: "Triangle", value: "Triangle", atomicity: true}
+    , {key: "Quadrangle", value: "Quadrangle", atomicity: true}
+    , {key: "Sector", value: "Sector", atomicity: true}
+    , {key: "Circle", value: "Circle", atomicity: true}
 ] as const;
 
 export const ToolEnum = Object.fromEntries(

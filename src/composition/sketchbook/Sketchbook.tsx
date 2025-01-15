@@ -13,7 +13,7 @@ import {
     LineArray,
     Arc,
     ArcArray,
-    CurrentId
+    Current
 } from '@/ts';
 import ReserveCanvas from '@/component/canvas/ReserveCanvas';
 import DisplayGesso from '@/component/gesso/DisplayGesso';
@@ -30,14 +30,14 @@ const Sketchbook = (props: any): JSX.Element => {
     const [point, setPoint] = useState<PointArray>([]);
     const [line, setLine] = useState<LineArray>([]);
     const [arc, setArc] = useState<ArcArray>([]);
-    const [currentId, setCurrentId] = useState<CurrentId | undefined>();
+    const [current, setCurrent] = useState<Current | undefined>();
 
     const shapeStateProps = {
-        draw, reserve, result, shape, point, line, arc, currentId
+        draw, reserve, result, shape, point, line, arc, current
     };
 
     const updateShapeStateProps = {
-        setDraw, setReserve, setResult, setShape, setPoint, setLine, setArc, setCurrentId
+        setDraw, setReserve, setResult, setShape, setPoint, setLine, setArc, setCurrent
     };
 
     useEffect(() => {

@@ -1,24 +1,24 @@
-import {CanvasComponentProps, CurrentId, ShapeArray} from '@/ts';
+import {CanvasComponentProps, Current, ShapeArray} from '@/ts';
 import {Dispatch, SetStateAction, useEffect} from 'react';
 import shapeUtil from '@/util/shape.util';
 import {ShapeTypeEnum, ToolObjectEnum, ToolEnum, ShapeStatusEnum} from '@/store/enum/shape.enum'
 
 const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): JSX.Element => {
 
-    const currentId: CurrentId | undefined = shapeStateProps.currentId;
-    const setCurrentId: Dispatch<SetStateAction<CurrentId>> = updateShapeStateProps.setCurrentId;
+    const current: Current | undefined = shapeStateProps.current;
+    const setCurrent: Dispatch<SetStateAction<Current>> = updateShapeStateProps.setCurrent;
 
     const shape: ShapeArray = shapeStateProps.shape;
     const setShape = updateShapeStateProps.setShape;
 
     function toolsClickEventListener(event: React.MouseEvent<HTMLButtonElement>) {
-        if (shapeUtil.checkShift(event.currentTarget.id, currentId)) {
+        if (shapeUtil.checkShift(event.currentTarget.id, current)) {
             let shapeId: string = "";
 
-            if (currentId?.shape_id == undefined) {
+            if (current?.shape_id == undefined) {
                 shapeId = "s1"
             } else {
-                shapeId = shapeUtil.generationIdNum(currentId?.shape_id);
+                shapeId = shapeUtil.generationIdNum(current?.shape_id);
             }
 
             let shapeType: ShapeTypeEnum | null = null;
@@ -35,7 +35,7 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
 
             let toolType = ToolEnum[event.currentTarget.id as typeof ToolEnum[keyof typeof ToolEnum]]
 
-            setCurrentId({
+            setCurrent({
                 shape_id: shapeId, shape_status: ShapeStatusEnum["New"], tool_type: toolType, cur_point_id: undefined,
                 pre_point_id1: undefined,
                 pre_point_id2: undefined,

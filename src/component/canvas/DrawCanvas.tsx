@@ -13,7 +13,7 @@ import {
     Line,
     LineArray,
     Arc,
-    CurrentId,
+    Current,
     ShapeStateProps,
     CanvasComponentProps
 } from '@/ts';
@@ -24,11 +24,11 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
     const shape: ShapeArray = shapeStateProps.shape;
     const point: PointArray = shapeStateProps.point;
     const line: LineArray = shapeStateProps.line;
-    const currentId: CurrentId | undefined = shapeStateProps.currentId;
+    const current: Current | undefined = shapeStateProps.current;
     const setShape: Dispatch<SetStateAction<ShapeArray>> = updateShapeStateProps.setShape;
     const setPoint: Dispatch<SetStateAction<PointArray>> = updateShapeStateProps.setPoint;
     const setLine: Dispatch<SetStateAction<LineArray>> = updateShapeStateProps.setLine;
-    const setCurrentId: Dispatch<SetStateAction<CurrentId>> = updateShapeStateProps.setCurrentId;
+    const setCurrent: Dispatch<SetStateAction<Current>> = updateShapeStateProps.setCurrent;
 
     function drawCanvasMoveEventListener(event: MouseEvent, drawCanvas: HTMLCanvasElement | null) {
         if (drawCanvas == null) return false;
@@ -52,7 +52,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
     function drawCanvasClickEventListener(event: React.MouseEvent, drawCanvas: HTMLCanvasElement | null) {
         if (drawCanvas == null) return false;
 
-        if (currentId != undefined && currentId?.shape_id && !shapeUtil.checkFinal(currentId.shape_status)) {
+        if (current != undefined && current?.shape_id && !shapeUtil.checkFinal(current.shape_status)) {
             if (drawCanvas.getContext) {
                 const drawCtx = drawCanvas.getContext("2d");
 
@@ -62,7 +62,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
 
                     setPoint((prevPoints: PointArray) => [...prevPoints, {
                         id: "p1",
-                        shape_id: currentId?.shape_id,
+                        shape_id: current?.shape_id,
                         x: offsetX,
                         y: offsetY
                     }]);

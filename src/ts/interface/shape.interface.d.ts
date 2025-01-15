@@ -1,4 +1,4 @@
-import {CurrentId} from '@/ts';
+import {Current} from '@/ts';
 import {ShapeTypeEnum, ShapeStatusEnum} from '@/store/enum/shape.enum';
 
 export interface Draw {
@@ -68,7 +68,7 @@ export interface ShapeStateProps {
     point: PointArray;
     line: LineArray;
     arc: ArcArray;
-    currentId?: CurrentId;
+    current?: Current;
 }
 
 export interface UpdateShapeStateProps {
@@ -79,5 +79,5 @@ export interface UpdateShapeStateProps {
     setPoint: Dispatch<SetStateAction<PointArray>>;
     setLine: Dispatch<SetStateAction<LineArray>>;
     setArc: Dispatch<SetStateAction<ArcArray>>;
-    setCurrentId: Dispatch<SetStateAction<CurrentId>>;
+    setCurrent: Dispatch<SetStateAction<Current>>;
 }

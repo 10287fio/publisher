@@ -1,7 +1,7 @@
 import {CanvasComponentProps, Current, ShapeArray} from '@/ts';
 import {Dispatch, SetStateAction, useEffect} from 'react';
 import shapeUtil from '@/util/shape.util';
-import {ShapeTypeEnum, ToolObjectEnum, ToolEnum, ShapeStatusEnum} from '@/store/enum/shape.enum'
+import {ShapeTypeEnum, ToolObjectEnum, ShapeStatusEnum, OperationEnum, ToolEnum} from '@/store/enum/shape.enum'
 
 const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): JSX.Element => {
 
@@ -36,7 +36,11 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
             let toolType = ToolEnum[event.currentTarget.id as typeof ToolEnum[keyof typeof ToolEnum]]
 
             setCurrent({
-                shape_id: shapeId, shape_status: ShapeStatusEnum["New"], tool_type: toolType, cur_point_id: undefined,
+                shape_id: shapeId,
+                shape_status: ShapeStatusEnum["New"],
+                tool_type: toolType,
+                operation: OperationEnum["Append"],
+                cur_point_id: undefined,
                 pre_point_id1: undefined,
                 pre_point_id2: undefined,
                 pre_point_id3: undefined

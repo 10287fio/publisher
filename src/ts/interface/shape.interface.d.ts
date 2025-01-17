@@ -1,12 +1,20 @@
 import {Current} from '@/ts';
 import {ShapeTypeEnum, ShapeStatusEnum} from '@/store/enum/shape.enum';
 
+export interface Article {
+    id: string;
+    title: string;
+    author_id: string;
+}
+
 export interface Draw {
     id: string;
+    article_id: string;
 }
 
 export interface Reserve {
     id: string;
+    article_id: string;
 }
 
 export interface ReserveArray extends Array<Reserve> {
@@ -14,6 +22,7 @@ export interface ReserveArray extends Array<Reserve> {
 
 export interface Result {
     id: string;
+    article_id: string;
 }
 
 export interface Shape {

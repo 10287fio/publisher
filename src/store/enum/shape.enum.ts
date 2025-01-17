@@ -1,11 +1,21 @@
 export enum ShapeTypeEnum {
-    Triangle = "Triangle",
-    Quadrangle = "Quadrangle",
-    Polygon = "Polygon",
-    Sector = "Sector",
-    Circle = "Circle",
-    Composition = "Composition"
+    Triangle = "Triangle"
+    , Quadrangle = "Quadrangle"
+    , Polygon = "Polygon"
+    , Sector = "Sector"
+    , Circle = "Circle"
+    , Composition = "Composition"
 };
+
+export enum ShapeSpotEnum {
+    Default = "Default"
+    , All = "All"
+    , Side = "Side"
+    , Vertex = "Vertex"
+    , Middle_Vertex = "Middle_Vertex"
+    , Final_Vertex = "Final_Vertex"
+    , Preview = "Preview"
+}
 
 export const ShapeStatusObjectEnum: { key: string, value: string, finalization: boolean }[] = [
     {key: "New", value: "New", finalization: false}
@@ -20,15 +30,18 @@ export const ShapeStatusEnum = Object.fromEntries(
     ShapeStatusObjectEnum.map((shapeStatus) => [shapeStatus.key, shapeStatus.value])
 ) as { [key in typeof ShapeStatusObjectEnum[number]["key"]]: string };
 
-export const OperationObjectEnum: { key: string, value: string }[] = [
-    {key: "Append", value: "Append"}
-    , {key: "Cancel", value: "Cancel"}
-    , {key: "Entire Cancel", value: "Entire Cancel"}
-    , {key: "Confirm", value: "Confirm"}
-    , {key: "Close", value: "Close"}
-    , {key: "Complete", value: "Complete"}
-    , {key: "Undo", value: "Undo"}
-    , {key: "Redo", value: "Redo"}
+export const OperationObjectEnum: { key: string, value: string, upperKey: string | null, spot: ShapeSpotEnum }[] = [
+    {key: "Append", value: "Append", upperKey: null, spot: ShapeSpotEnum.Default}
+    , {key: "Free", value: "Free", upperKey: "Append", spot: ShapeSpotEnum.Preview}
+    , {key: "Preset", value: "Preset", upperKey: "Append", spot: ShapeSpotEnum.Preview}
+    , {key: "Cancel", value: "Cancel", upperKey: null, spot: ShapeSpotEnum.Side}
+    , {key: "Entire Cancel", value: "Entire Cancel", upperKey: null, spot: ShapeSpotEnum.Vertex}
+    , {key: "Confirm", value: "Confirm", upperKey: null, spot: ShapeSpotEnum.Final_Vertex}
+    , {key: "Close", value: "Close", upperKey: null, spot: ShapeSpotEnum.Final_Vertex}
+    , {key: "Complete", value: "Complete", upperKey: null, spot: ShapeSpotEnum.All}
+    , {key: "Reflect", value: "Reflect", upperKey: null, spot: ShapeSpotEnum.All}
+    , {key: "Undo", value: "Undo", upperKey: null, spot: ShapeSpotEnum.All}
+    , {key: "Redo", value: "Redo", upperKey: null, spot: ShapeSpotEnum.All}
 ] as const;
 
 export const OperationEnum = Object.fromEntries(

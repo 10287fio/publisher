@@ -55,17 +55,11 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
 
     return (
         <div>
-            <button id={ToolEnum.Line} onClick={toolsClickEventListener}>{ToolEnum.Line}</button>
-            &nbsp;
-            <button id={ToolEnum.Arc} onClick={toolsClickEventListener}>{ToolEnum.Arc}</button>
-            &nbsp;
-            <button id={ToolEnum.Triangle} onClick={toolsClickEventListener}>{ToolEnum.Triangle}</button>
-            &nbsp;
-            <button id={ToolEnum.Quadrangle} onClick={toolsClickEventListener}>{ToolEnum.Quadrangle}</button>
-            &nbsp;
-            <button id={ToolEnum.Sector} onClick={toolsClickEventListener}>{ToolEnum.Sector}</button>
-            &nbsp;
-            <button id={ToolEnum.Circle} onClick={toolsClickEventListener}>{ToolEnum.Circle}</button>
+            {Object.values(ToolEnum).map((tool) => (
+                <button key={tool} id={tool} onClick={toolsClickEventListener} style={{marginRight: "3px"}}>
+                    {tool}
+                </button>))
+            }
         </div>
     );
 };

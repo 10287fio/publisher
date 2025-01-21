@@ -20,12 +20,13 @@ import DisplayGesso from '@/component/gesso/DisplayGesso';
 import ResultCanvas from '@/component/canvas/ResultCanvas';
 import DrawCanvas from '@/component/canvas/DrawCanvas';
 import Tool from '@/composition/tools/Tool';
+import Operation from '@/composition/operation/Operation';
 import canvasStyle from '@/component/canvas/Canvas.module.scss';
 
 const Sketchbook = (props: any): JSX.Element => {
-    const [draw, setDraw] = useState<Draw>({id: "d1"});
-    const [reserve, setReserve] = useState<ReserveArray>([{id: "rv1"}]);
-    const [result, setResult] = useState<Result>({id: "rt1"});
+    const [draw, setDraw] = useState<Draw>({id: "d1", article_id:"a1"});
+    const [reserve, setReserve] = useState<ReserveArray>([{id: "rv1", article_id:"a1"}]);
+    const [result, setResult] = useState<Result>({id: "rt1", article_id:"a1"});
     const [shape, setShape] = useState<ShapeArray>([]);
     const [point, setPoint] = useState<PointArray>([]);
     const [line, setLine] = useState<LineArray>([]);
@@ -46,6 +47,7 @@ const Sketchbook = (props: any): JSX.Element => {
     return (
         <div>
             <Tool shapeStateProps={shapeStateProps} updateShapeStateProps={updateShapeStateProps}/>
+            <Operation></Operation>
             <div className={sketchbookStyle.canvasContainer}>
                 {/*<ResultCanvas shapeStateProps={shapeStateProps} updateShapeStateProps={updateShapeStateProps}/>*/}
                 <DrawCanvas shapeStateProps={shapeStateProps} updateShapeStateProps={updateShapeStateProps}/>

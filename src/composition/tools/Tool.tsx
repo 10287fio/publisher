@@ -11,7 +11,7 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
     const shape: ShapeArray = shapeStateProps.shape;
     const setShape = updateShapeStateProps.setShape;
 
-    function toolsClickEventListener(event: React.MouseEvent<HTMLButtonElement>) {
+    function toolClickEventListener(event: React.MouseEvent<HTMLButtonElement>) {
         if (shapeUtil.checkShift(event.currentTarget.id, current)) {
             let shapeId: string = "";
 
@@ -33,18 +33,28 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
                 status: ShapeStatusEnum["New"]
             }]);
 
-            let toolType = ToolEnum[event.currentTarget.id as typeof ToolEnum[keyof typeof ToolEnum]]
+            let toolType = ToolEnum[event.currentTarget.id as keyof typeof ToolEnum]
 
             setCurrent({
                 shape_id: shapeId,
                 shape_status: ShapeStatusEnum["New"],
-                tool_type: toolType,
-                operation: OperationEnum["Append"],
+                tool: toolType,
+                operation: OperationEnum["AP_Free"],
                 cur_point_id: undefined,
                 pre_point_id1: undefined,
                 pre_point_id2: undefined,
                 pre_point_id3: undefined
             });
+
+            if(current != undefined){
+                setCurrent((prevState : Current) => ({
+                    ...prevState,
+                    shape_id: shapeId,
+                    shape_status: ShapeStatusEnum["New"],
+                    tool: toolType,
+                    operation: OperationEnum["AP_Free"]
+                }));
+            }
         } else {
             alert("It is not possible to create new shape.");
         }
@@ -56,7 +66,7 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
     return (
         <div>
             {Object.values(ToolEnum).map((tool) => (
-                <button key={tool} id={tool} onClick={toolsClickEventListener} style={{marginRight: "3px"}}>
+                <button key={tool} id={tool} onClick={toolClickEventListener} style={{marginRight: "3px"}}>
                     {tool}
                 </button>))
             }

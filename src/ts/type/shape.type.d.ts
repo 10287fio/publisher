@@ -3,7 +3,7 @@ import {ShapeStatusEnum, OperationEnum, ToolEnum} from '@/store/enum/shape.enum'
 export type Current = {
     shape_id: string;
     shape_status: ShapeStatusEnum;
-    tool_type: ToolEnum;
+    tool: ToolEnum;
     operation: OperationEnum;
     cur_point_id: string | undefined;
     pre_point_id1: string | undefined;

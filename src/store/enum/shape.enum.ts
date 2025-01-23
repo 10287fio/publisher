@@ -38,8 +38,8 @@ export const OperationObjectEnum: {
     order: number
 }[] = [
     {key: "Append", value: "Append", upperKey: null, spot: ShapeSpotEnum.Default, order: 1},
-    {key: "Free", value: "Free", upperKey: "Append", spot: ShapeSpotEnum.Preview, order: 2},
-    {key: "Preset", value: "Preset", upperKey: "Append", spot: ShapeSpotEnum.Preview, order: 3},
+    {key: "AP_Free", value: "Free", upperKey: "Append", spot: ShapeSpotEnum.Preview, order: 2},
+    {key: "AP_Preset", value: "Preset", upperKey: "Append", spot: ShapeSpotEnum.Preview, order: 3},
     {key: "Cancel", value: "Cancel", upperKey: null, spot: ShapeSpotEnum.Side, order: 4},
     {key: "Entire Cancel", value: "Entire Cancel", upperKey: null, spot: ShapeSpotEnum.Vertex, order: 5},
     {key: "Confirm", value: "Confirm", upperKey: null, spot: ShapeSpotEnum.Final_Vertex, order: 6},

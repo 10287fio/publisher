@@ -3,7 +3,7 @@ import {CanvasComponentProps, Current} from '@/ts';
 import {Dispatch, SetStateAction} from 'react';
 
 const Operation = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): JSX.Element => {
-    const current: Current | undefined = shapeStateProps.current;
+    const current: Current = shapeStateProps.current;
     const setCurrent: Dispatch<SetStateAction<Current>> = updateShapeStateProps.setCurrent;
 
     function operationClickListener(event: React.MouseEvent<HTMLButtonElement>) {

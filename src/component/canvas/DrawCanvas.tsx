@@ -64,7 +64,8 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                         id: "p1",
                         shape_id: current?.shape_id,
                         x: offsetX,
-                        y: offsetY
+                        y: offsetY,
+                        is_deleted:false
                     }]);
                 }
             }

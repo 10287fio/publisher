@@ -1,3 +1,5 @@
+import {sortEnumByOrder, convertEnumByKeyAndValue} from '@/util/enum.util';
+
 export enum ShapeTypeEnum {
     Triangle = "Triangle",
     Quadrangle = "Quadrangle",
@@ -5,7 +7,7 @@ export enum ShapeTypeEnum {
     Sector = "Sector",
     Circle = "Circle",
     Composition = "Composition"
-};
+}
 
 export enum ShapeSpotEnum {
     Default = "Default",
@@ -17,18 +19,28 @@ export enum ShapeSpotEnum {
     Preview = "Preview"
 }
 
-export const ShapeStatusObjectEnum: { key: string, value: string, finalization: boolean }[] = [
-    {key: "New", value: "New", finalization: false},
-    {key: "Updated", value: "Updated", finalization: false},
-    {key: "Inprogress", value: "Inprogress", finalization: false},
-    {key: "Closed", value: "Closed", finalization: false},
-    {key: "Complete", value: "Complete", finalization: true},
-    {key: "Modified", value: "Modified", finalization: true}
+export const CommonFunctionObjectEnum: { key: string, value: string, order: number }[] = [
+    {key: "TempSave", value: "Temporary Save", order: 1},
+    {key: "Save", value: "Save", order: 2},
+    {key: "Cancel", value: "Cancel", order: 3}
 ] as const;
 
-export const ShapeStatusEnum = Object.fromEntries(
-    ShapeStatusObjectEnum.map((shapeStatus) => [shapeStatus.key, shapeStatus.value])
-) as { [key in typeof ShapeStatusObjectEnum[number]["key"]]: string };
+const sortedCommonFunctionObjectEnum = sortEnumByOrder(CommonFunctionObjectEnum);
+
+export const CommonFunctionEnum = convertEnumByKeyAndValue(sortedCommonFunctionObjectEnum);
+
+export const ShapeStatusObjectEnum: { key: string, value: string, finalization: boolean, order: number }[] = [
+    {key: "New", value: "New", finalization: false, order: 1},
+    {key: "Updated", value: "Updated", finalization: false, order: 2},
+    {key: "Inprogress", value: "Inprogress", finalization: false, order: 3},
+    {key: "Closed", value: "Closed", finalization: false, order: 4},
+    {key: "Complete", value: "Complete", finalization: true, order: 5},
+    {key: "Modified", value: "Modified", finalization: true, order: 6}
+] as const;
+
+const sortedShapeStatusObjectEnum = sortEnumByOrder(ShapeStatusObjectEnum);
+
+export const ShapeStatusEnum = convertEnumByKeyAndValue(sortedShapeStatusObjectEnum);
 
 export const OperationObjectEnum: {
     key: string,
@@ -40,8 +52,8 @@ export const OperationObjectEnum: {
     {key: "Append", value: "Append", upperKey: null, spot: ShapeSpotEnum.Default, order: 1},
     {key: "AP_Free", value: "Free", upperKey: "Append", spot: ShapeSpotEnum.Preview, order: 2},
     {key: "AP_Preset", value: "Preset", upperKey: "Append", spot: ShapeSpotEnum.Preview, order: 3},
-    {key: "Cancel", value: "Cancel", upperKey: null, spot: ShapeSpotEnum.Side, order: 4},
-    {key: "Entire Cancel", value: "Entire Cancel", upperKey: null, spot: ShapeSpotEnum.Vertex, order: 5},
+    {key: "Delete", value: "Delete", upperKey: null, spot: ShapeSpotEnum.Side, order: 4},
+    {key: "EntireDelete", value: "Entire Delete", upperKey: null, spot: ShapeSpotEnum.Vertex, order: 5},
     {key: "Confirm", value: "Confirm", upperKey: null, spot: ShapeSpotEnum.Final_Vertex, order: 6},
     {key: "Close", value: "Close", upperKey: null, spot: ShapeSpotEnum.Final_Vertex, order: 7},
     {key: "Complete", value: "Complete", upperKey: null, spot: ShapeSpotEnum.All, order: 8},
@@ -50,11 +62,9 @@ export const OperationObjectEnum: {
     {key: "Redo", value: "Redo", upperKey: null, spot: ShapeSpotEnum.All, order: 11}
 ] as const;
 
-const sortedOperationObjectEnum = [...OperationObjectEnum].sort((a, b) => a.order - b.order);
+const sortedOperationObjectEnum = sortEnumByOrder(OperationObjectEnum);
 
-export const OperationEnum = Object.fromEntries(
-    sortedOperationObjectEnum.map((operation) => [operation.key, operation.value])
-) as { [key in typeof OperationObjectEnum[number]["key"]]: string };
+export const OperationEnum = convertEnumByKeyAndValue(sortedOperationObjectEnum);
 
 export const ToolObjectEnum: { key: string, value: string, atomicity: boolean, order: number }[] = [
     {key: "Line", value: "Line", atomicity: false, order: 1},
@@ -65,8 +75,6 @@ export const ToolObjectEnum: { key: string, value: string, atomicity: boolean, o
     {key: "Circle", value: "Circle", atomicity: true, order: 6}
 ] as const;
 
-const sortedToolObjectEnum = [...ToolObjectEnum].sort((a, b) => a.order - b.order);
+const sortedToolObjectEnum = sortEnumByOrder(ToolObjectEnum);
 
-export const ToolEnum = Object.fromEntries(
-    sortedToolObjectEnum.map((tool) => [tool.key, tool.value])
-) as { [key in typeof ToolObjectEnum[number]["key"]]: string };
+export const ToolEnum = convertEnumByKeyAndValue(sortedToolObjectEnum);

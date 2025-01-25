@@ -40,6 +40,7 @@ export interface Point {
     shape_id: string | undefined;
     x: number;
     y: number;
+    is_deleted:boolean;
 }
 
 export interface PointArray extends Array<Point> {

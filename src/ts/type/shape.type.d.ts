@@ -10,3 +10,9 @@ export type Current = {
     pre_point_id2: string | undefined;
     pre_point_id3: string | undefined;
 }
+
+export type History = {
+    target: string | undefined;
+    before: string | undefined;
+    after: string | undefined;
+}

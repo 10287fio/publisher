@@ -19,7 +19,7 @@ import ReserveCanvas from '@/component/canvas/ReserveCanvas';
 import DisplayGesso from '@/component/gesso/DisplayGesso';
 import ResultCanvas from '@/component/canvas/ResultCanvas';
 import DrawCanvas from '@/component/canvas/DrawCanvas';
-import Tool from '@/composition/tools/Tool';
+import Tool from '@/composition/tool/Tool';
 import Operation from '@/composition/operation/Operation';
 import canvasStyle from '@/component/canvas/Canvas.module.scss';
 import {OperationEnum, ShapeStatusEnum, ToolEnum} from '@/store/enum/shape.enum';

@@ -77,7 +77,7 @@ export interface ShapeStateProps {
     point: PointArray;
     line: LineArray;
     arc: ArcArray;
-    current?: Current;
+    current: Current;
 }
 
 export interface UpdateShapeStateProps {

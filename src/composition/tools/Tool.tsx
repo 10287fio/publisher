@@ -5,7 +5,7 @@ import {ShapeTypeEnum, ToolObjectEnum, ShapeStatusEnum, OperationEnum, ToolEnum}
 
 const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): JSX.Element => {
 
-    const current: Current | undefined = shapeStateProps.current;
+    const current: Current = shapeStateProps.current;
     const setCurrent: Dispatch<SetStateAction<Current>> = updateShapeStateProps.setCurrent;
 
     const shape: ShapeArray = shapeStateProps.shape;
@@ -35,26 +35,14 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
 
             let toolType = ToolEnum[event.currentTarget.id as keyof typeof ToolEnum]
 
-            setCurrent({
+            setCurrent((prevState: Current) => ({
+                ...prevState,
                 shape_id: shapeId,
                 shape_status: ShapeStatusEnum["New"],
                 tool: toolType,
-                operation: OperationEnum["AP_Free"],
-                cur_point_id: undefined,
-                pre_point_id1: undefined,
-                pre_point_id2: undefined,
-                pre_point_id3: undefined
-            });
-
-            if(current != undefined){
-                setCurrent((prevState : Current) => ({
-                    ...prevState,
-                    shape_id: shapeId,
-                    shape_status: ShapeStatusEnum["New"],
-                    tool: toolType,
-                    operation: OperationEnum["AP_Free"]
-                }));
-            }
+                operation: OperationEnum["AP_Free"]
+            }));
+            
         } else {
             alert("It is not possible to create new shape.");
         }

@@ -1,7 +1,8 @@
 import {CanvasComponentProps, Current, ShapeArray} from '@/ts';
-import {Dispatch, SetStateAction, useEffect} from 'react';
+import {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import shapeUtil from '@/util/shape.util';
 import {ShapeTypeEnum, ToolObjectEnum, ShapeStatusEnum, OperationEnum, ToolEnum} from '@/store/enum/shape.enum'
+import ConfirmModal from '@/composition/modal/ConfirmModal';
 
 const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): JSX.Element => {
 
@@ -10,6 +11,9 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
 
     const shape: ShapeArray = shapeStateProps.shape;
     const setShape = updateShapeStateProps.setShape;
+
+    const [modalOpenFlag, setmodalOpenFlag] = useState(false);
+    const [modalResult, setModalResult] = useState("no");
 
     function toolClickEventListener(event: React.MouseEvent<HTMLButtonElement>) {
         if (shapeUtil.checkShift(event.currentTarget.id, current)) {
@@ -42,7 +46,7 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
                 tool: toolType,
                 operation: OperationEnum["AP_Free"]
             }));
-            
+
         } else {
             alert("It is not possible to create new shape.");
         }
@@ -53,6 +57,7 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
 
     return (
         <div>
+            {modalOpenFlag && <ConfirmModal></ConfirmModal>}
             {Object.values(ToolEnum).map((tool) => (
                 <button key={tool} id={tool} onClick={toolClickEventListener} style={{marginRight: "3px"}}>
                     {tool}

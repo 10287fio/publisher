@@ -1,4 +1,4 @@
-import BaseApi from "@/communication/base-api";
+import BaseApi from '@/communication/base-api';
 
 class PublishApi extends BaseApi {
     constructor(assignedRoute: String) {

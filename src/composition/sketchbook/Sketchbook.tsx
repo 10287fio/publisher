@@ -26,7 +26,7 @@ import {OperationEnum, ShapeStatusEnum, ToolEnum} from '@/store/enum/shape.enum'
 
 const Sketchbook = (props: any): JSX.Element => {
     const [draw, setDraw] = useState<Draw>({id: "d1", article_id: "a1"});
-    const [reserve, setReserve] = useState<ReserveArray>([{id: "rv1", article_id: "a1"}]);
+    const [reserve, setReserve] = useState<ReserveArray>([{id: "rv1", article_id: "a1", is_closed:false}]);
     const [result, setResult] = useState<Result>({id: "rt1", article_id: "a1"});
     const [shape, setShape] = useState<ShapeArray>([]);
     const [point, setPoint] = useState<PointArray>([]);

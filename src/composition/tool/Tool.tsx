@@ -1,7 +1,8 @@
-import {CanvasComponentProps, Current, ShapeArray} from '@/ts';
+import {CanvasComponentProps, Current, ShapeArray, ModalStateProps, UpdateModalStateProps} from '@/ts';
 import {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import shapeUtil from '@/util/shape.util';
-import {ShapeTypeEnum, ToolObjectEnum, ShapeStatusEnum, OperationEnum, ToolEnum} from '@/store/enum/shape.enum'
+import {ShapeTypeEnum, ToolObjectEnum, ShapeStatusEnum, OperationEnum, ToolEnum} from '@/store/enum/shape.enum';
+import {ConfirmEnum} from '@/store/enum/system.enum';
 import ConfirmModal from '@/composition/modal/ConfirmModal';
 
 const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): JSX.Element => {
@@ -12,8 +13,16 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
     const shape: ShapeArray = shapeStateProps.shape;
     const setShape = updateShapeStateProps.setShape;
 
-    const [modalOpenFlag, setmodalOpenFlag] = useState(false);
-    const [modalResult, setModalResult] = useState("no");
+    const [modalOpenFlag, setModalOpenFlag] = useState<boolean>(true);
+    const [modalResult, setModalResult] = useState<ConfirmEnum>(ConfirmEnum.No);
+
+    const modalStateProps: ModalStateProps = {
+        modalOpenFlag, modalResult
+    }
+
+    const setModalStateProps: UpdateModalStateProps = {
+        setModalOpenFlag, setModalResult
+    }
 
     function toolClickEventListener(event: React.MouseEvent<HTMLButtonElement>) {
         if (shapeUtil.checkShift(event.currentTarget.id, current)) {
@@ -57,7 +66,9 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
 
     return (
         <div>
-            {modalOpenFlag && <ConfirmModal></ConfirmModal>}
+            <ConfirmModal modalStateProps={modalStateProps} updateModalStateProps={setModalStateProps}><p>Would you
+                convert shape?</p>
+            </ConfirmModal>
             {Object.values(ToolEnum).map((tool) => (
                 <button key={tool} id={tool} onClick={toolClickEventListener} style={{marginRight: "3px"}}>
                     {tool}

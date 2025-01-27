@@ -20,9 +20,10 @@ export enum ShapeSpotEnum {
 }
 
 export const CommonFunctionObjectEnum: { key: string, value: string, order: number }[] = [
-    {key: "TempSave", value: "Temporary Save", order: 1},
-    {key: "Save", value: "Save", order: 2},
-    {key: "Cancel", value: "Cancel", order: 3}
+    {key: "Complete", value: "Complete", order: 1},
+    {key: "TempSave", value: "Temporary Save", order: 2},
+    {key: "Save", value: "Save", order: 3},
+    {key: "Cancel", value: "Cancel", order: 4}
 ] as const;
 
 const sortedCommonFunctionObjectEnum = sortEnumByOrder(CommonFunctionObjectEnum);

@@ -15,6 +15,7 @@ export interface Draw {
 export interface Reserve {
     id: string;
     article_id: string;
+    is_closed: boolean;
 }
 
 export interface ReserveArray extends Array<Reserve> {
@@ -30,6 +31,8 @@ export interface Shape {
     type: ShapeTypeEnum | undefined;
     status: ShapeStatusEnum | undefined;
     canvas_id: string | undefined;
+    is_closed: boolean;
+    is_deleted: boolean;
 }
 
 export interface ShapeArray extends Array<Shape> {
@@ -40,7 +43,7 @@ export interface Point {
     shape_id: string | undefined;
     x: number;
     y: number;
-    is_deleted:boolean;
+    is_deleted: boolean;
 }
 
 export interface PointArray extends Array<Point> {

@@ -3,22 +3,38 @@
   inset: 0;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
-  align-content: center;
+  align-items: center;
   justify-content: center;
   z-index: 50;
+  width: 100vw;
+  height: 100vh;
 }
 
 .modalContainer {
   background: white;
-  width: 300px;
-  height: 100px;
-  padding: 20px;
+  width: min(80vw, 200px);
+  min-height: 10px;
+  padding: 10px;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  text-align: center;
+}
+
+.modalButtonContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
 }
 
 .modalButton {
   position: relative;
-  margin-right: 3px;
+  margin-right: 7px;
+}
+
+.modalButton :last-child {
+  margin-right: 0;
 }

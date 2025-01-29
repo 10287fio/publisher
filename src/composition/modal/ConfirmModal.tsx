@@ -40,10 +40,12 @@ const ConfirmModal: React.FC<ModalComponentProps> = ({
             <div className={modalStyle.modalContainer} onClick={(e) => e.stopPropagation()}
             >
                 {children}
-                <button className={modalStyle.modalButton} id={ConfirmEnum.Yes}
-                        onClick={modalClickListener}>{ConfirmEnum.Yes}</button>
-                <button className={modalStyle.modalButton} id={ConfirmEnum.No}
-                        onClick={modalClickListener}>{ConfirmEnum.No}</button>
+                <div className={modalStyle.modalButtonContainer}>
+                    <button className={modalStyle.modalButton} id={ConfirmEnum.Yes}
+                            onClick={modalClickListener}>{ConfirmEnum.Yes}</button>
+                    <button className={modalStyle.modalButton} id={ConfirmEnum.No}
+                            onClick={modalClickListener}>{ConfirmEnum.No}</button>
+                </div>
             </div>
         </div>
     ) : null;

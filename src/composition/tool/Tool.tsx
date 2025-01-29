@@ -62,12 +62,13 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
     }
 
     useEffect(() => {
+        console.log(modalResult);
     });
 
     return (
         <div>
-            <ConfirmModal modalStateProps={modalStateProps} updateModalStateProps={setModalStateProps}><p>Would you
-                convert shape?</p>
+            <ConfirmModal modalStateProps={modalStateProps} updateModalStateProps={setModalStateProps}>Would you
+                convert shape?
             </ConfirmModal>
             {Object.values(ToolEnum).map((tool) => (
                 <button key={tool} id={tool} onClick={toolClickEventListener} style={{marginRight: "3px"}}>

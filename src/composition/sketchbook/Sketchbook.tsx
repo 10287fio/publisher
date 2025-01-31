@@ -33,9 +33,10 @@ const Sketchbook = (props: any): JSX.Element => {
     const [line, setLine] = useState<LineArray>([]);
     const [arc, setArc] = useState<ArcArray>([]);
     const [current, setCurrent] = useState<Current>({
+        tool: undefined,
+
         shape_id: undefined,
         shape_status: undefined,
-        tool: undefined,
         operation: undefined,
         cur_point_id: undefined,
         pre_point_id1: undefined,

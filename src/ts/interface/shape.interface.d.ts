@@ -26,11 +26,17 @@ export interface Result {
     article_id: string;
 }
 
+export interface ShapeOfCanvas {
+    canvas_id: string;
+    shape_id: string;
+    is_deleted: boolean;
+}
+
 export interface Shape {
     id: string;
     type: ShapeTypeEnum | undefined;
     status: ShapeStatusEnum | undefined;
-    canvas_id: string | undefined;
+    pre_status: ShapeStatusEnum | undefined;
     is_closed: boolean;
     is_deleted: boolean;
 }
@@ -44,6 +50,7 @@ export interface Point {
     x: number;
     y: number;
     is_deleted: boolean;
+    to_close: boolean;
 }
 
 export interface PointArray extends Array<Point> {

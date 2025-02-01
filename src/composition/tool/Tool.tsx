@@ -1,9 +1,22 @@
-import {CanvasComponentProps, Current, ShapeArray, ModalStateProps, UpdateModalStateProps} from '@/ts';
+import {CanvasComponentProps, Current, ShapeArray} from '@/ts';
 import {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import shapeUtil from '@/util/shape.util';
 import {ShapeTypeEnum, ToolObjectEnum, ShapeStatusEnum, OperationEnum, ToolEnum} from '@/store/enum/shape.enum';
 import {ConfirmEnum} from '@/store/enum/system.enum';
 import ConfirmModal from '@/composition/modal/ConfirmModal';
+
+function checkShift(current: Current, toolId: String, shape: ShapeArray): boolean {
+    let is_shift: boolean = false;
+
+    if (shapeUtil.checkAtomicity(current, toolId)) {
+        is_shift = shapeUtil.checkClosed(current, shape);
+
+    } else {
+        is_shift = true;
+    }
+    return is_shift;
+}
+
 
 const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): JSX.Element => {
 
@@ -11,64 +24,64 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
     const setCurrent: Dispatch<SetStateAction<Current>> = updateShapeStateProps.setCurrent;
 
     const shape: ShapeArray = shapeStateProps.shape;
-    const setShape = updateShapeStateProps.setShape;
+    const setShape: Dispatch<SetStateAction<ShapeArray>> = updateShapeStateProps.setShape;
 
-    const [modalOpenFlag, setModalOpenFlag] = useState<boolean>(true);
-    const [modalResult, setModalResult] = useState<ConfirmEnum>(ConfirmEnum.No);
+    const [tool, setTool] = useState<string>(ToolEnum[0]);
 
-    const modalStateProps: ModalStateProps = {
-        modalOpenFlag, modalResult
-    }
+    const [modalOpenFlag, setModalOpenFlag] = useState<boolean>(false);
 
-    const setModalStateProps: UpdateModalStateProps = {
-        setModalOpenFlag, setModalResult
+    function shiftTool(tool: string) {
+        let shapeId: string = "";
+
+        if (current?.shape_id == undefined) {
+            shapeId = "s1";
+        } else {
+            shapeId = shapeUtil.generationIdNum(current?.shape_id);
+        }
+
+        setShape((prevShapes: ShapeArray) => [...prevShapes, {
+            id: shapeId,
+            type: undefined,
+            status: ShapeStatusEnum["New"],
+            pre_status: undefined,
+            is_closed: false,
+            is_deleted: false
+        }]);
+
+        let toolType = ToolEnum[tool as keyof typeof ToolEnum]
+
+        setCurrent((prevState: Current) => ({
+            ...prevState,
+            tool: toolType,
+            pre_tool: prevState.tool,
+            shape_id: shapeId,
+            shape_status: ShapeStatusEnum["New"],
+            operation: OperationEnum["AP_Free"],
+            pre_operation: prevState.operation
+        }));
     }
 
     function toolClickEventListener(event: React.MouseEvent<HTMLButtonElement>) {
-        if (shapeUtil.checkShift(event.currentTarget.id, current)) {
-            let shapeId: string = "";
+        setTool(event.currentTarget.id);
 
-            if (current?.shape_id == undefined) {
-                shapeId = "s1"
-            } else {
-                shapeId = shapeUtil.generationIdNum(current?.shape_id);
-            }
-
-            let shapeType: ShapeTypeEnum | null = null;
-
-            if (shapeUtil.checkAtomicity(event.currentTarget.id)) {
-                shapeType = ShapeTypeEnum[event.currentTarget.id as typeof ShapeTypeEnum[keyof typeof ShapeTypeEnum]];
-            }
-
-            setShape((prevShapes: ShapeArray) => [...prevShapes, {
-                id: shapeId,
-                shapeId: shapeType,
-                status: ShapeStatusEnum["New"]
-            }]);
-
-            let toolType = ToolEnum[event.currentTarget.id as keyof typeof ToolEnum]
-
-            setCurrent((prevState: Current) => ({
-                ...prevState,
-                shape_id: shapeId,
-                shape_status: ShapeStatusEnum["New"],
-                tool: toolType,
-                operation: OperationEnum["AP_Free"]
-            }));
+        if (checkShift(current, tool, shape)) {
+            shiftTool(tool);
 
         } else {
-            alert("It is not possible to create new shape.");
+            setModalOpenFlag(true);
         }
     }
 
     useEffect(() => {
-        console.log(modalResult);
+        // console.log(modalResult);
     });
 
     return (
         <div>
-            <ConfirmModal modalStateProps={modalStateProps} updateModalStateProps={setModalStateProps}>Would you
-                convert shape?
+            <ConfirmModal isOpen={modalOpenFlag}
+                          onYes={() => shiftTool(tool)}
+                          onNo={() => setModalOpenFlag(false)}
+                          message="Would you convert shape?">
             </ConfirmModal>
             {Object.values(ToolEnum).map((tool) => (
                 <button key={tool} id={tool} onClick={toolClickEventListener} style={{marginRight: "3px"}}>

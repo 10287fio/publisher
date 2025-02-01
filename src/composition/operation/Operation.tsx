@@ -7,7 +7,6 @@ const Operation = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProp
     const setCurrent: Dispatch<SetStateAction<Current>> = updateShapeStateProps.setCurrent;
 
     function operationClickListener(event: React.MouseEvent<HTMLButtonElement>) {
-        console.log(event.currentTarget.id);
 
         let operation = OperationEnum[event.currentTarget.id as keyof typeof OperationEnum];
 

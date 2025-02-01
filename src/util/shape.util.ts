@@ -1,4 +1,4 @@
-import {Current} from '@/ts';
+import {Current, ShapeArray} from '@/ts';
 import {ShapeStatusEnum, ShapeStatusObjectEnum, ToolObjectEnum} from '@/store/enum/shape.enum';
 
 function generationIdNum(id: string): string {
@@ -25,19 +25,18 @@ function calQuadCoord(lastPoint: { x: number, y: number }, x: number, y: number)
     return "x";
 }
 
-function checkShift(toolId: String, current: Current | undefined): Boolean {
-    // let resultFlag: boolean = true;
+function checkClosed(current: Current, shape: ShapeArray): boolean {
+    let result: boolean = true;
 
-    if (current != undefined && !checkFinal(current.shape_status)) {
-        return false;
-        // let selectedTool = ToolObjectEnum.filter(x => x.value == toolId);
-        //
-        // if (selectedTool.length == 1) {
-        //     resultFlag = !selectedTool[0].atomicity;
-        // }
+    if (current != undefined) {
+        let is_closed = shape.find((s) => s.id == current.shape_id)?.is_closed;
+
+        if (is_closed != undefined) {
+            result = is_closed;
+        }
     }
 
-    return true;
+    return result;
 }
 
 function checkFinal(shape_status: keyof typeof ShapeStatusObjectEnum): Boolean {
@@ -52,16 +51,34 @@ function checkFinal(shape_status: keyof typeof ShapeStatusObjectEnum): Boolean {
     return result;
 }
 
-function checkAtomicity(toolId: String): Boolean {
+function getAtomicityByToolId(toolId: String): boolean {
     let resultFlag = false;
 
-    let selectedTool = ToolObjectEnum.filter(x => x.value == toolId);
+    let selectedTool = ToolObjectEnum.find(x => x.value == toolId);
 
-    if (selectedTool.length == 1) {
-        resultFlag = selectedTool[0].atomicity;
+    if (selectedTool != undefined) {
+        resultFlag = selectedTool.atomicity;
     }
 
     return resultFlag;
 }
 
-export default {generationIdNum, calQuadCoord, checkShift, checkFinal, checkAtomicity};
+function checkAtomicity(current: Current, toolId: String): Boolean {
+    let resultFlag: boolean = false;
+
+    let preToolAtomicity: boolean = false;
+    let postToolAtomicity: boolean = false;
+
+    if (current != undefined) {
+        preToolAtomicity = getAtomicityByToolId(current.tool);
+        postToolAtomicity = getAtomicityByToolId(toolId);
+
+        if (preToolAtomicity || postToolAtomicity) {
+            resultFlag = true;
+        }
+    }
+
+    return resultFlag;
+}
+
+export default {generationIdNum, calQuadCoord, checkClosed, checkFinal, getAtomicityByToolId, checkAtomicity};

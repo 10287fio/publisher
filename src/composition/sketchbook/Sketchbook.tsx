@@ -26,7 +26,7 @@ import {OperationEnum, ShapeStatusEnum, ToolEnum} from '@/store/enum/shape.enum'
 
 const Sketchbook = (props: any): JSX.Element => {
     const [draw, setDraw] = useState<Draw>({id: "d1", article_id: "a1"});
-    const [reserve, setReserve] = useState<ReserveArray>([{id: "rv1", article_id: "a1", is_closed:false}]);
+    const [reserve, setReserve] = useState<ReserveArray>([{id: "rv1", article_id: "a1", is_closed: false}]);
     const [result, setResult] = useState<Result>({id: "rt1", article_id: "a1"});
     const [shape, setShape] = useState<ShapeArray>([]);
     const [point, setPoint] = useState<PointArray>([]);
@@ -34,10 +34,11 @@ const Sketchbook = (props: any): JSX.Element => {
     const [arc, setArc] = useState<ArcArray>([]);
     const [current, setCurrent] = useState<Current>({
         tool: undefined,
-
+        pre_tool: undefined,
         shape_id: undefined,
         shape_status: undefined,
         operation: undefined,
+        pre_operation:undefined,
         cur_point_id: undefined,
         pre_point_id1: undefined,
         pre_point_id2: undefined,

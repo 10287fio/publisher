@@ -3,28 +3,20 @@ import modalStyle from './Modal.module.scss';
 import {useEffect, Dispatch, SetStateAction} from 'react';
 import {ModalComponentProps} from '@/ts';
 
-const ConfirmModal: React.FC<ModalComponentProps> = ({
-                                                         modalStateProps,
-                                                         updateModalStateProps,
-                                                         children
-                                                     }) => {
-    const modalOpenFlag = modalStateProps.modalOpenFlag;
-    const modalResult = modalStateProps.modalResult;
-    const setModalOpenFlag = updateModalStateProps.setModalOpenFlag;
-    const setModalResult = updateModalStateProps.setModalResult;
+const ConfirmModal = ({
+                          isOpen, onYes, onNo, message
+                      }: ModalComponentProps) => {
 
     const modalClickListener = (event: React.MouseEvent<HTMLButtonElement>) => {
         if (event.currentTarget.id == ConfirmEnum.Yes) {
-            setModalResult(ConfirmEnum.Yes);
+            onYes();
         } else if (event.currentTarget.id == ConfirmEnum.No) {
-            setModalResult(ConfirmEnum.No);
+            onNo();
         }
-
-        setModalOpenFlag(false);
     }
 
     useEffect(() => {
-        if (modalOpenFlag) {
+        if (isOpen) {
             document.body.style.overflow = "hidden";
         } else {
             document.body.style.overflow = "auto";
@@ -33,13 +25,13 @@ const ConfirmModal: React.FC<ModalComponentProps> = ({
         return () => {
             document.body.style.overflow = "auto";
         }
-    }, [modalOpenFlag]);
+    }, [isOpen]);
 
-    return modalOpenFlag ? (
+    return isOpen ? (
         <div className={modalStyle.modalBackground}>
             <div className={modalStyle.modalContainer} onClick={(e) => e.stopPropagation()}
             >
-                {children}
+                {message}
                 <div className={modalStyle.modalButtonContainer}>
                     <button className={modalStyle.modalButton} id={ConfirmEnum.Yes}
                             onClick={modalClickListener}>{ConfirmEnum.Yes}</button>
@@ -49,7 +41,6 @@ const ConfirmModal: React.FC<ModalComponentProps> = ({
             </div>
         </div>
     ) : null;
-
 };
 
 export default ConfirmModal;

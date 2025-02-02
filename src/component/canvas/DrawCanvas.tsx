@@ -38,14 +38,14 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
             const drawCtx = drawCanvas.getContext("2d");
 
             if (drawCtx) {
-                drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
-                let offsetX: number = event.nativeEvent.offsetX;
-                let offsetY: number = event.nativeEvent.offsetY;
-                drawCtx.beginPath();
-                drawCtx.moveTo(0, 0);
-                drawCtx.lineTo(offsetX, offsetY);
-                drawCtx.closePath();
-                drawCtx.stroke();
+                // drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
+                // let offsetX: number = event.nativeEvent.offsetX;
+                // let offsetY: number = event.nativeEvent.offsetY;
+                // drawCtx.beginPath();
+                // drawCtx.moveTo(0, 0);
+                // drawCtx.lineTo(offsetX, offsetY);
+                // drawCtx.closePath();
+                // drawCtx.stroke();
             }
         }
     }
@@ -91,7 +91,6 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
     }
 
     useEffect(() => {
-        console.log(point);
     });
 
     return (

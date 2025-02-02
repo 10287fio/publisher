@@ -1,4 +1,4 @@
-import {GessoComponentProps, PointArray} from '@/ts';
+import {GessoComponentProps, Point, PointArray} from '@/ts';
 import sketchbookStyle from '@/composition/sketchbook/Sketchbook.module.scss';
 import {useEffect, useRef} from 'react';
 
@@ -9,24 +9,33 @@ const DisplayGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
     useEffect(() => {
         if (displayGessoRef.current) {
             const displayGesso: HTMLCanvasElement = displayGessoRef.current;
-            displayGesso.width = window.innerWidth;
-            displayGesso.height = window.innerHeight;
+            // displayGesso.width = window.innerWidth;
+            // displayGesso.height = window.innerHeight;
 
             const displayGessoCtx = displayGesso.getContext("2d");
 
             if (displayGessoCtx) {
-                displayGessoCtx.beginPath();
-                displayGessoCtx.moveTo(0, 0);
-                displayGessoCtx.lineTo(100, 100);
-                displayGessoCtx.closePath();
-                displayGessoCtx.stroke();
+                let fixedPoint = point.filter((p: Point) => !p.is_deleted);
+
+                if (fixedPoint.length >= 2) {
+                    displayGessoCtx.beginPath();
+
+                    for (let i = 0; i < fixedPoint.length; i++) {
+                        if (i == 0) {
+                            displayGessoCtx.moveTo(fixedPoint[i].x, fixedPoint[i].y);
+                        } else {
+                            displayGessoCtx.lineTo(fixedPoint[i].x, fixedPoint[i].y);
+                            displayGessoCtx.stroke();
+                        }
+                    }
+                }
             }
         }
     });
 
     return (
         <>
-            <canvas ref={displayGessoRef} id={sketchbookStyle.reserveCanvas}
+            <canvas ref={displayGessoRef} id={sketchbookStyle.reserveCanvas} width={"2000px"} height={"2000px"}
                     className={sketchbookStyle.canvas}></canvas>
         </>
     );

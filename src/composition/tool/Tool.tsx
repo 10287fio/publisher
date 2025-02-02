@@ -36,7 +36,7 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
         if (current?.shape_id == undefined) {
             shapeId = "s1";
         } else {
-            shapeId = shapeUtil.generationIdNum(current?.shape_id);
+            shapeId = shapeUtil.generationIdNum(current.shape_id);
         }
 
         setShape((prevShapes: ShapeArray) => [...prevShapes, {

@@ -26,7 +26,7 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
     const shape: ShapeArray = shapeStateProps.shape;
     const setShape: Dispatch<SetStateAction<ShapeArray>> = updateShapeStateProps.setShape;
 
-    const [tool, setTool] = useState<string>(ToolEnum[0]);
+    const [tool, setTool] = useState<string>(ToolEnum.Line);
 
     const [modalOpenFlag, setModalOpenFlag] = useState<boolean>(false);
 
@@ -64,8 +64,8 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
     function toolClickEventListener(event: React.MouseEvent<HTMLButtonElement>) {
         setTool(event.currentTarget.id);
 
-        if (checkShift(current, tool, shape)) {
-            shiftTool(tool);
+        if (checkShift(current, event.currentTarget.id, shape)) {
+            shiftTool(event.currentTarget.id);
 
         } else {
             setModalOpenFlag(true);
@@ -73,13 +73,16 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
     }
 
     useEffect(() => {
-        // console.log(modalResult);
+        console.log(current);
     });
 
     return (
         <div>
             <ConfirmModal isOpen={modalOpenFlag}
-                          onYes={() => shiftTool(tool)}
+                          onYes={() => {
+                              shiftTool(tool);
+                              setModalOpenFlag(false);
+                          }}
                           onNo={() => setModalOpenFlag(false)}
                           message="Would you convert shape?">
             </ConfirmModal>

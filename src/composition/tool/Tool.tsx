@@ -73,7 +73,6 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
     }
 
     useEffect(() => {
-        console.log(current);
     });
 
     return (

@@ -38,14 +38,26 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
             const drawCtx = drawCanvas.getContext("2d");
 
             if (drawCtx) {
-                // drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
-                // let offsetX: number = event.nativeEvent.offsetX;
-                // let offsetY: number = event.nativeEvent.offsetY;
-                // drawCtx.beginPath();
-                // drawCtx.moveTo(0, 0);
-                // drawCtx.lineTo(offsetX, offsetY);
-                // drawCtx.closePath();
-                // drawCtx.stroke();
+
+                drawCtx.fillStyle = "pink";
+                drawCtx.strokeStyle = "red";
+                drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
+                let offsetX: number = event.nativeEvent.offsetX;
+                let offsetY: number = event.nativeEvent.offsetY;
+                drawCtx.beginPath();
+                drawCtx.arc(offsetX, offsetY, 5, 0, 2 * Math.PI);
+                drawCtx.fill();
+
+                let curPoint: Point | undefined = point.findLast((p) => p.id == current?.cur_point_id);
+
+                if (curPoint != undefined) {
+                    drawCtx.beginPath();
+                    drawCtx.moveTo(curPoint.x, curPoint.y);
+                    drawCtx.lineTo(offsetX, offsetY);
+                    drawCtx.stroke();
+
+                }
+
             }
         }
     }
@@ -95,7 +107,8 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
 
     return (
         <>
-            <canvas id={sketchbookStyle.drawCanvas} ref={drawCanvasRef} className={sketchbookStyle.canvas} width={"2000px"} height={"2000px"}
+            <canvas id={sketchbookStyle.drawCanvas} ref={drawCanvasRef} className={sketchbookStyle.canvas}
+                    width={"2000px"} height={"2000px"}
                     onClick={(event: React.MouseEvent) => drawCanvasClickEventListener(event, drawCanvasRef.current)}
                     onMouseMove={(event: React.MouseEvent) => drawCanvasMoveEventListener(event, drawCanvasRef.current)}></canvas>
         </>

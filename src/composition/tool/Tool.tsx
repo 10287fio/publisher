@@ -1,9 +1,17 @@
 import {CanvasComponentProps, Current, ShapeArray} from '@/ts';
 import {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import shapeUtil from '@/util/shape.util';
-import {ShapeTypeEnum, ToolObjectEnum, ShapeStatusEnum, OperationEnum, ToolEnum} from '@/store/enum/shape.enum';
+import {
+    ShapeTypeEnum,
+    ToolObjectEnum,
+    ShapeStatusEnum,
+    OperationEnum,
+    ToolEnum,
+    OperationObjectEnum
+} from '@/store/enum/shape.enum';
 import {ConfirmEnum} from '@/store/enum/system.enum';
 import ConfirmModal from '@/composition/modal/ConfirmModal';
+import toolStyle from './Tool.module.scss';
 
 function checkShift(current: Current, toolId: String, shape: ShapeArray): boolean {
     let is_shift: boolean = false;
@@ -73,6 +81,9 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
     }
 
     useEffect(() => {
+        if (current?.shape_id == undefined) {
+            shiftTool(ToolEnum.Line);
+        }
     });
 
     return (
@@ -86,7 +97,8 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
                           message="Would you convert shape?">
             </ConfirmModal>
             {Object.values(ToolEnum).map((tool) => (
-                <button key={tool} id={tool} onClick={toolClickEventListener} style={{marginRight: "3px"}}>
+                <button className={toolStyle.toolButton} key={ToolObjectEnum.find(x => x.value == tool)?.key}
+                        id={ToolObjectEnum.find(x => x.value == tool)?.key} onClick={toolClickEventListener}>
                     {tool}
                 </button>))
             }

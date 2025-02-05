@@ -103,6 +103,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
     }
 
     useEffect(() => {
+        console.log(current);
     });
 
     return (

@@ -42,22 +42,41 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                 drawCtx.fillStyle = "pink";
                 drawCtx.strokeStyle = "red";
                 drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
+
                 let offsetX: number = event.nativeEvent.offsetX;
                 let offsetY: number = event.nativeEvent.offsetY;
-                drawCtx.beginPath();
-                drawCtx.arc(offsetX, offsetY, 5, 0, 2 * Math.PI);
-                drawCtx.fill();
+                let setX: number = offsetX;
+                let setY: number = offsetY;
 
-                let curPoint: Point | undefined = point.findLast((p) => p.id == current?.cur_point_id);
+                let foundPoint: Point | undefined = point.findLast(p => p.id == current?.cur_point_id);
 
-                if (curPoint != undefined) {
+                let prePoint: { x: number, y: number } | undefined = foundPoint ? {
+                    x: foundPoint.x,
+                    y: foundPoint.y
+                } : undefined;
+
+                let curPoint: { x: number, y: number } = {x: offsetX, y: offsetY};
+
+                if (prePoint != undefined) {
+                    if (current?.operation == OperationEnum.AP_Preset) {
+                        if (shapeUtil.calQuadCoord(prePoint, curPoint) == "x") {
+                            setX = curPoint.x;
+                            setY = prePoint.y;
+                        } else if (shapeUtil.calQuadCoord(prePoint, curPoint) == "y") {
+                            setX = prePoint.x;
+                            setY = curPoint.y;
+                        }
+                    }
+
                     drawCtx.beginPath();
-                    drawCtx.moveTo(curPoint.x, curPoint.y);
-                    drawCtx.lineTo(offsetX, offsetY);
+                    drawCtx.moveTo(prePoint.x, prePoint.y);
+                    drawCtx.lineTo(setX, setY);
                     drawCtx.stroke();
-
                 }
 
+                drawCtx.beginPath();
+                drawCtx.arc(setX, setY, 5, 0, 2 * Math.PI);
+                drawCtx.fill();
             }
         }
     }
@@ -80,12 +99,35 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
 
                     let offsetX: number = event.nativeEvent.offsetX;
                     let offsetY: number = event.nativeEvent.offsetY;
+                    let setX: number = offsetX;
+                    let setY: number = offsetY;
+
+                    let foundPoint: Point | undefined = point.findLast(p => p.id == current?.cur_point_id);
+
+                    let prePoint: { x: number, y: number } | undefined = foundPoint ? {
+                        x: foundPoint.x,
+                        y: foundPoint.y
+                    } : undefined;
+
+                    let curPoint: { x: number, y: number } = {x: offsetX, y: offsetY};
+
+                    if (prePoint != undefined) {
+                        if (current?.operation == OperationEnum.AP_Preset) {
+                            if (shapeUtil.calQuadCoord(prePoint, curPoint) == "x") {
+                                setX = curPoint.x;
+                                setY = prePoint.y;
+                            } else if (shapeUtil.calQuadCoord(prePoint, curPoint) == "y") {
+                                setX = prePoint.x;
+                                setY = curPoint.y;
+                            }
+                        }
+                    }
 
                     setPoint((prevPoints: PointArray) => [...prevPoints, {
                         id: pointId,
                         shape_id: current?.shape_id,
-                        x: offsetX,
-                        y: offsetY,
+                        x: setX,
+                        y: setY,
                         is_deleted: false,
                         to_close: false
                     }]);
@@ -103,7 +145,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
     }
 
     useEffect(() => {
-        console.log(current);
+        // console.log(current?.operation);
     });
 
     return (

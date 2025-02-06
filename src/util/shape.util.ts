@@ -7,15 +7,15 @@ function generationIdNum(id: string): string {
     return id.slice(0, 1).concat(idNum.toString());
 }
 
-function calQuadCoord(lastPoint: { x: number, y: number }, x: number, y: number) {
-    if (((lastPoint?.x < x) && (lastPoint?.y > y)) || ((lastPoint?.x > x) && (lastPoint?.y < y))) {
-        if ((Math.round((y - lastPoint?.y) / (x - lastPoint?.x) * 10) / 10) > -1) {
+function calQuadCoord(prePoint: { x: number, y: number }, curPoint: { x: number, y: number }): "x" | "y" {
+    if (((prePoint?.x < curPoint.x) && (prePoint?.y > curPoint.y)) || ((prePoint?.x > curPoint.x) && (prePoint?.y < curPoint.y))) {
+        if ((Math.round((curPoint.y - prePoint?.y) / (curPoint.x - prePoint?.x) * 10) / 10) > -1) {
             return "x";
         } else {
             return "y";
         }
-    } else if (((lastPoint?.x < x) && (lastPoint?.y < y)) || ((lastPoint?.x > x) && (lastPoint?.y > y))) {
-        if ((Math.round((y - lastPoint?.y) / (x - lastPoint?.x) * 10) / 10) < 1) {
+    } else if (((prePoint?.x < curPoint.x) && (prePoint?.y < curPoint.y)) || ((prePoint?.x > curPoint.x) && (prePoint?.y > curPoint.y))) {
+        if ((Math.round((curPoint.y - prePoint?.y) / (curPoint.x - prePoint?.x) * 10) / 10) < 1) {
             return "x";
         } else {
             return "y";

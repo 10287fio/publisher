@@ -82,7 +82,7 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
 
     useEffect(() => {
         if (current?.shape_id == undefined) {
-            shiftTool(ToolEnum.Line);
+            shiftTool(tool);
         }
     });
 

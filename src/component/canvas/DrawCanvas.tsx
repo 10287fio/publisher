@@ -58,8 +58,8 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
 
                     let curPoint: { x: number, y: number } = {x: offsetX, y: offsetY};
 
-                    if (prePoint != undefined) {
-                        if (current?.tool == ToolEnum.Line) {
+                    if (current?.tool == ToolEnum.Line) {
+                        if (prePoint != undefined) {
                             if (current?.operation == OperationEnum.AP_Preset) {
                                 if (shapeUtil.calQuadCoord(prePoint, curPoint) == "x") {
                                     setX = curPoint.x;
@@ -74,12 +74,14 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                             drawCtx.moveTo(prePoint.x, prePoint.y);
                             drawCtx.lineTo(setX, setY);
                             drawCtx.stroke();
+                        }
 
-                            drawCtx.beginPath();
-                            drawCtx.arc(setX, setY, 5, 0, 2 * Math.PI);
-                            drawCtx.fill();
+                        drawCtx.beginPath();
+                        drawCtx.arc(setX, setY, 5, 0, 2 * Math.PI);
+                        drawCtx.fill();
 
-                        } else if (current?.tool == ToolEnum.Circle) {
+                    } else if (current?.tool == ToolEnum.Circle) {
+                        if (prePoint != undefined) {
                             radius = Math.sqrt((curPoint.x - prePoint.x) ** 2 + (prePoint.y - curPoint.y) ** 2);
 
                             setX = prePoint.x;
@@ -125,8 +127,8 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
 
                         let curPoint: { x: number, y: number } = {x: offsetX, y: offsetY};
 
-                        if (prePoint != undefined) {
-                            if (current?.tool == ToolEnum.Line) {
+                        if (current?.tool == ToolEnum.Line) {
+                            if (prePoint != undefined) {
                                 if (current?.operation == OperationEnum.AP_Preset) {
                                     if (shapeUtil.calQuadCoord(prePoint, curPoint) == "x") {
                                         setX = curPoint.x;
@@ -136,36 +138,32 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                         setY = curPoint.y;
                                     }
                                 }
-
-                                setPoint((prevPoints: PointArray) => [...prevPoints, {
-                                    id: pointId,
-                                    shape_id: current?.shape_id,
-                                    x: setX,
-                                    y: setY,
-                                    is_deleted: false,
-                                    to_close: false
-                                }]);
-
-                                setCurrent((prevState: Current) => ({
-                                    ...prevState,
-                                    cur_point_id: pointId,
-                                    pre_point_id1: prevState.cur_point_id,
-                                    pre_point_id2: prevState.pre_point_id1,
-                                    pre_point_id3: prevState.pre_point_id2
-                                }));
-
-                            } else if (current?.tool == ToolEnum.Circle) {
-
-
                             }
+                        } else if (current?.tool == ToolEnum.Circle) {
                         }
+
+                        setPoint((prevPoints: PointArray) => [...prevPoints, {
+                            id: pointId,
+                            shape_id: current?.shape_id,
+                            x: setX,
+                            y: setY,
+                            is_deleted: false,
+                            to_close: false
+                        }]);
+
+                        setCurrent((prevState: Current) => ({
+                            ...prevState,
+                            cur_point_id: pointId,
+                            pre_point_id1: prevState.cur_point_id,
+                            pre_point_id2: prevState.pre_point_id1,
+                            pre_point_id3: prevState.pre_point_id2
+                        }));
                     }
                 }
             }
         }
 
         useEffect(() => {
-            // console.log(current?.operation);
         });
 
         return (

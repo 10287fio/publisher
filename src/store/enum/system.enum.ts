@@ -1,4 +1,5 @@
 export enum ConfirmEnum {
     Yes = "Yes",
-    No = "No"
+    No = "No",
+    None = "None"
 }

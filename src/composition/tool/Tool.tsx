@@ -1,4 +1,4 @@
-import {CanvasComponentProps, Current, ShapeArray} from '@/ts';
+import {CanvasComponentProps, Current, PointArray, ShapeArray} from '@/ts';
 import {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import shapeUtil from '@/util/shape.util';
 import {
@@ -34,9 +34,23 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
     const shape: ShapeArray = shapeStateProps.shape;
     const setShape: Dispatch<SetStateAction<ShapeArray>> = updateShapeStateProps.setShape;
 
+    const point: PointArray = shapeStateProps.point;
+    const setPoint: Dispatch<SetStateAction<PointArray>> = updateShapeStateProps.setPoint;
+
     const [tool, setTool] = useState<string>(ToolEnum.Line);
 
     const [modalOpenFlag, setModalOpenFlag] = useState<boolean>(false);
+    const [modalResult, setModalResult] = useState<ConfirmEnum>(ConfirmEnum.None);
+
+    function cleanedUpShape() {
+        setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == current.shape_id ?
+            {...shape, is_deleted: true} : shape));
+
+        setPoint((prevState: PointArray) => prevState.map(point => point.shape_id == current.shape_id ?
+            {...point, is_deleted: true} : point));
+
+        setModalResult(ConfirmEnum.None);
+    }
 
     function shiftTool(tool: string) {
         let shapeId: string = "";
@@ -50,7 +64,7 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
         setShape((prevShapes: ShapeArray) => [...prevShapes, {
             id: shapeId,
             type: undefined,
-            status: ShapeStatusEnum["New"],
+            status: ShapeStatusEnum.New,
             pre_status: undefined,
             is_closed: false,
             is_deleted: false
@@ -63,8 +77,8 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
             tool: toolType,
             pre_tool: prevState.tool,
             shape_id: shapeId,
-            shape_status: ShapeStatusEnum["New"],
-            operation: OperationEnum["AP_Free"],
+            shape_status: ShapeStatusEnum.New,
+            operation: OperationEnum.AP_Free,
             pre_operation: prevState.operation
         }));
     }
@@ -81,19 +95,27 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
     }
 
     useEffect(() => {
-        if (current?.shape_id == undefined) {
+        console.log(shape);
+        if (current?.shape_id != undefined) {
+            if(modalResult == ConfirmEnum.Yes){
+                cleanedUpShape();
+            }
             shiftTool(tool);
         }
-    });
+    }, [tool, modalResult]);
 
     return (
         <div>
             <ConfirmModal isOpen={modalOpenFlag}
                           onYes={() => {
                               shiftTool(tool);
+                              setModalResult(ConfirmEnum.Yes);
                               setModalOpenFlag(false);
                           }}
-                          onNo={() => setModalOpenFlag(false)}
+                          onNo={() => {
+                              setModalResult(ConfirmEnum.No);
+                              setModalOpenFlag(false);
+                          }}
                           message="Would you convert shape?">
             </ConfirmModal>
             {Object.values(ToolEnum).map((tool) => (

@@ -91,11 +91,11 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
         }
     }
 
-    // useEffect(() => {
-    //     if (current?.shape_id != undefined) {
-    //         shiftTool(tool);
-    //     }
-    // });
+    useEffect(() => {
+        if (current?.shape_id == undefined) {
+            shiftTool(tool);
+        }
+    });
 
     return (
         <div>

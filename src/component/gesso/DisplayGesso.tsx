@@ -8,6 +8,7 @@ const DisplayGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
     const point: PointArray = shapeStateProps.point;
 
     useEffect(() => {
+
         if (displayGessoRef.current) {
             const displayGesso: HTMLCanvasElement = displayGessoRef.current;
             // displayGesso.width = window.innerWidth;
@@ -16,6 +17,9 @@ const DisplayGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
             const displayGessoCtx = displayGesso.getContext("2d");
 
             if (displayGessoCtx) {
+
+                displayGessoCtx.clearRect(0, 0, displayGesso.width, displayGesso.height);
+
                 let fixedPoint = point.filter((p: Point) => !p.is_deleted);
 
                 if (fixedPoint.length >= 2) {

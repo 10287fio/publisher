@@ -40,7 +40,6 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
     const [tool, setTool] = useState<string>(ToolEnum.Line);
 
     const [modalOpenFlag, setModalOpenFlag] = useState<boolean>(false);
-    const [modalResult, setModalResult] = useState<ConfirmEnum>(ConfirmEnum.None);
 
     function cleanedUpShape() {
         setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == current.shape_id ?
@@ -48,8 +47,6 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
 
         setPoint((prevState: PointArray) => prevState.map(point => point.shape_id == current.shape_id ?
             {...point, is_deleted: true} : point));
-
-        setModalResult(ConfirmEnum.None);
     }
 
     function shiftTool(tool: string) {
@@ -94,26 +91,21 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
         }
     }
 
-    useEffect(() => {
-        console.log(shape);
-        if (current?.shape_id != undefined) {
-            if(modalResult == ConfirmEnum.Yes){
-                cleanedUpShape();
-            }
-            shiftTool(tool);
-        }
-    }, [tool, modalResult]);
+    // useEffect(() => {
+    //     if (current?.shape_id != undefined) {
+    //         shiftTool(tool);
+    //     }
+    // });
 
     return (
         <div>
             <ConfirmModal isOpen={modalOpenFlag}
                           onYes={() => {
+                              cleanedUpShape();
                               shiftTool(tool);
-                              setModalResult(ConfirmEnum.Yes);
                               setModalOpenFlag(false);
                           }}
                           onNo={() => {
-                              setModalResult(ConfirmEnum.No);
                               setModalOpenFlag(false);
                           }}
                           message="Would you convert shape?">

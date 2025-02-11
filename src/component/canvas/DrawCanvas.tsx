@@ -13,6 +13,7 @@ import {
     Line,
     LineArray,
     Arc,
+    ArcArray,
     Current,
     ShapeStateProps,
     CanvasComponentProps
@@ -25,10 +26,12 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
         const shape: ShapeArray = shapeStateProps.shape;
         const point: PointArray = shapeStateProps.point;
         const line: LineArray = shapeStateProps.line;
+        const arc: ArcArray = shapeStateProps.arc;
         const current: Current | undefined = shapeStateProps.current;
         const setShape: Dispatch<SetStateAction<ShapeArray>> = updateShapeStateProps.setShape;
         const setPoint: Dispatch<SetStateAction<PointArray>> = updateShapeStateProps.setPoint;
         const setLine: Dispatch<SetStateAction<LineArray>> = updateShapeStateProps.setLine;
+        const setArc: Dispatch<SetStateAction<ArcArray>> = updateShapeStateProps.setArc;
         const setCurrent: Dispatch<SetStateAction<Current>> = updateShapeStateProps.setCurrent;
 
         function drawCanvasMoveEventListener(event: MouseEvent, drawCanvas: HTMLCanvasElement | null) {
@@ -140,6 +143,12 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                 }
                             }
                         } else if (current?.tool == ToolEnum.Circle) {
+                            if (prePoint != undefined) {
+                                radius = Math.sqrt((curPoint.x - prePoint.x) ** 2 + (prePoint.y - curPoint.y) ** 2);
+
+                                setX = prePoint.x;
+                                setY = prePoint.y;
+                            }
                         }
 
                         setPoint((prevPoints: PointArray) => [...prevPoints, {

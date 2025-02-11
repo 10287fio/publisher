@@ -58,9 +58,13 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
             shapeId = shapeUtil.generationIdNum(current.shape_id);
         }
 
+        let shapeType: ShapeTypeEnum | undefined;
+
+        shapeType = Object.values(ShapeTypeEnum).find(shapeType => shapeType == tool);
+
         setShape((prevShapes: ShapeArray) => [...prevShapes, {
             id: shapeId,
-            type: undefined,
+            type: shapeType,
             status: ShapeStatusEnum.New,
             pre_status: undefined,
             is_closed: false,

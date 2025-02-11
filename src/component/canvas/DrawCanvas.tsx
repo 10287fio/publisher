@@ -143,11 +143,28 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                 }
                             }
                         } else if (current?.tool == ToolEnum.Circle) {
-                            if (prePoint != undefined) {
+                            if (prePoint == undefined) {
+
+                            } else {
                                 radius = Math.sqrt((curPoint.x - prePoint.x) ** 2 + (prePoint.y - curPoint.y) ** 2);
 
                                 setX = prePoint.x;
                                 setY = prePoint.y;
+
+                                let arcId: string | undefined = arc.at(-1)?.id;
+
+                                if (arcId == undefined) {
+                                    arcId = "p1";
+                                } else {
+                                    arcId = shapeUtil.generationIdNum(arcId);
+                                }
+
+                                // setArc((prevState:ArcArray) => [...prevState, {
+                                //     id:arcId,
+                                //     shape_id:current.shape_id,
+                                //     center_point_id:
+                                //
+                                // }]);
                             }
                         }
 

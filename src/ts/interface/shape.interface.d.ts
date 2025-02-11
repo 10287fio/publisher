@@ -70,9 +70,8 @@ export interface LineArray extends Array<Line> {
 export interface Arc {
     id: string;
     shape_id: string;
-    equation: string;
     center_point_id: string;
-    start_point_id: string;
+    start_point_id: string | undefined;
     end_point_id: string;
     radius: number;
 }

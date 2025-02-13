@@ -54,7 +54,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
 
                     let foundPoint: Point | undefined = point.findLast(p => p.id == current?.cur_point_id);
 
-                    let prePoint: { x: number, y: number } | undefined = foundPoint ? {
+                    let prePoint: {  x: number, y: number } | undefined = foundPoint ? {
                         x: foundPoint.x,
                         y: foundPoint.y
                     } : undefined;
@@ -102,7 +102,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
         function drawCanvasClickEventListener(event: React.MouseEvent, drawCanvas: HTMLCanvasElement | null) {
             if (drawCanvas == null) return false;
 
-            if (current != undefined && current?.shape_id && !shapeUtil.checkFinal(current.shape_status)) {
+            if (current != undefined && current.shape_id != undefined && !shapeUtil.checkFinal(current.shape_status)) {
                 if (drawCanvas.getContext) {
                     const drawCtx = drawCanvas.getContext("2d");
 
@@ -117,69 +117,80 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
 
                         let offsetX: number = event.nativeEvent.offsetX;
                         let offsetY: number = event.nativeEvent.offsetY;
-                        let setX: number = offsetX;
-                        let setY: number = offsetY;
                         let radius: number = 0;
 
                         let foundPoint: Point | undefined = point.findLast(p => p.id == current?.cur_point_id);
 
-                        let prePoint: { x: number, y: number } | undefined = foundPoint ? {
+                        let prePoint: { id: string, x: number, y: number } | undefined = foundPoint ? {
+                            id: foundPoint.id,
                             x: foundPoint.x,
                             y: foundPoint.y
                         } : undefined;
 
-                        let curPoint: { x: number, y: number } = {x: offsetX, y: offsetY};
+                        let curPoint: { id: string, x: number, y: number } = {
+                            id: pointId,
+                            x: offsetX,
+                            y: offsetY
+                        };
+
+                        const shapeId: string = current.shape_id;
 
                         if (current?.tool == ToolEnum.Line) {
                             if (prePoint != undefined) {
                                 if (current?.operation == OperationEnum.AP_Preset) {
                                     if (shapeUtil.calQuadCoord(prePoint, curPoint) == "x") {
-                                        setX = curPoint.x;
-                                        setY = prePoint.y;
+                                        curPoint.y = prePoint.y;
                                     } else if (shapeUtil.calQuadCoord(prePoint, curPoint) == "y") {
-                                        setX = prePoint.x;
-                                        setY = curPoint.y;
+                                        curPoint.x = prePoint.x;
                                     }
                                 }
                             }
                         } else if (current?.tool == ToolEnum.Circle) {
                             if (prePoint == undefined) {
 
-                            } else {
-                                radius = Math.sqrt((curPoint.x - prePoint.x) ** 2 + (prePoint.y - curPoint.y) ** 2);
-
-                                setX = prePoint.x;
-                                setY = prePoint.y;
-
                                 let arcId: string | undefined = arc.at(-1)?.id;
 
                                 if (arcId == undefined) {
-                                    arcId = "p1";
+                                    arcId = "a1";
                                 } else {
                                     arcId = shapeUtil.generationIdNum(arcId);
                                 }
 
-                                // setArc((prevState:ArcArray) => [...prevState, {
-                                //     id:arcId,
-                                //     shape_id:current.shape_id,
-                                //     center_point_id:
-                                //
-                                // }]);
+                                setArc((prevState: ArcArray) => [...prevState, {
+                                    id: arcId,
+                                    shape_id: shapeId,
+                                    center_point_id: curPoint.id,
+                                    start_point_id: undefined,
+                                    end_point_id: undefined,
+                                    radius: undefined
+                                }]);
+                            } else {
+                                let arcId: string | undefined = arc.findLast(a => a.shape_id == shapeId)?.id;
+
+                                if (arcId != undefined) {
+                                    radius = Math.sqrt((curPoint.x - prePoint.x) ** 2 + (prePoint.y - curPoint.y) ** 2);
+
+                                    setArc((prevState: ArcArray) => prevState.map(arc => arc.id == arcId ? {
+                                        ...arc,
+                                        end_point_id: curPoint.id,
+                                        radius: radius
+                                    } : arc));
+                                }
                             }
                         }
 
                         setPoint((prevPoints: PointArray) => [...prevPoints, {
-                            id: pointId,
+                            id: curPoint.id,
                             shape_id: current?.shape_id,
-                            x: setX,
-                            y: setY,
+                            x: curPoint.x,
+                            y: curPoint.y,
                             is_deleted: false,
                             to_close: false
                         }]);
 
                         setCurrent((prevState: Current) => ({
                             ...prevState,
-                            cur_point_id: pointId,
+                            cur_point_id: curPoint.id,
                             pre_point_id1: prevState.cur_point_id,
                             pre_point_id2: prevState.pre_point_id1,
                             pre_point_id3: prevState.pre_point_id2

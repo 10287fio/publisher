@@ -72,8 +72,8 @@ export interface Arc {
     shape_id: string;
     center_point_id: string;
     start_point_id: string | undefined;
-    end_point_id: string;
-    radius: number;
+    end_point_id: string | undefined;
+    radius: number | undefined;
 }
 
 export interface ArcArray extends Array<Arc> {

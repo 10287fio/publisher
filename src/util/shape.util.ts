@@ -7,7 +7,10 @@ function generationIdNum(id: string): string {
     return id.slice(0, 1).concat(idNum.toString());
 }
 
-function calQuadCoord(prePoint: { x: number, y: number }, curPoint: { x: number, y: number }): "x" | "y" {
+function calQuadCoord(prePoint: { x: number, y: number }, curPoint: {
+    x: number,
+    y: number
+}): "x" | "y" {
     if (((prePoint?.x < curPoint.x) && (prePoint?.y > curPoint.y)) || ((prePoint?.x > curPoint.x) && (prePoint?.y < curPoint.y))) {
         if ((Math.round((curPoint.y - prePoint?.y) / (curPoint.x - prePoint?.x) * 10) / 10) > -1) {
             return "x";

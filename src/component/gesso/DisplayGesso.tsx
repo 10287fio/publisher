@@ -1,4 +1,4 @@
-import {GessoComponentProps, Point, PointArray, ShapeArray} from '@/ts';
+import {Arc, ArcArray, Current, GessoComponentProps, Point, PointArray, ShapeArray} from '@/ts';
 import sketchbookStyle from '@/composition/sketchbook/Sketchbook.module.scss';
 import {useEffect, useRef} from 'react';
 
@@ -6,8 +6,16 @@ const DisplayGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
     const displayGessoRef = useRef<HTMLCanvasElement | null>(null);
     const shape: ShapeArray = shapeStateProps.shape;
     const point: PointArray = shapeStateProps.point;
+    const arc: ArcArray = shapeStateProps.arc;
+    const current: Current = shapeStateProps.current;
 
     useEffect(() => {
+
+        // console.log(current);
+        console.log(shape);
+        console.log(point);
+        console.log(arc);
+
 
         if (displayGessoRef.current) {
             const displayGesso: HTMLCanvasElement = displayGessoRef.current;

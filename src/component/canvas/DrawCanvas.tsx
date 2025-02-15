@@ -54,7 +54,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
 
                     let foundPoint: Point | undefined = point.findLast(p => p.id == current?.cur_point_id);
 
-                    let prePoint: {  x: number, y: number } | undefined = foundPoint ? {
+                    let prePoint: { x: number, y: number } | undefined = foundPoint ? {
                         x: foundPoint.x,
                         y: foundPoint.y
                     } : undefined;
@@ -107,12 +107,12 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                     const drawCtx = drawCanvas.getContext("2d");
 
                     if (drawCtx) {
-                        let pointId: string = "";
+                        let pointId: string | undefined = point.at(-1)?.id;
 
-                        if (current?.cur_point_id == undefined) {
+                        if (pointId == undefined) {
                             pointId = "p1";
                         } else {
-                            pointId = shapeUtil.generationIdNum(current.cur_point_id);
+                            pointId = shapeUtil.generationIdNum(pointId);
                         }
 
                         let offsetX: number = event.nativeEvent.offsetX;

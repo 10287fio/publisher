@@ -47,15 +47,28 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
 
         setPoint((prevState: PointArray) => prevState.map(point => point.shape_id == current.shape_id ?
             {...point, is_deleted: true} : point));
+
+        setCurrent((prevState) => ({
+            tool: undefined,
+            pre_tool: prevState?.tool,
+            shape_id: undefined,
+            shape_status: undefined,
+            operation: undefined,
+            pre_operation: undefined,
+            cur_point_id: undefined,
+            pre_point_id1: undefined,
+            pre_point_id2: undefined,
+            pre_point_id3: undefined
+        }));
     }
 
     function shiftTool(tool: string) {
-        let shapeId: string = "";
+        let shapeId: string | undefined = shape?.at(-1)?.id;
 
-        if (current?.shape_id == undefined) {
+        if (shapeId == undefined) {
             shapeId = "s1";
         } else {
-            shapeId = shapeUtil.generationIdNum(current.shape_id);
+            shapeId = shapeUtil.generationIdNum(shapeId);
         }
 
         let shapeType: ShapeTypeEnum | undefined;
@@ -96,9 +109,6 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
     }
 
     useEffect(() => {
-        if (current?.shape_id == undefined) {
-            shiftTool(tool);
-        }
     });
 
     return (

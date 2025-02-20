@@ -34,6 +34,9 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
         const setArc: Dispatch<SetStateAction<ArcArray>> = updateShapeStateProps.setArc;
         const setCurrent: Dispatch<SetStateAction<Current>> = updateShapeStateProps.setCurrent;
 
+
+        const shapeId: string | undefined = current.shape_id;
+
         function drawCanvasMoveEventListener(event: MouseEvent, drawCanvas: HTMLCanvasElement | null) {
             if (drawCanvas == null) return false;
 
@@ -102,7 +105,8 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
         function drawCanvasClickEventListener(event: React.MouseEvent, drawCanvas: HTMLCanvasElement | null) {
             if (drawCanvas == null) return false;
 
-            if (current != undefined && current.shape_id != undefined && !shapeUtil.checkFinal(current.shape_status)) {
+
+            if (current != undefined && shapeId != undefined && !shapeUtil.checkFinal(current.shape_status)) {
                 if (drawCanvas.getContext) {
                     const drawCtx = drawCanvas.getContext("2d");
 
@@ -119,13 +123,9 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                         let offsetY: number = event.nativeEvent.offsetY;
                         let radius: number = 0;
 
-                        let foundPoint: Point | undefined = point.findLast(p => p.id == current?.cur_point_id);
+                        let foundPoint: Point | undefined;
 
-                        let prePoint: { id: string, x: number, y: number } | undefined = foundPoint ? {
-                            id: foundPoint.id,
-                            x: foundPoint.x,
-                            y: foundPoint.y
-                        } : undefined;
+                        let prePoint: { id: string, x: number, y: number } | undefined;
 
                         let curPoint: { id: string, x: number, y: number } = {
                             id: pointId,
@@ -133,9 +133,16 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                             y: offsetY
                         };
 
-                        const shapeId: string = current.shape_id;
-
                         if (current?.tool == ToolEnum.Line) {
+
+                            foundPoint = point.findLast(p => p.id == current?.cur_point_id);
+
+                            prePoint = foundPoint ? {
+                                id: foundPoint.id,
+                                x: foundPoint.x,
+                                y: foundPoint.y
+                            } : undefined;
+
                             if (prePoint != undefined) {
                                 if (current?.operation == OperationEnum.AP_Preset) {
                                     if (shapeUtil.calQuadCoord(prePoint, curPoint) == "x") {
@@ -146,7 +153,9 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                 }
                             }
                         } else if (current?.tool == ToolEnum.Circle) {
-                            if (prePoint == undefined) {
+                            let foundArc: Arc | undefined = arc.findLast(a => a.shape_id == shapeId);
+
+                            if (foundArc == undefined) {
 
                                 let arcId: string | undefined = arc.at(-1)?.id;
 
@@ -165,16 +174,31 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                     radius: undefined
                                 }]);
                             } else {
-                                let arcId: string | undefined = arc.findLast(a => a.shape_id == shapeId)?.id;
+                                if (foundArc.start_point_id == undefined) {
+                                    setArc((prevState: ArcArray) => prevState.map(arc => arc.shape_id == shapeId ?
+                                        {...arc, center_point_id: curPoint.id} : arc));
+                                } else if (foundArc.end_point_id == undefined) {
+                                    foundPoint = point.findLast(p => p.id == foundArc.start_point_id);
 
-                                if (arcId != undefined) {
-                                    radius = Math.sqrt((curPoint.x - prePoint.x) ** 2 + (prePoint.y - curPoint.y) ** 2);
+                                    prePoint = foundPoint ? {
+                                        id: foundPoint.id,
+                                        x: foundPoint.x,
+                                        y: foundPoint.y
+                                    } : undefined;
 
-                                    setArc((prevState: ArcArray) => prevState.map(arc => arc.id == arcId ? {
-                                        ...arc,
-                                        end_point_id: curPoint.id,
-                                        radius: radius
-                                    } : arc));
+                                    if (prePoint != undefined) {
+                                        let arcId: string | undefined = arc.findLast(a => a.shape_id == shapeId)?.id;
+
+                                        if (arcId != undefined) {
+                                            radius = Math.sqrt((curPoint.x - prePoint.x) ** 2 + (prePoint.y - curPoint.y) ** 2);
+
+                                            setArc((prevState: ArcArray) => prevState.map(arc => arc.id == arcId ? {
+                                                ...arc,
+                                                end_point_id: curPoint.id,
+                                                radius: radius
+                                            } : arc));
+                                        }
+                                    }
                                 }
                             }
                         }

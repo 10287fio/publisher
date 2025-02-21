@@ -19,7 +19,7 @@ import {
     CanvasComponentProps
 } from '@/ts';
 import shapeUtil from '@/util/shape.util';
-import {OperationEnum, ToolEnum, ShapeStatusEnum} from '@/store/enum/shape.enum';
+import {OperationEnum, ToolEnum, ShapeStatusEnum, ShapeTypeEnum} from '@/store/enum/shape.enum';
 
 const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): JSX.Element => {
         const drawCanvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -34,8 +34,6 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
         const setArc: Dispatch<SetStateAction<ArcArray>> = updateShapeStateProps.setArc;
         const setCurrent: Dispatch<SetStateAction<Current>> = updateShapeStateProps.setCurrent;
 
-
-        const shapeId: string | undefined = current.shape_id;
 
         function drawCanvasMoveEventListener(event: MouseEvent, drawCanvas: HTMLCanvasElement | null) {
             if (drawCanvas == null) return false;
@@ -105,6 +103,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
         function drawCanvasClickEventListener(event: React.MouseEvent, drawCanvas: HTMLCanvasElement | null) {
             if (drawCanvas == null) return false;
 
+            const shapeId: string | undefined = current?.shape_id;
 
             if (current != undefined && shapeId != undefined && !shapeUtil.checkFinal(current.shape_status)) {
                 if (drawCanvas.getContext) {
@@ -113,11 +112,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                     if (drawCtx) {
                         let pointId: string | undefined = point.at(-1)?.id;
 
-                        if (pointId == undefined) {
-                            pointId = "p1";
-                        } else {
-                            pointId = shapeUtil.generationIdNum(pointId);
-                        }
+                        pointId = shapeUtil.generationId("p", pointId);
 
                         let offsetX: number = event.nativeEvent.offsetX;
                         let offsetY: number = event.nativeEvent.offsetY;
@@ -159,11 +154,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
 
                                 let arcId: string | undefined = arc.at(-1)?.id;
 
-                                if (arcId == undefined) {
-                                    arcId = "a1";
-                                } else {
-                                    arcId = shapeUtil.generationIdNum(arcId);
-                                }
+                                arcId = shapeUtil.generationId("a", arcId);
 
                                 setArc((prevState: ArcArray) => [...prevState, {
                                     id: arcId,
@@ -199,6 +190,23 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                             } : arc));
                                         }
                                     }
+                                } else {
+                                    shapeUtil.cleanedUpCurrent(setCurrent);
+
+                                    let shapeId = shapeUtil.shiftShape(current, setCurrent, shape, setShape);
+
+                                    let arcId: string | undefined = arc.at(-1)?.id;
+
+                                    arcId = shapeUtil.generationId("a", arcId);
+
+                                    setArc((prevState: ArcArray) => [...prevState, {
+                                        id: arcId,
+                                        shape_id: shapeId,
+                                        center_point_id: curPoint.id,
+                                        start_point_id: undefined,
+                                        end_point_id: undefined,
+                                        radius: undefined
+                                    }]);
                                 }
                             }
                         }

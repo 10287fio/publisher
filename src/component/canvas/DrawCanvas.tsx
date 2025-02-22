@@ -38,62 +38,80 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
         function drawCanvasMoveEventListener(event: MouseEvent, drawCanvas: HTMLCanvasElement | null) {
             if (drawCanvas == null) return false;
 
-            if (drawCanvas.getContext) {
-                const drawCtx = drawCanvas.getContext("2d");
+            const shapeId: string | undefined = current?.shape_id;
 
-                if (drawCtx) {
+            if (current != undefined && shapeId != undefined && !shapeUtil.checkFinal(current.shape_status)) {
+                if (drawCanvas.getContext) {
+                    const drawCtx = drawCanvas.getContext("2d");
 
-                    drawCtx.fillStyle = "pink";
-                    drawCtx.strokeStyle = "red";
-                    drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
+                    if (drawCtx) {
+                        drawCtx.fillStyle = "pink";
+                        drawCtx.strokeStyle = "red";
+                        drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
 
-                    let offsetX: number = event.nativeEvent.offsetX;
-                    let offsetY: number = event.nativeEvent.offsetY;
-                    let setX: number = offsetX;
-                    let setY: number = offsetY;
-                    let radius: number = 0;
+                        let offsetX: number = event.nativeEvent.offsetX;
+                        let offsetY: number = event.nativeEvent.offsetY;
+                        let setX: number = offsetX;
+                        let setY: number = offsetY;
+                        let radius: number = 0;
 
-                    let foundPoint: Point | undefined = point.findLast(p => p.id == current?.cur_point_id);
+                        let foundPoint: Point | undefined;
 
-                    let prePoint: { x: number, y: number } | undefined = foundPoint ? {
-                        x: foundPoint.x,
-                        y: foundPoint.y
-                    } : undefined;
+                        let prePoint: { x: number, y: number } | undefined;
 
-                    let curPoint: { x: number, y: number } = {x: offsetX, y: offsetY};
+                        let curPoint: { x: number, y: number } = {x: offsetX, y: offsetY};
 
-                    if (current?.tool == ToolEnum.Line) {
-                        if (prePoint != undefined) {
-                            if (current?.operation == OperationEnum.AP_Preset) {
-                                if (shapeUtil.calQuadCoord(prePoint, curPoint) == "x") {
-                                    setX = curPoint.x;
-                                    setY = prePoint.y;
-                                } else if (shapeUtil.calQuadCoord(prePoint, curPoint) == "y") {
-                                    setX = prePoint.x;
-                                    setY = curPoint.y;
+                        if (current?.tool == ToolEnum.Line) {
+                            foundPoint = point.findLast(p => p.id == current?.cur_point_id);
+
+                            prePoint = foundPoint ? {
+                                x: foundPoint.x,
+                                y: foundPoint.y
+                            } : undefined;
+
+                            if (prePoint != undefined) {
+                                if (current?.operation == OperationEnum.AP_Preset) {
+                                    if (shapeUtil.calQuadCoord(prePoint, curPoint) == "x") {
+                                        setX = curPoint.x;
+                                        setY = prePoint.y;
+                                    } else if (shapeUtil.calQuadCoord(prePoint, curPoint) == "y") {
+                                        setX = prePoint.x;
+                                        setY = curPoint.y;
+                                    }
                                 }
+
+                                drawCtx.beginPath();
+                                drawCtx.moveTo(prePoint.x, prePoint.y);
+                                drawCtx.lineTo(setX, setY);
+                                drawCtx.stroke();
                             }
 
                             drawCtx.beginPath();
-                            drawCtx.moveTo(prePoint.x, prePoint.y);
-                            drawCtx.lineTo(setX, setY);
-                            drawCtx.stroke();
-                        }
+                            drawCtx.arc(setX, setY, 5, 0, 2 * Math.PI);
+                            drawCtx.fill();
 
-                        drawCtx.beginPath();
-                        drawCtx.arc(setX, setY, 5, 0, 2 * Math.PI);
-                        drawCtx.fill();
+                        } else if (current?.tool == ToolEnum.Circle) {
+                            let foundArc: Arc | undefined = arc.findLast(a => a.shape_id == shapeId);
 
-                    } else if (current?.tool == ToolEnum.Circle) {
-                        if (prePoint != undefined) {
-                            radius = Math.sqrt((curPoint.x - prePoint.x) ** 2 + (prePoint.y - curPoint.y) ** 2);
+                            if (foundArc?.center_point_id && foundArc?.end_point_id == undefined) {
+                                foundPoint = point.findLast(p => p.id == foundArc.center_point_id);
 
-                            setX = prePoint.x;
-                            setY = prePoint.y;
+                                prePoint = foundPoint ? {
+                                    x: foundPoint.x,
+                                    y: foundPoint.y
+                                } : undefined;
 
-                            drawCtx.beginPath();
-                            drawCtx.arc(setX, setY, radius, 0, 2 * Math.PI);
-                            drawCtx.stroke();
+                                if (prePoint != undefined) {
+                                    radius = Math.sqrt((curPoint.x - prePoint.x) ** 2 + (prePoint.y - curPoint.y) ** 2);
+
+                                    setX = prePoint.x;
+                                    setY = prePoint.y;
+
+                                    drawCtx.beginPath();
+                                    drawCtx.arc(setX, setY, radius, 0, 2 * Math.PI);
+                                    drawCtx.stroke();
+                                }
+                            }
                         }
                     }
                 }
@@ -149,7 +167,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                             }
                         } else if (current?.tool == ToolEnum.Circle) {
                             let foundArc: Arc | undefined = arc.findLast(a => a.shape_id == shapeId);
-// console.log(foundArc);
+
                             if (foundArc == undefined) {
 
                                 let arcId: string | undefined = arc.at(-1)?.id;

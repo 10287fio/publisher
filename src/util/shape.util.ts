@@ -143,7 +143,7 @@ function shiftTool(tool: string, setCurrent: Dispatch<SetStateAction<Current>>, 
 
     let shapeType: ShapeTypeEnum | undefined;
 
-    shapeType = Object.values(ShapeTypeEnum).find(shapeType => shapeType == tool);
+    shapeType = Object.values(ShapeTypeEnum).find(shapeType => shapeType == tool) ?? ShapeTypeEnum.Pending;
 
     setShape((prevShapes: ShapeArray) => [...prevShapes, {
         id: shapeId,
@@ -167,14 +167,14 @@ function shiftTool(tool: string, setCurrent: Dispatch<SetStateAction<Current>>, 
     }));
 }
 
-function shiftShape(current: Current, setCurrent: Dispatch<SetStateAction<Current>>, shape: ShapeArray, setShape: Dispatch<SetStateAction<ShapeArray>>,):string {
+function shiftShape(current: Current, setCurrent: Dispatch<SetStateAction<Current>>, shape: ShapeArray, setShape: Dispatch<SetStateAction<ShapeArray>>,): string {
     let shapeId: string | undefined = shape?.at(-1)?.id;
 
     shapeId = generationId("s", shapeId);
 
     let shapeType: ShapeTypeEnum | undefined;
 
-    shapeType = Object.values(ShapeTypeEnum).find(shapeType => shapeType == current.tool);
+    shapeType = Object.values(ShapeTypeEnum).find(shapeType => shapeType == current.tool) ?? ShapeTypeEnum.Pending;
 
     setShape((prevShapes: ShapeArray) => [...prevShapes, {
         id: shapeId,

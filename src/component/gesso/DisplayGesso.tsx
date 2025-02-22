@@ -1,4 +1,5 @@
 import {Arc, ArcArray, Current, GessoComponentProps, Point, PointArray, Shape, ShapeArray} from '@/ts';
+import {ShapeTypeEnum} from '@/store/enum/shape.enum';
 import sketchbookStyle from '@/composition/sketchbook/Sketchbook.module.scss';
 import {useEffect, useRef} from 'react';
 
@@ -11,12 +12,6 @@ const DisplayGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
 
     useEffect(() => {
 
-        // console.log(current);
-        // console.log(shape);
-        // console.log(point);
-        // console.log(arc);
-
-
         if (displayGessoRef.current) {
             const displayGesso: HTMLCanvasElement = displayGessoRef.current;
             // displayGesso.width = window.innerWidth;
@@ -28,23 +23,41 @@ const DisplayGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
 
                 displayGessoCtx.clearRect(0, 0, displayGesso.width, displayGesso.height);
 
-                let fixedShape:ShapeArray = shape.filter((s:Shape) => !s.is_deleted);
+                let fixedShape: ShapeArray = shape.filter((s: Shape) => !s.is_deleted);
 
-                console.log(fixedShape);
+                for (let i = 0; i < fixedShape.length; i++) {
+                    if (fixedShape[i].type == ShapeTypeEnum.Pending) {
+                        let fixedPoint = point.filter((p: Point) => !p.is_deleted);
 
-                let fixedPoint = point.filter((p: Point) => !p.is_deleted);
+                        if (fixedPoint.length >= 2) {
+                            displayGessoCtx.strokeStyle = "orange";
+                            displayGessoCtx.beginPath();
 
-                if (fixedPoint.length >= 2) {
-                    displayGessoCtx.strokeStyle = "orange";
-                    displayGessoCtx.beginPath();
-
-                    for (let i = 0; i < fixedPoint.length; i++) {
-                        if (i == 0) {
-                            displayGessoCtx.moveTo(fixedPoint[i].x, fixedPoint[i].y);
-                        } else {
-                            displayGessoCtx.lineTo(fixedPoint[i].x, fixedPoint[i].y);
-                            displayGessoCtx.stroke();
+                            for (let i = 0; i < fixedPoint.length; i++) {
+                                if (i == 0) {
+                                    displayGessoCtx.moveTo(fixedPoint[i].x, fixedPoint[i].y);
+                                } else {
+                                    displayGessoCtx.lineTo(fixedPoint[i].x, fixedPoint[i].y);
+                                    displayGessoCtx.stroke();
+                                }
+                            }
                         }
+                    } else if (fixedShape[i].type == ShapeTypeEnum.Circle) {
+                        let foundArc: Arc | undefined = arc.find(a => a.shape_id == fixedShape[i].id);
+
+                        if (foundArc != undefined && foundArc?.center_point_id && foundArc?.end_point_id && foundArc?.radius) {
+
+                            let centerPoint: Point | undefined = point.find(p => p.id == foundArc.center_point_id);
+                            // let endPoint: Point | undefined = point.find(p => p.id == foundArc?.end_point_id);
+                            let radius: number = foundArc.radius;
+
+                            if (centerPoint != undefined) {
+                                displayGessoCtx.beginPath();
+                                displayGessoCtx.arc(centerPoint.x, centerPoint.y, radius, 0, 2 * Math.PI);
+                                displayGessoCtx.stroke();
+                            }
+                        }
+
                     }
                 }
             }

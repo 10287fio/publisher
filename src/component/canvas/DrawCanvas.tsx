@@ -149,7 +149,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                             }
                         } else if (current?.tool == ToolEnum.Circle) {
                             let foundArc: Arc | undefined = arc.findLast(a => a.shape_id == shapeId);
-
+// console.log(foundArc);
                             if (foundArc == undefined) {
 
                                 let arcId: string | undefined = arc.at(-1)?.id;
@@ -165,11 +165,11 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                     radius: undefined
                                 }]);
                             } else {
-                                if (foundArc.start_point_id == undefined) {
+                                if (foundArc.center_point_id == undefined) {
                                     setArc((prevState: ArcArray) => prevState.map(arc => arc.shape_id == shapeId ?
                                         {...arc, center_point_id: curPoint.id} : arc));
                                 } else if (foundArc.end_point_id == undefined) {
-                                    foundPoint = point.findLast(p => p.id == foundArc.start_point_id);
+                                    foundPoint = point.findLast(p => p.id == foundArc.center_point_id);
 
                                     prePoint = foundPoint ? {
                                         id: foundPoint.id,

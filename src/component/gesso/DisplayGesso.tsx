@@ -1,4 +1,4 @@
-import {Arc, ArcArray, Current, GessoComponentProps, Point, PointArray, ShapeArray} from '@/ts';
+import {Arc, ArcArray, Current, GessoComponentProps, Point, PointArray, Shape, ShapeArray} from '@/ts';
 import sketchbookStyle from '@/composition/sketchbook/Sketchbook.module.scss';
 import {useEffect, useRef} from 'react';
 
@@ -12,9 +12,9 @@ const DisplayGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
     useEffect(() => {
 
         // console.log(current);
-        console.log(shape);
-        console.log(point);
-        console.log(arc);
+        // console.log(shape);
+        // console.log(point);
+        // console.log(arc);
 
 
         if (displayGessoRef.current) {
@@ -27,6 +27,10 @@ const DisplayGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
             if (displayGessoCtx) {
 
                 displayGessoCtx.clearRect(0, 0, displayGesso.width, displayGesso.height);
+
+                let fixedShape = shape.filter((s:Shape) => !s.is_deleted);
+
+                console.log(fixedShape);
 
                 let fixedPoint = point.filter((p: Point) => !p.is_deleted);
 

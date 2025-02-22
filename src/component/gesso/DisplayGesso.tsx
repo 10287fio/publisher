@@ -28,7 +28,7 @@ const DisplayGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
 
                 displayGessoCtx.clearRect(0, 0, displayGesso.width, displayGesso.height);
 
-                let fixedShape = shape.filter((s:Shape) => !s.is_deleted);
+                let fixedShape:ShapeArray = shape.filter((s:Shape) => !s.is_deleted);
 
                 console.log(fixedShape);
 

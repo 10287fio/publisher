@@ -35,9 +35,10 @@ export const ShapeStatusObjectEnum: { key: string, value: string, finalization: 
     {key: "New", value: "New", finalization: false, order: 1},
     {key: "Updated", value: "Updated", finalization: false, order: 2},
     {key: "Inprogress", value: "Inprogress", finalization: false, order: 3},
-    {key: "Closed", value: "Closed", finalization: true, order: 4},
-    {key: "Complete", value: "Complete", finalization: true, order: 5},
-    {key: "Modified", value: "Modified", finalization: true, order: 6}
+    {key: "Deleted", value: "Deleted", finalization: true, order: 4},
+    {key: "Closed", value: "Closed", finalization: true, order: 5},
+    {key: "Complete", value: "Complete", finalization: true, order: 6},
+    {key: "Modified", value: "Modified", finalization: true, order: 7}
 ] as const;
 
 const sortedShapeStatusObjectEnum = sortEnumByOrder(ShapeStatusObjectEnum);

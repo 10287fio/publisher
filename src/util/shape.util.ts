@@ -117,7 +117,7 @@ function cleanedUpCurrent(setCurrent: Dispatch<SetStateAction<Current>>) {
 
 function cleanedUpShape(current: Current, setCurrent: Dispatch<SetStateAction<Current>>, setShape: Dispatch<SetStateAction<ShapeArray>>, setPoint: Dispatch<SetStateAction<PointArray>>) {
     setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == current.shape_id ?
-        {...shape, is_deleted: true} : shape));
+        {...shape, status: ShapeStatusEnum.Deleted, is_deleted: true} : shape));
 
     setPoint((prevState: PointArray) => prevState.map(point => point.shape_id == current.shape_id ?
         {...point, is_deleted: true} : point));

@@ -58,7 +58,6 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                         let foundPoint: Point | undefined;
 
                         let prePoint: { x: number, y: number } | undefined;
-
                         let curPoint: { x: number, y: number } = {x: offsetX, y: offsetY};
 
                         if (current?.tool == ToolEnum.Line) {
@@ -139,7 +138,6 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                         let foundPoint: Point | undefined;
 
                         let prePoint: { id: string, x: number, y: number } | undefined;
-
                         let curPoint: { id: string, x: number, y: number } = {
                             id: pointId,
                             x: offsetX,
@@ -191,15 +189,6 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
 
                                 arcId = shapeUtil.generationId("a", arcId);
 
-                                setArc((prevState: ArcArray) => [...prevState, {
-                                    id: arcId,
-                                    shape_id: shapeId,
-                                    center_point_id: curPoint.id,
-                                    start_point_id: undefined,
-                                    end_point_id: undefined,
-                                    radius: undefined
-                                }]);
-
                                 setPoint((prevPoints: PointArray) => [...prevPoints, {
                                     id: curPoint.id,
                                     shape_id: current?.shape_id,
@@ -207,6 +196,15 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                     y: curPoint.y,
                                     is_deleted: false,
                                     to_close: false
+                                }]);
+
+                                setArc((prevState: ArcArray) => [...prevState, {
+                                    id: arcId,
+                                    shape_id: shapeId,
+                                    center_point_id: curPoint.id,
+                                    start_point_id: undefined,
+                                    end_point_id: undefined,
+                                    radius: undefined
                                 }]);
 
                                 setCurrent((prevState: Current) => ({
@@ -218,9 +216,6 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                 }));
                             } else {
                                 if (foundArc.center_point_id == undefined) {
-                                    setArc((prevState: ArcArray) => prevState.map(arc => arc.shape_id == shapeId ?
-                                        {...arc, center_point_id: curPoint.id} : arc));
-
                                     setPoint((prevPoints: PointArray) => [...prevPoints, {
                                         id: curPoint.id,
                                         shape_id: current?.shape_id,
@@ -229,6 +224,9 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                         is_deleted: false,
                                         to_close: false
                                     }]);
+
+                                    setArc((prevState: ArcArray) => prevState.map(arc => arc.shape_id == shapeId ?
+                                        {...arc, center_point_id: curPoint.id} : arc));
 
                                     setCurrent((prevState: Current) => ({
                                         ...prevState,
@@ -252,6 +250,15 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                         if (arcId != undefined) {
                                             radius = Math.sqrt((curPoint.x - prePoint.x) ** 2 + (prePoint.y - curPoint.y) ** 2);
 
+                                            setPoint((prevPoints: PointArray) => [...prevPoints, {
+                                                id: curPoint.id,
+                                                shape_id: current?.shape_id,
+                                                x: curPoint.x,
+                                                y: curPoint.y,
+                                                is_deleted: false,
+                                                to_close: false
+                                            }]);
+
                                             setArc((prevState: ArcArray) => prevState.map(arc => arc.id == arcId ?
                                                 {
                                                     ...arc,
@@ -260,26 +267,17 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                                 } : arc));
 
                                             setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
-                                                {...shape, is_closed: true} : shape));
+                                                {...shape, status: ShapeStatusEnum.Closed, is_closed: true} : shape));
+
+                                            setCurrent((prevState: Current) => ({
+                                                ...prevState,
+                                                cur_point_id: curPoint.id,
+                                                pre_point_id1: prevState.cur_point_id,
+                                                pre_point_id2: prevState.pre_point_id1,
+                                                pre_point_id3: prevState.pre_point_id2
+                                            }));
                                         }
                                     }
-
-                                    setPoint((prevPoints: PointArray) => [...prevPoints, {
-                                        id: curPoint.id,
-                                        shape_id: current?.shape_id,
-                                        x: curPoint.x,
-                                        y: curPoint.y,
-                                        is_deleted: false,
-                                        to_close: false
-                                    }]);
-
-                                    setCurrent((prevState: Current) => ({
-                                        ...prevState,
-                                        cur_point_id: curPoint.id,
-                                        pre_point_id1: prevState.cur_point_id,
-                                        pre_point_id2: prevState.pre_point_id1,
-                                        pre_point_id3: prevState.pre_point_id2
-                                    }));
                                 } else {
                                     shapeUtil.cleanedUpCurrent(setCurrent);
 
@@ -289,15 +287,6 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
 
                                     arcId = shapeUtil.generationId("a", arcId);
 
-                                    setArc((prevState: ArcArray) => [...prevState, {
-                                        id: arcId,
-                                        shape_id: shapeId,
-                                        center_point_id: curPoint.id,
-                                        start_point_id: undefined,
-                                        end_point_id: undefined,
-                                        radius: undefined
-                                    }]);
-
                                     setPoint((prevPoints: PointArray) => [...prevPoints, {
                                         id: curPoint.id,
                                         shape_id: current?.shape_id,
@@ -305,6 +294,15 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                         y: curPoint.y,
                                         is_deleted: false,
                                         to_close: false
+                                    }]);
+
+                                    setArc((prevState: ArcArray) => [...prevState, {
+                                        id: arcId,
+                                        shape_id: shapeId,
+                                        center_point_id: curPoint.id,
+                                        start_point_id: undefined,
+                                        end_point_id: undefined,
+                                        radius: undefined
                                     }]);
                                 }
                             }
@@ -315,6 +313,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
         }
 
         useEffect(() => {
+            console.log(shape)
         });
 
         return (

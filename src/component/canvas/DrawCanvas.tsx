@@ -64,7 +64,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                         if (current?.tool == ToolEnum.Line) {
                             foundPoint = point.findLast(p => p.id == current?.cur_point_id);
 
-                            prePoint = foundPoint ? {
+                            prePoint = foundPoint?.shape_id == shapeId ? {
                                 x: foundPoint.x,
                                 y: foundPoint.y
                             } : undefined;
@@ -201,11 +201,15 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                         if (arcId != undefined) {
                                             radius = Math.sqrt((curPoint.x - prePoint.x) ** 2 + (prePoint.y - curPoint.y) ** 2);
 
-                                            setArc((prevState: ArcArray) => prevState.map(arc => arc.id == arcId ? {
-                                                ...arc,
-                                                end_point_id: curPoint.id,
-                                                radius: radius
-                                            } : arc));
+                                            setArc((prevState: ArcArray) => prevState.map(arc => arc.id == arcId ?
+                                                {
+                                                    ...arc,
+                                                    end_point_id: curPoint.id,
+                                                    radius: radius
+                                                } : arc));
+
+                                            setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
+                                                {...shape, is_closed: true} : shape));
                                         }
                                     }
                                 } else {

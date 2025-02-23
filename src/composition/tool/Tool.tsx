@@ -1,18 +1,9 @@
 import {CanvasComponentProps, Current, PointArray, ShapeArray} from '@/ts';
 import {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import shapeUtil from '@/util/shape.util';
-import {
-    ShapeTypeEnum,
-    ToolObjectEnum,
-    ShapeStatusEnum,
-    OperationEnum,
-    ToolEnum,
-    OperationObjectEnum
-} from '@/store/enum/shape.enum';
-import {ConfirmEnum} from '@/store/enum/system.enum';
+import {ToolEnum, ToolObjectEnum} from '@/store/enum/shape.enum';
 import ConfirmModal from '@/composition/modal/ConfirmModal';
 import toolStyle from './Tool.module.scss';
-import {set} from 'immutable';
 
 function checkShift(current: Current, toolId: String, shape: ShapeArray): boolean {
     let is_shift: boolean = false;

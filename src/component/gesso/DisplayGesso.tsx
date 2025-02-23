@@ -27,7 +27,7 @@ const DisplayGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
 
                 for (let i = 0; i < fixedShape.length; i++) {
                     if (fixedShape[i].type == ShapeTypeEnum.Pending) {
-                        let fixedPoint = point.filter((p: Point) => !p.is_deleted);
+                        let fixedPoint = point.filter((p: Point) => p.shape_id == fixedShape[i].id && !p.is_deleted);
 
                         if (fixedPoint.length >= 2) {
                             displayGessoCtx.strokeStyle = "orange";

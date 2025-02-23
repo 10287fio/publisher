@@ -88,7 +88,7 @@ function checkAtomicity(current: Current, toolId: String): Boolean {
     let preToolAtomicity: boolean = false;
     let postToolAtomicity: boolean = false;
 
-    if (current != undefined) {
+    if (current != undefined && current.tool) {
         preToolAtomicity = getAtomicityByToolId(current.tool);
         postToolAtomicity = getAtomicityByToolId(toolId);
 
@@ -157,13 +157,16 @@ function shiftTool(tool: string, setCurrent: Dispatch<SetStateAction<Current>>, 
     let toolType = ToolEnum[tool as keyof typeof ToolEnum]
 
     setCurrent((prevState: Current) => ({
-        ...prevState,
         tool: toolType,
         pre_tool: prevState.tool,
         shape_id: shapeId,
         shape_status: ShapeStatusEnum.New,
         operation: OperationEnum.AP_Free,
-        pre_operation: prevState.operation
+        pre_operation: prevState.operation,
+        cur_point_id: undefined,
+        pre_point_id1: undefined,
+        pre_point_id2: undefined,
+        pre_point_id3: undefined
     }));
 }
 

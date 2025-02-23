@@ -34,7 +34,6 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
         const setArc: Dispatch<SetStateAction<ArcArray>> = updateShapeStateProps.setArc;
         const setCurrent: Dispatch<SetStateAction<Current>> = updateShapeStateProps.setCurrent;
 
-
         function drawCanvasMoveEventListener(event: MouseEvent, drawCanvas: HTMLCanvasElement | null) {
             if (drawCanvas == null) return false;
 
@@ -84,10 +83,8 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                 drawCtx.lineTo(setX, setY);
                                 drawCtx.stroke();
                             }
-
-                            drawCtx.beginPath();
-                            drawCtx.arc(setX, setY, 5, 0, 2 * Math.PI);
-                            drawCtx.fill();
+                        } else if (current?.tool == ToolEnum.Arc) {
+                            let foundArc: Arc | undefined = arc.findLast(a => a.shape_id == shapeId);
 
                         } else if (current?.tool == ToolEnum.Circle) {
                             let foundArc: Arc | undefined = arc.findLast(a => a.shape_id == shapeId);
@@ -112,6 +109,10 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                 }
                             }
                         }
+
+                        drawCtx.beginPath();
+                        drawCtx.arc(setX, setY, 5, 0, 2 * Math.PI);
+                        drawCtx.fill();
                     }
                 }
             }
@@ -313,7 +314,6 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
         }
 
         useEffect(() => {
-            console.log(shape)
         });
 
         return (

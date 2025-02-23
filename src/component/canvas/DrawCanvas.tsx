@@ -165,6 +165,23 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                     }
                                 }
                             }
+
+                            setPoint((prevPoints: PointArray) => [...prevPoints, {
+                                id: curPoint.id,
+                                shape_id: current?.shape_id,
+                                x: curPoint.x,
+                                y: curPoint.y,
+                                is_deleted: false,
+                                to_close: false
+                            }]);
+
+                            setCurrent((prevState: Current) => ({
+                                ...prevState,
+                                cur_point_id: curPoint.id,
+                                pre_point_id1: prevState.cur_point_id,
+                                pre_point_id2: prevState.pre_point_id1,
+                                pre_point_id3: prevState.pre_point_id2
+                            }));
                         } else if (current?.tool == ToolEnum.Circle) {
                             let foundArc: Arc | undefined = arc.findLast(a => a.shape_id == shapeId);
 
@@ -182,10 +199,44 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                     end_point_id: undefined,
                                     radius: undefined
                                 }]);
+
+                                setPoint((prevPoints: PointArray) => [...prevPoints, {
+                                    id: curPoint.id,
+                                    shape_id: current?.shape_id,
+                                    x: curPoint.x,
+                                    y: curPoint.y,
+                                    is_deleted: false,
+                                    to_close: false
+                                }]);
+
+                                setCurrent((prevState: Current) => ({
+                                    ...prevState,
+                                    cur_point_id: curPoint.id,
+                                    pre_point_id1: prevState.cur_point_id,
+                                    pre_point_id2: prevState.pre_point_id1,
+                                    pre_point_id3: prevState.pre_point_id2
+                                }));
                             } else {
                                 if (foundArc.center_point_id == undefined) {
                                     setArc((prevState: ArcArray) => prevState.map(arc => arc.shape_id == shapeId ?
                                         {...arc, center_point_id: curPoint.id} : arc));
+
+                                    setPoint((prevPoints: PointArray) => [...prevPoints, {
+                                        id: curPoint.id,
+                                        shape_id: current?.shape_id,
+                                        x: curPoint.x,
+                                        y: curPoint.y,
+                                        is_deleted: false,
+                                        to_close: false
+                                    }]);
+
+                                    setCurrent((prevState: Current) => ({
+                                        ...prevState,
+                                        cur_point_id: curPoint.id,
+                                        pre_point_id1: prevState.cur_point_id,
+                                        pre_point_id2: prevState.pre_point_id1,
+                                        pre_point_id3: prevState.pre_point_id2
+                                    }));
                                 } else if (foundArc.end_point_id == undefined) {
                                     foundPoint = point.findLast(p => p.id == foundArc.center_point_id);
 
@@ -212,6 +263,23 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                                 {...shape, is_closed: true} : shape));
                                         }
                                     }
+
+                                    setPoint((prevPoints: PointArray) => [...prevPoints, {
+                                        id: curPoint.id,
+                                        shape_id: current?.shape_id,
+                                        x: curPoint.x,
+                                        y: curPoint.y,
+                                        is_deleted: false,
+                                        to_close: false
+                                    }]);
+
+                                    setCurrent((prevState: Current) => ({
+                                        ...prevState,
+                                        cur_point_id: curPoint.id,
+                                        pre_point_id1: prevState.cur_point_id,
+                                        pre_point_id2: prevState.pre_point_id1,
+                                        pre_point_id3: prevState.pre_point_id2
+                                    }));
                                 } else {
                                     shapeUtil.cleanedUpCurrent(setCurrent);
 
@@ -229,26 +297,18 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                         end_point_id: undefined,
                                         radius: undefined
                                     }]);
+
+                                    setPoint((prevPoints: PointArray) => [...prevPoints, {
+                                        id: curPoint.id,
+                                        shape_id: current?.shape_id,
+                                        x: curPoint.x,
+                                        y: curPoint.y,
+                                        is_deleted: false,
+                                        to_close: false
+                                    }]);
                                 }
                             }
                         }
-
-                        setPoint((prevPoints: PointArray) => [...prevPoints, {
-                            id: curPoint.id,
-                            shape_id: current?.shape_id,
-                            x: curPoint.x,
-                            y: curPoint.y,
-                            is_deleted: false,
-                            to_close: false
-                        }]);
-
-                        setCurrent((prevState: Current) => ({
-                            ...prevState,
-                            cur_point_id: curPoint.id,
-                            pre_point_id1: prevState.cur_point_id,
-                            pre_point_id2: prevState.pre_point_id1,
-                            pre_point_id3: prevState.pre_point_id2
-                        }));
                     }
                 }
             }

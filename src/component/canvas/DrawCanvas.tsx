@@ -86,6 +86,9 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                         } else if (current?.tool == ToolEnum.Arc) {
                             let foundArc: Arc | undefined = arc.findLast(a => a.shape_id == shapeId);
 
+                            if (foundArc) {
+                            }
+
                         } else if (current?.tool == ToolEnum.Circle) {
                             let foundArc: Arc | undefined = arc.findLast(a => a.shape_id == shapeId);
 
@@ -266,15 +269,12 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                     let radius: number | undefined = foundArc?.radius;
 
                                     if (prePoint && radius) {
-                                        let endPointId: string | undefined = point.at(-1)?.id;
-                                        endPointId = shapeUtil.generationId("p", pointId);
-
                                         let d: number = Math.sqrt((curPoint.x - prePoint.x) ** 2 + (prePoint.y - curPoint.y) ** 2);
                                         let endPointX: number = prePoint.x + radius * ((curPoint.x - prePoint.x) / d);
                                         let endPointY: number = prePoint.y + radius * ((curPoint.y - prePoint.y) / d);
 
                                         let endPoint: { id: string, x: number, y: number } = {
-                                            id: endPointId,
+                                            id: pointId,
                                             x: endPointX,
                                             y: endPointY
                                         };

@@ -53,6 +53,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                         let setX: number = offsetX;
                         let setY: number = offsetY;
                         let radius: number = 0;
+                        let angle: number = 0;
 
                         let foundPoint: Point | undefined;
 
@@ -134,10 +135,29 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                             y: endPointY
                                         };
 
+                                        let vectorA: { x: number, y: number } = {
+                                            x: prePoint2.x - prePoint.x,
+                                            y: prePoint2.y - prePoint.y
+                                        };
+
+                                        let vectorB: { x: number, y: number } = {
+                                            x: endPoint.x - prePoint2.x,
+                                            y: endPoint.y - prePoint2.y
+                                        };
+
+                                        let startAngle: number | undefined = Math.atan2(vectorA.y, vectorA.x);
+                                        let endAngle: number | undefined = Math.acos(((vectorA.x * vectorB.x) + (vectorA.y * vectorB.y)) / (Math.sqrt((vectorA.x ** 2) + (vectorA.y ** 2)) * Math.sqrt((vectorB.x ** 2) + (vectorB.y ** 2))));
+                                        console.log(startAngle);
+                                        console.log(endAngle);
                                         drawCtx.beginPath();
                                         drawCtx.moveTo(prePoint2.x, prePoint2.y);
                                         drawCtx.lineTo(endPoint.x, endPoint.y);
                                         drawCtx.stroke();
+
+                                        drawCtx.beginPath();
+                                        drawCtx.moveTo(prePoint2.x, prePoint2.y);
+                                        drawCtx.arc(prePoint2.x, prePoint2.y, radius, 0,  endAngle);
+                                        drawCtx.fill();
                                     }
                                 }
 
@@ -197,6 +217,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                         let foundPoint: Point | undefined;
 
                         let prePoint: { id: string, x: number, y: number } | undefined;
+                        let prePoint2: { id: string, x: number, y: number } | undefined;
                         let curPoint: { id: string, x: number, y: number } = {
                             id: pointId,
                             x: offsetX,
@@ -262,7 +283,8 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                     center_point_id: undefined,
                                     start_point_id: curPoint.id,
                                     end_point_id: undefined,
-                                    radius: undefined
+                                    radius: undefined,
+                                    angle: undefined
                                 }]);
 
                                 setCurrent((prevState: Current) => ({
@@ -313,7 +335,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                         }));
                                     }
                                 } else if (foundArc.end_point_id == undefined) {
-                                    foundPoint = point.findLast(p => p.id == foundArc.center_point_id);
+                                    foundPoint = point.findLast(p => p.id == foundArc.start_point_id);
 
                                     prePoint = foundPoint ? {
                                         id: foundPoint.id,
@@ -321,18 +343,38 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                         y: foundPoint.y
                                     } : undefined;
 
+                                    foundPoint = point.findLast(p => p.id == foundArc.center_point_id);
+
+                                    prePoint2 = foundPoint ? {
+                                        id: foundPoint.id,
+                                        x: foundPoint.x,
+                                        y: foundPoint.y
+                                    } : undefined;
+
                                     let radius: number | undefined = foundArc?.radius;
 
-                                    if (prePoint && radius) {
-                                        let d: number = Math.sqrt((curPoint.x - prePoint.x) ** 2 + (prePoint.y - curPoint.y) ** 2);
-                                        let endPointX: number = prePoint.x + radius * ((curPoint.x - prePoint.x) / d);
-                                        let endPointY: number = prePoint.y + radius * ((curPoint.y - prePoint.y) / d);
+                                    if (prePoint && prePoint2 && radius) {
+                                        let d: number = Math.sqrt((curPoint.x - prePoint2.x) ** 2 + (prePoint2.y - curPoint.y) ** 2);
+                                        let endPointX: number = prePoint2.x + radius * ((curPoint.x - prePoint2.x) / d);
+                                        let endPointY: number = prePoint2.y + radius * ((curPoint.y - prePoint2.y) / d);
 
                                         let endPoint: { id: string, x: number, y: number } = {
                                             id: pointId,
                                             x: endPointX,
                                             y: endPointY
                                         };
+
+                                        let vectorA: { x: number, y: number } = {
+                                            x: prePoint2.x - prePoint.x,
+                                            y: prePoint2.y - prePoint.y
+                                        };
+
+                                        let vectorB: { x: number, y: number } = {
+                                            x: endPoint.x - prePoint2.x,
+                                            y: endPoint.y - prePoint2.y
+                                        };
+
+                                        let angle: number | undefined = Math.acos((vectorA.x * vectorB.x + vectorA.y * vectorB.y) / (Math.sqrt(vectorA.x ** 2 + vectorA.y ** 2) * Math.sqrt(vectorB.x ** 2 + vectorB.y ** 2)));
 
                                         setPoint((prevPoints: PointArray) => [...prevPoints, {
                                             id: endPoint.id,
@@ -344,7 +386,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                         }]);
 
                                         setArc((prevState: ArcArray) => prevState.map(arc => arc.shape_id == shapeId ?
-                                            {...arc, end_point_id: endPoint.id} : arc));
+                                            {...arc, end_point_id: endPoint.id, angle: angle} : arc));
 
                                         setCurrent((prevState: Current) => ({
                                             ...prevState,
@@ -379,7 +421,8 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                     center_point_id: curPoint.id,
                                     start_point_id: undefined,
                                     end_point_id: undefined,
-                                    radius: undefined
+                                    radius: undefined,
+                                    angle: undefined
                                 }]);
 
                                 setCurrent((prevState: Current) => ({
@@ -473,7 +516,8 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                         center_point_id: curPoint.id,
                                         start_point_id: undefined,
                                         end_point_id: undefined,
-                                        radius: undefined
+                                        radius: undefined,
+                                        angle: undefined
                                     }]);
                                 }
                             }

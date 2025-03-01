@@ -203,6 +203,22 @@ function shiftShape(current: Current, setCurrent: Dispatch<SetStateAction<Curren
     return shapeId;
 }
 
+function determineQuadrant(centerPoint: { x: number, y: number }, startPoint: { x: number, y: number }): number {
+    if (centerPoint.x == startPoint.x && centerPoint.y == startPoint.y) {
+        return 0;
+    } else if (centerPoint.x <= startPoint.x && centerPoint.y < startPoint.y) {
+        return 1;
+    } else if (centerPoint.x < startPoint.x && centerPoint.y >= startPoint.y) {
+        return 2;
+    } else if (centerPoint.x >= startPoint.x && centerPoint.y > startPoint.y) {
+        return 3;
+    } else if (centerPoint.x > startPoint.x && centerPoint.y <= startPoint.y) {
+        return 4;
+    } else {
+        return -1;
+    }
+}
+
 export default {
     numberingId,
     generationId,
@@ -214,5 +230,6 @@ export default {
     cleanedUpCurrent,
     cleanedUpShape,
     shiftTool,
-    shiftShape
+    shiftShape,
+    determineQuadrant
 };

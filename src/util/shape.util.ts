@@ -10,7 +10,7 @@ import {
 import {Dispatch, SetStateAction} from 'react';
 
 function invertYAxis(canvas: HTMLCanvasElement | null) {
-    if(canvas){
+    if (canvas) {
         if (canvas.getContext) {
             const drawCtx = canvas.getContext("2d");
 
@@ -218,19 +218,27 @@ function shiftShape(current: Current, setCurrent: Dispatch<SetStateAction<Curren
     return shapeId;
 }
 
-function determineQuadrant(centerPoint: { x: number, y: number }, startPoint: { x: number, y: number }): number {
-    if (centerPoint.x == startPoint.x && centerPoint.y == startPoint.y) {
+function determineQuadrant(centerPoint: { x: number, y: number }, objectPoint: { x: number, y: number }): number {
+    if (centerPoint.x == objectPoint.x && centerPoint.y < objectPoint.y) {
+        return -1;
+    } else if (centerPoint.x < objectPoint.x && centerPoint.y == objectPoint.y) {
+        return -2
+    } else if (centerPoint.x == objectPoint.x && centerPoint.y > objectPoint.y) {
+        return -3
+    } else if (centerPoint.x > objectPoint.x && centerPoint.y == objectPoint.y) {
+        return -4
+    } else if (centerPoint.x == objectPoint.x && centerPoint.y == objectPoint.y) {
         return 0;
-    } else if (centerPoint.x <= startPoint.x && centerPoint.y < startPoint.y) {
+    } else if (centerPoint.x <= objectPoint.x && centerPoint.y < objectPoint.y) {
         return 1;
-    } else if (centerPoint.x < startPoint.x && centerPoint.y >= startPoint.y) {
+    } else if (centerPoint.x < objectPoint.x && centerPoint.y >= objectPoint.y) {
         return 2;
-    } else if (centerPoint.x >= startPoint.x && centerPoint.y > startPoint.y) {
+    } else if (centerPoint.x >= objectPoint.x && centerPoint.y > objectPoint.y) {
         return 3;
-    } else if (centerPoint.x > startPoint.x && centerPoint.y <= startPoint.y) {
+    } else if (centerPoint.x > objectPoint.x && centerPoint.y <= objectPoint.y) {
         return 4;
     } else {
-        return -1;
+        return -99;
     }
 }
 

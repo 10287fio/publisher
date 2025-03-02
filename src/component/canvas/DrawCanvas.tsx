@@ -153,23 +153,79 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                         };
 
                                         let vectorB: { x: number, y: number } = {
-                                            x: endPoint.x - prePoint2.x,
-                                            y: endPoint.y - prePoint2.y
+                                            x: prePoint2.x - endPoint.x,
+                                            y: prePoint2.y - endPoint.y
                                         };
 
-                                        let startAngle: number | undefined = Math.atan2(vectorA.y, vectorA.x);
-                                        let endAngle: number | undefined = Math.acos(((vectorA.x * vectorB.x) + (vectorA.y * vectorB.y)) / (Math.sqrt((vectorA.x ** 2) + (vectorA.y ** 2)) * Math.sqrt((vectorB.x ** 2) + (vectorB.y ** 2))));
+                                        let quadrant: number = shapeUtil.determineQuadrant(prePoint2, prePoint);
+
+                                        let startAngle: number = 0;
+                                        let endAngle: number = 0;
+
+                                        if (quadrant == 0 || quadrant == -99) {
+                                            startAngle = 0;
+                                        } else if (quadrant == -1) {
+                                            startAngle = Math.PI / 2;
+                                        } else if (quadrant == 1) {
+                                            startAngle = Math.atan(vectorA.y / vectorA.x);
+                                        } else if (quadrant == -2) {
+                                            startAngle = 0;
+                                        } else if (quadrant == 2) {
+                                            startAngle = Math.atan(vectorA.y / vectorA.x);
+                                        } else if (quadrant == -3) {
+                                            startAngle = -1 * (Math.PI / 2);
+                                        } else if (quadrant == 3) {
+                                            startAngle = (-1 * (Math.PI / 2)) + (Math.atan(vectorA.x / vectorA.y) * -1);
+                                        } else if (quadrant == -4) {
+                                            startAngle = -1 * Math.PI;
+                                        } else if (quadrant == 4) {
+                                            startAngle = (-1 * Math.PI) + Math.atan(vectorB.y / vectorB.x);
+                                        }
+                                        // console.log(quadrant);
+
+                                        quadrant = shapeUtil.determineQuadrant(prePoint2, endPoint);
+
+                                        if (quadrant == 0 || quadrant == -99) {
+                                            endAngle = 0;
+                                        } else if (quadrant == -1) {
+                                            endAngle = -3 * (Math.PI / 2);
+                                        } else if (quadrant == 1) {
+                                            if (startAngle > Math.atan(vectorB.y / vectorB.x)) {
+                                                endAngle = Math.atan(vectorB.y / vectorB.x);
+                                            } else {
+                                                endAngle = (-3 * (Math.PI / 2)) + (Math.atan(vectorB.x / vectorB.y) * -1);
+                                            }
+                                        } else if (quadrant == -2) {
+                                            endAngle = 0;
+                                        } else if (quadrant == 2) {
+                                            endAngle = Math.atan(vectorB.y / vectorB.x);
+                                        } else if (quadrant == -3) {
+                                            endAngle = -1 * (Math.PI / 2);
+                                        } else if (quadrant == 3) {
+                                            endAngle = (-1 * (Math.PI / 2)) + (Math.atan(vectorB.x / vectorB.y) * -1);
+                                        } else if (quadrant == -4) {
+                                            endAngle = -1 * Math.PI;
+                                        } else if (quadrant == 4) {
+                                            endAngle = (-1 * Math.PI) + Math.atan(vectorB.y / vectorB.x);
+                                        }
+
+
+                                        // let startAngle: number | undefined = Math.atan2(vectorA.y, vectorA.x);
+                                        // endAngle = Math.acos(((vectorA.x * vectorB.x) + (vectorA.y * vectorB.y)) / (Math.sqrt((vectorA.x ** 2) + (vectorA.y ** 2)) * Math.sqrt((vectorB.x ** 2) + (vectorB.y ** 2))));
                                         console.log(startAngle);
                                         console.log(endAngle);
-                                        drawCtx.beginPath();
-                                        drawCtx.moveTo(prePoint2.x, prePoint2.y);
-                                        drawCtx.lineTo(endPoint.x, endPoint.y);
-                                        drawCtx.stroke();
 
-                                        drawCtx.beginPath();
-                                        drawCtx.moveTo(prePoint2.x, prePoint2.y);
-                                        drawCtx.arc(prePoint2.x, prePoint2.y, radius, 0, endAngle);
-                                        drawCtx.fill();
+                                        if (startAngle != undefined && endAngle != undefined) {
+                                            drawCtx.beginPath();
+                                            drawCtx.moveTo(prePoint2.x, prePoint2.y);
+                                            drawCtx.lineTo(endPoint.x, endPoint.y);
+                                            drawCtx.stroke();
+
+                                            drawCtx.beginPath();
+                                            drawCtx.moveTo(prePoint2.x, prePoint2.y);
+                                            drawCtx.arc(prePoint2.x, prePoint2.y, radius, startAngle, endAngle, true);
+                                            drawCtx.fill();
+                                        }
                                     }
                                 }
                             }

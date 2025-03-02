@@ -6,8 +6,13 @@ const MagnifierGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
     const magnifierGessoRef = useRef<HTMLCanvasElement | null>(null);
 
     useEffect(() => {
-        shapeUtil.initCanvas(magnifierGessoRef.current);
-    });
+        shapeUtil.invertYAxis(magnifierGessoRef.current);
+
+        return () => {
+            shapeUtil.invertYAxis(magnifierGessoRef.current);
+        }
+    }, []);
+
     return (
         <>
             <canvas ref={magnifierGessoRef}></canvas>

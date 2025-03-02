@@ -172,10 +172,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                         drawCtx.fill();
                                     }
                                 }
-
-
                             }
-
                         } else if (current?.tool == ToolEnum.Circle) {
                             let foundArc: Arc | undefined = arc.findLast(a => a.shape_id == shapeId);
 
@@ -222,19 +219,11 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
 
                         pointId = shapeUtil.generationId("p", pointId);
 
-                        //
-                        const rect = drawCanvas.getBoundingClientRect();
-                        const scaleX = drawCanvas.width / rect.width;
-                        const scaleY = drawCanvas.height / rect.height;
-
-                        let offsetX = (event.clientX - rect.left) * scaleX;
-                        let offsetY = (event.clientY - rect.top) * scaleY;
+                        let offsetX: number = event.nativeEvent.offsetX;
+                        let offsetY: number = event.nativeEvent.offsetY;
 
                         offsetY = drawCanvas.height - offsetY;
-                        //
 
-                        // let offsetX: number = event.nativeEvent.offsetX;
-                        // let offsetY: number = event.nativeEvent.offsetY;
                         let radius: number = 0;
 
                         let foundPoint: Point | undefined;
@@ -558,25 +547,10 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
             }
         }, []);
 
-        useEffect(() => {
-            let drawCanvas = drawCanvasRef.current;
-            if (drawCanvas != null) {
-                if (drawCanvas.getContext) {
-                    const drawCtx = drawCanvas.getContext("2d");
-
-                    if (drawCtx) {
-                        drawCtx.beginPath();
-                        drawCtx.arc(0, 0, 10, 0, 2 * Math.PI);
-                        drawCtx.fill();
-                    }
-                }
-            }
-        });
-
         return (
             <>
                 <canvas id={sketchbookStyle.drawCanvas} ref={drawCanvasRef} className={sketchbookStyle.canvas}
-                        width={"300px"} height={"300px"}
+                        width={"1000px"} height={"1000px"}
                         onClick={(event: React.MouseEvent) => drawCanvasClickEventListener(event, drawCanvasRef.current)}
                         onMouseMove={(event: React.MouseEvent) => drawCanvasMoveEventListener(event, drawCanvasRef.current)}></canvas>
             </>

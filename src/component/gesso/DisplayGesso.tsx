@@ -13,9 +13,13 @@ const DisplayGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
 
 
     useEffect(() => {
+        shapeUtil.invertYAxis(displayGessoRef.current);
 
-        shapeUtil.initCanvas(displayGessoRef.current);
+        return () => {
+            shapeUtil.invertYAxis(displayGessoRef.current);
+        }
     }, []);
+
     useEffect(() => {
 
 
@@ -70,7 +74,7 @@ const DisplayGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
 
     return (
         <>
-            <canvas ref={displayGessoRef} id={sketchbookStyle.reserveCanvas} width={"300px"} height={"300px"}
+            <canvas ref={displayGessoRef} id={sketchbookStyle.reserveCanvas} width={"1000px"} height={"1000px"}
                     className={sketchbookStyle.canvas}></canvas>
         </>
     );

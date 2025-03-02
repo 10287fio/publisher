@@ -9,6 +9,21 @@ import {
 } from '@/store/enum/shape.enum';
 import {Dispatch, SetStateAction} from 'react';
 
+function invertYAxis(canvas: HTMLCanvasElement | null) {
+    if(canvas){
+        if (canvas.getContext) {
+            const drawCtx = canvas.getContext("2d");
+
+            if (drawCtx) {
+                drawCtx.translate(0, canvas.height);
+                drawCtx.scale(1, -1);
+
+                drawCtx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+    }
+}
+
 function numberingId(id: string): string {
     let idNum: number = Number(id.slice(1));
     idNum++;
@@ -220,6 +235,7 @@ function determineQuadrant(centerPoint: { x: number, y: number }, startPoint: { 
 }
 
 export default {
+    invertYAxis,
     numberingId,
     generationId,
     calQuadCoord,

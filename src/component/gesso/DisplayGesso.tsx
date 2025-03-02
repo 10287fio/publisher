@@ -2,6 +2,7 @@ import {Arc, ArcArray, Current, GessoComponentProps, Point, PointArray, Shape, S
 import {ShapeTypeEnum} from '@/store/enum/shape.enum';
 import sketchbookStyle from '@/composition/sketchbook/Sketchbook.module.scss';
 import {useEffect, useRef} from 'react';
+import shapeUtil from '@/util/shape.util';
 
 const DisplayGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
     const displayGessoRef = useRef<HTMLCanvasElement | null>(null);
@@ -10,7 +11,13 @@ const DisplayGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
     const arc: ArcArray = shapeStateProps.arc;
     const current: Current = shapeStateProps.current;
 
+
     useEffect(() => {
+
+        shapeUtil.initCanvas(displayGessoRef.current);
+    }, []);
+    useEffect(() => {
+
 
         if (displayGessoRef.current) {
             const displayGesso: HTMLCanvasElement = displayGessoRef.current;
@@ -63,7 +70,7 @@ const DisplayGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
 
     return (
         <>
-            <canvas ref={displayGessoRef} id={sketchbookStyle.reserveCanvas} width={"2000px"} height={"2000px"}
+            <canvas ref={displayGessoRef} id={sketchbookStyle.reserveCanvas} width={"300px"} height={"300px"}
                     className={sketchbookStyle.canvas}></canvas>
         </>
     );

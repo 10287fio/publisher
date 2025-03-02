@@ -47,14 +47,26 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                         drawCtx.fillStyle = "pink";
                         drawCtx.strokeStyle = "red";
                         drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
+                        //
+                        const rect = drawCanvas.getBoundingClientRect();
+                        // const scaleX = drawCanvas.width / rect.width;
+                        // const scaleY = drawCanvas.height / rect.height;
+
+                        // let offsetX = (event.nativeEvent.offsetX - rect.left) * scaleX;
+                        // let offsetY = (event.nativeEvent.offsetY - rect.top) * scaleY;
+
+                        // offsetY = drawCanvas.height - offsetY;
+                        //
+
 
                         let offsetX: number = event.nativeEvent.offsetX;
                         let offsetY: number = event.nativeEvent.offsetY;
+                        offsetY = drawCanvas.height - offsetY;
+
                         let setX: number = offsetX;
                         let setY: number = offsetY;
                         let radius: number = 0;
                         let angle: number = 0;
-
                         let foundPoint: Point | undefined;
 
                         let prePoint: { x: number, y: number } | undefined;
@@ -156,7 +168,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
 
                                         drawCtx.beginPath();
                                         drawCtx.moveTo(prePoint2.x, prePoint2.y);
-                                        drawCtx.arc(prePoint2.x, prePoint2.y, radius, 0,  endAngle);
+                                        drawCtx.arc(prePoint2.x, prePoint2.y, radius, 0, endAngle);
                                         drawCtx.fill();
                                     }
                                 }
@@ -210,8 +222,19 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
 
                         pointId = shapeUtil.generationId("p", pointId);
 
-                        let offsetX: number = event.nativeEvent.offsetX;
-                        let offsetY: number = event.nativeEvent.offsetY;
+                        //
+                        const rect = drawCanvas.getBoundingClientRect();
+                        const scaleX = drawCanvas.width / rect.width;
+                        const scaleY = drawCanvas.height / rect.height;
+
+                        let offsetX = (event.clientX - rect.left) * scaleX;
+                        let offsetY = (event.clientY - rect.top) * scaleY;
+
+                        offsetY = drawCanvas.height - offsetY;
+                        //
+
+                        // let offsetX: number = event.nativeEvent.offsetX;
+                        // let offsetY: number = event.nativeEvent.offsetY;
                         let radius: number = 0;
 
                         let foundPoint: Point | undefined;
@@ -528,12 +551,32 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
         }
 
         useEffect(() => {
+            shapeUtil.invertYAxis(drawCanvasRef.current);
+
+            return () => {
+                shapeUtil.invertYAxis(drawCanvasRef.current);
+            }
+        }, []);
+
+        useEffect(() => {
+            let drawCanvas = drawCanvasRef.current;
+            if (drawCanvas != null) {
+                if (drawCanvas.getContext) {
+                    const drawCtx = drawCanvas.getContext("2d");
+
+                    if (drawCtx) {
+                        drawCtx.beginPath();
+                        drawCtx.arc(0, 0, 10, 0, 2 * Math.PI);
+                        drawCtx.fill();
+                    }
+                }
+            }
         });
 
         return (
             <>
                 <canvas id={sketchbookStyle.drawCanvas} ref={drawCanvasRef} className={sketchbookStyle.canvas}
-                        width={"2000px"} height={"2000px"}
+                        width={"300px"} height={"300px"}
                         onClick={(event: React.MouseEvent) => drawCanvasClickEventListener(event, drawCanvasRef.current)}
                         onMouseMove={(event: React.MouseEvent) => drawCanvasMoveEventListener(event, drawCanvasRef.current)}></canvas>
             </>

@@ -74,7 +74,8 @@ export interface Arc {
     start_point_id: string | undefined;
     end_point_id: string | undefined;
     radius: number | undefined;
-    angle: number | undefined;
+    startAngle: number | undefined;
+    endAngle: number | undefined;
 }
 
 export interface ArcArray extends Array<Arc> {

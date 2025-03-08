@@ -2,6 +2,8 @@ import {sortEnumByOrder, convertEnumByKeyAndValue} from '@/util/enum.util';
 
 export enum ShapeTypeEnum {
     Pending = "Pending",
+    Line = "Line",
+    Arc = "Arc",
     Triangle = "Triangle",
     Quadrangle = "Quadrangle",
     Polygon = "Polygon",

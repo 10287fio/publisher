@@ -20,6 +20,7 @@ import {
 } from '@/ts';
 import shapeUtil from '@/util/shape.util';
 import {OperationEnum, ToolEnum, ShapeStatusEnum, ShapeTypeEnum} from '@/store/enum/shape.enum';
+import ShapeUtil from '@/util/shape.util';
 
 const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): JSX.Element => {
         const drawCanvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -47,17 +48,6 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                         drawCtx.fillStyle = "pink";
                         drawCtx.strokeStyle = "red";
                         drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
-                        //
-                        const rect = drawCanvas.getBoundingClientRect();
-                        // const scaleX = drawCanvas.width / rect.width;
-                        // const scaleY = drawCanvas.height / rect.height;
-
-                        // let offsetX = (event.nativeEvent.offsetX - rect.left) * scaleX;
-                        // let offsetY = (event.nativeEvent.offsetY - rect.top) * scaleY;
-
-                        // offsetY = drawCanvas.height - offsetY;
-                        //
-
 
                         let offsetX: number = event.nativeEvent.offsetX;
                         let offsetY: number = event.nativeEvent.offsetY;
@@ -66,7 +56,6 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                         let setX: number = offsetX;
                         let setY: number = offsetY;
                         let radius: number = 0;
-                        let angle: number = 0;
                         let foundPoint: Point | undefined;
 
                         let prePoint: { x: number, y: number } | undefined;
@@ -147,95 +136,11 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                             y: endPointY
                                         };
 
-                                        let vectorA: { x: number, y: number } = {
-                                            x: prePoint2.x - prePoint.x,
-                                            y: prePoint2.y - prePoint.y
-                                        };
-
-                                        let vectorB: { x: number, y: number } = {
-                                            x: prePoint2.x - endPoint.x,
-                                            y: prePoint2.y - endPoint.y
-                                        };
-
-                                        let startQuadrant: number = shapeUtil.determineQuadrant(prePoint2, prePoint);
-                                        let endQuadrant: number = shapeUtil.determineQuadrant(prePoint2, endPoint);
-
                                         let startAngle: number = 0;
                                         let endAngle: number = 0;
-                                        let rightAngle: number = Math.PI / 2;
-                                        let oneRotationAngle: number = Math.PI * 2;
 
-                                        if (startQuadrant == 0 || startQuadrant == -99) {
-                                            startAngle = 0;
-                                        } else if (startQuadrant == -1) {
-                                            startAngle = rightAngle;
-                                        } else if (startQuadrant == 1) {
-                                            startAngle = Math.atan(vectorA.y / vectorA.x);
-                                        } else if (startQuadrant == -2) {
-                                            startAngle = 0;
-                                        } else if (startQuadrant == 2) {
-                                            startAngle = Math.atan(vectorA.y / vectorA.x);
-                                        } else if (startQuadrant == -3) {
-                                            startAngle = -1 * rightAngle;
-                                        } else if (startQuadrant == 3) {
-                                            startAngle = (-1 * rightAngle) + (-1 * Math.atan(vectorA.x / vectorA.y));
-                                        } else if (startQuadrant == -4) {
-                                            startAngle = -2 * rightAngle;
-                                        } else if (startQuadrant == 4) {
-                                            startAngle = (-2 * rightAngle) + Math.atan(vectorA.y / vectorA.x);
-                                        }
-
-                                        if (endQuadrant == 0 || endQuadrant == -99) {
-                                            endAngle = 0;
-                                        } else if (endQuadrant == -1) {
-                                            if (startAngle > rightAngle) {
-                                                endAngle = rightAngle;
-                                            } else {
-                                                endAngle = -3 * rightAngle;
-                                            }
-                                        } else if (endQuadrant == 1) {
-                                            if (startAngle > Math.atan(vectorB.y / vectorB.x)) {
-                                                endAngle = Math.atan(vectorB.y / vectorB.x);
-                                            } else {
-                                                endAngle = (-1 * oneRotationAngle) + Math.atan(vectorB.y / vectorB.x);
-                                            }
-                                        } else if (endQuadrant == -2) {
-                                            if (startAngle > 0) {
-                                                endAngle = 0;
-                                            } else {
-                                                endAngle = -4 * rightAngle;
-                                            }
-                                        } else if (endQuadrant == 2) {
-                                            if (startAngle > Math.atan(vectorB.y / vectorB.x)) {
-                                                endAngle = Math.atan(vectorB.y / vectorB.x);
-                                            } else {
-                                                endAngle = (-1 * oneRotationAngle) + Math.atan(vectorB.y / vectorB.x);
-                                            }
-                                        } else if (endQuadrant == -3) {
-                                            if (startAngle > -1 * rightAngle) {
-                                                endAngle = -1 * rightAngle;
-                                            } else {
-                                                endAngle = -5 * rightAngle;
-                                            }
-                                        } else if (endQuadrant == 3) {
-                                            if (startAngle > (-1 * rightAngle) + (-1 * Math.atan(vectorB.x / vectorB.y))) {
-                                                endAngle = (-1 * rightAngle) + (-1 * Math.atan(vectorB.x / vectorB.y));
-                                            } else {
-                                                endAngle = (-1 * oneRotationAngle) + (-1 * rightAngle) + (-1 * Math.atan(vectorB.x / vectorB.y));
-                                            }
-                                        } else if (endQuadrant == -4) {
-                                            if (startAngle > -2 * rightAngle) {
-                                                endAngle = -2 * rightAngle;
-                                            } else {
-                                                endAngle = -6 * rightAngle;
-                                            }
-                                        } else if (endQuadrant == 4) {
-                                            if (startAngle > (-2 * rightAngle) + Math.atan(vectorB.y / vectorB.x)) {
-                                                endAngle = (-2 * rightAngle) + Math.atan(vectorB.y / vectorB.x);
-                                            } else {
-                                                endAngle = (-1 * oneRotationAngle) + (-2 * rightAngle) + Math.atan(vectorB.y / vectorB.x);
-                                            }
-                                        }
+                                        startAngle = shapeUtil.calStartAngle(prePoint2, prePoint);
+                                        endAngle = shapeUtil.calEndAngle(prePoint2, endPoint, startAngle);
 
                                         if (startAngle != undefined && endAngle != undefined) {
                                             drawCtx.beginPath();
@@ -374,7 +279,8 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                     start_point_id: curPoint.id,
                                     end_point_id: undefined,
                                     radius: undefined,
-                                    angle: undefined
+                                    startAngle: undefined,
+                                    endAngle: undefined
                                 }]);
 
                                 setCurrent((prevState: Current) => ({
@@ -396,6 +302,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
 
                                     if (prePoint != undefined) {
                                         radius = Math.sqrt((curPoint.x - prePoint.x) ** 2 + (prePoint.y - curPoint.y) ** 2);
+                                        let startAngle: number = shapeUtil.calStartAngle(curPoint, prePoint);
 
                                         setPoint((prevPoints: PointArray) => [...prevPoints, {
                                             id: curPoint.id,
@@ -410,7 +317,8 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                             {
                                                 ...arc,
                                                 center_point_id: curPoint.id,
-                                                radius: radius
+                                                radius: radius,
+                                                startAngle: startAngle
                                             } : arc));
 
                                         setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
@@ -442,8 +350,9 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                     } : undefined;
 
                                     let radius: number | undefined = foundArc?.radius;
+                                    let startAngle: number | undefined = foundArc?.startAngle;
 
-                                    if (prePoint && prePoint2 && radius) {
+                                    if (prePoint && prePoint2 && radius && startAngle) {
                                         let d: number = Math.sqrt((curPoint.x - prePoint2.x) ** 2 + (prePoint2.y - curPoint.y) ** 2);
                                         let endPointX: number = prePoint2.x + radius * ((curPoint.x - prePoint2.x) / d);
                                         let endPointY: number = prePoint2.y + radius * ((curPoint.y - prePoint2.y) / d);
@@ -454,17 +363,18 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                             y: endPointY
                                         };
 
-                                        let vectorA: { x: number, y: number } = {
-                                            x: prePoint2.x - prePoint.x,
-                                            y: prePoint2.y - prePoint.y
-                                        };
-
-                                        let vectorB: { x: number, y: number } = {
-                                            x: endPoint.x - prePoint2.x,
-                                            y: endPoint.y - prePoint2.y
-                                        };
-
-                                        let angle: number | undefined = Math.acos((vectorA.x * vectorB.x + vectorA.y * vectorB.y) / (Math.sqrt(vectorA.x ** 2 + vectorA.y ** 2) * Math.sqrt(vectorB.x ** 2 + vectorB.y ** 2)));
+                                        // let vectorA: { x: number, y: number } = {
+                                        //     x: prePoint2.x - prePoint.x,
+                                        //     y: prePoint2.y - prePoint.y
+                                        // };
+                                        //
+                                        // let vectorB: { x: number, y: number } = {
+                                        //     x: endPoint.x - prePoint2.x,
+                                        //     y: endPoint.y - prePoint2.y
+                                        // };
+                                        //
+                                        // let angle: number | undefined = Math.acos((vectorA.x * vectorB.x + vectorA.y * vectorB.y) / (Math.sqrt(vectorA.x ** 2 + vectorA.y ** 2) * Math.sqrt(vectorB.x ** 2 + vectorB.y ** 2)));
+                                        let endAngle: number = shapeUtil.calEndAngle(prePoint2, endPoint, startAngle);
 
                                         setPoint((prevPoints: PointArray) => [...prevPoints, {
                                             id: endPoint.id,
@@ -476,7 +386,15 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                         }]);
 
                                         setArc((prevState: ArcArray) => prevState.map(arc => arc.shape_id == shapeId ?
-                                            {...arc, end_point_id: endPoint.id, angle: angle} : arc));
+                                            {...arc, end_point_id: endPoint.id, endAngle: endAngle} : arc));
+
+                                        setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
+                                            {
+                                                ...shape,
+                                                type: ShapeTypeEnum.Arc,
+                                                status: ShapeStatusEnum.Closed,
+                                                is_closed: true
+                                            } : shape));
 
                                         setCurrent((prevState: Current) => ({
                                             ...prevState,
@@ -512,7 +430,8 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                     start_point_id: undefined,
                                     end_point_id: undefined,
                                     radius: undefined,
-                                    angle: undefined
+                                    startAngle: undefined,
+                                    endAngle: undefined
                                 }]);
 
                                 setCurrent((prevState: Current) => ({
@@ -607,7 +526,8 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                         start_point_id: undefined,
                                         end_point_id: undefined,
                                         radius: undefined,
-                                        angle: undefined
+                                        startAngle: undefined,
+                                        endAngle: undefined
                                     }]);
                                 }
                             }

@@ -59,6 +59,111 @@ function calQuadCoord(prePoint: { x: number, y: number }, curPoint: {
     return "x";
 }
 
+function calStartAngle(centerPoint: { x: number, y: number }, startPoint: { x: number, y: number }): number {
+    let vectorA: { x: number, y: number } = {
+        x: centerPoint.x - startPoint.x,
+        y: centerPoint.y - startPoint.y
+    };
+
+    let startQuadrant: number = determineQuadrant(centerPoint, startPoint);
+
+    let startAngle: number = 0;
+    let rightAngle: number = Math.PI / 2;
+
+    if (startQuadrant == 0 || startQuadrant == -99) {
+        startAngle = 0;
+    } else if (startQuadrant == -1) {
+        startAngle = rightAngle;
+    } else if (startQuadrant == 1) {
+        startAngle = Math.atan(vectorA.y / vectorA.x);
+    } else if (startQuadrant == -2) {
+        startAngle = 0;
+    } else if (startQuadrant == 2) {
+        startAngle = Math.atan(vectorA.y / vectorA.x);
+    } else if (startQuadrant == -3) {
+        startAngle = -1 * rightAngle;
+    } else if (startQuadrant == 3) {
+        startAngle = (-1 * rightAngle) + (-1 * Math.atan(vectorA.x / vectorA.y));
+    } else if (startQuadrant == -4) {
+        startAngle = -2 * rightAngle;
+    } else if (startQuadrant == 4) {
+        startAngle = (-2 * rightAngle) + Math.atan(vectorA.y / vectorA.x);
+    }
+
+    return startAngle;
+}
+
+
+function calEndAngle(centerPoint: { x: number, y: number }, startPoint: {
+    x: number,
+    y: number
+}, startAngle: number): number {
+    let vectorB: { x: number, y: number } = {
+        x: centerPoint.x - startPoint.x,
+        y: centerPoint.y - startPoint.y
+    };
+
+    let endQuadrant: number = determineQuadrant(centerPoint, startPoint);
+
+    let endAngle: number = 0;
+    let rightAngle: number = Math.PI / 2;
+    let oneRotationAngle: number = Math.PI * 2;
+
+    if (endQuadrant == 0 || endQuadrant == -99) {
+        endAngle = 0;
+    } else if (endQuadrant == -1) {
+        if (startAngle > rightAngle) {
+            endAngle = rightAngle;
+        } else {
+            endAngle = -3 * rightAngle;
+        }
+    } else if (endQuadrant == 1) {
+        if (startAngle > Math.atan(vectorB.y / vectorB.x)) {
+            endAngle = Math.atan(vectorB.y / vectorB.x);
+        } else {
+            endAngle = (-1 * oneRotationAngle) + Math.atan(vectorB.y / vectorB.x);
+        }
+    } else if (endQuadrant == -2) {
+        if (startAngle > 0) {
+            endAngle = 0;
+        } else {
+            endAngle = -4 * rightAngle;
+        }
+    } else if (endQuadrant == 2) {
+        if (startAngle > Math.atan(vectorB.y / vectorB.x)) {
+            endAngle = Math.atan(vectorB.y / vectorB.x);
+        } else {
+            endAngle = (-1 * oneRotationAngle) + Math.atan(vectorB.y / vectorB.x);
+        }
+    } else if (endQuadrant == -3) {
+        if (startAngle > -1 * rightAngle) {
+            endAngle = -1 * rightAngle;
+        } else {
+            endAngle = -5 * rightAngle;
+        }
+    } else if (endQuadrant == 3) {
+        if (startAngle > (-1 * rightAngle) + (-1 * Math.atan(vectorB.x / vectorB.y))) {
+            endAngle = (-1 * rightAngle) + (-1 * Math.atan(vectorB.x / vectorB.y));
+        } else {
+            endAngle = (-1 * oneRotationAngle) + (-1 * rightAngle) + (-1 * Math.atan(vectorB.x / vectorB.y));
+        }
+    } else if (endQuadrant == -4) {
+        if (startAngle > -2 * rightAngle) {
+            endAngle = -2 * rightAngle;
+        } else {
+            endAngle = -6 * rightAngle;
+        }
+    } else if (endQuadrant == 4) {
+        if (startAngle > (-2 * rightAngle) + Math.atan(vectorB.y / vectorB.x)) {
+            endAngle = (-2 * rightAngle) + Math.atan(vectorB.y / vectorB.x);
+        } else {
+            endAngle = (-1 * oneRotationAngle) + (-2 * rightAngle) + Math.atan(vectorB.y / vectorB.x);
+        }
+    }
+
+    return endAngle;
+}
+
 function checkClosed(current: Current, shape: ShapeArray): boolean {
     let result: boolean = true;
 
@@ -247,6 +352,8 @@ export default {
     numberingId,
     generationId,
     calQuadCoord,
+    calStartAngle,
+    calEndAngle,
     checkClosed,
     checkFinal,
     getAtomicityByToolId,

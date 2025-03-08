@@ -21,22 +21,36 @@ const DisplayGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
     }, []);
 
     useEffect(() => {
-
-
         if (displayGessoRef.current) {
             const displayGesso: HTMLCanvasElement = displayGessoRef.current;
 
             const displayGessoCtx = displayGesso.getContext("2d");
 
             if (displayGessoCtx) {
-
                 displayGessoCtx.clearRect(0, 0, displayGesso.width, displayGesso.height);
                 displayGessoCtx.strokeStyle = "orange";
 
                 let fixedShape: ShapeArray = shape.filter((s: Shape) => !s.is_deleted);
 
                 for (let i = 0; i < fixedShape.length; i++) {
-                    if (fixedShape[i].type == ShapeTypeEnum.Pending) {
+                    if (fixedShape[i].type == ShapeTypeEnum.Arc) {
+                        console.log(fixedShape[i]);
+
+                        let foundArc: Arc | undefined = arc.find(a => a.shape_id == fixedShape[i].id);
+
+                        if (foundArc != undefined && foundArc?.start_point_id && foundArc?.center_point_id && foundArc?.end_point_id && foundArc?.radius&& foundArc?.startAngle && foundArc?.endAngle) {
+
+                            let startPoint: Point | undefined = point.find(p => p.id == foundArc.start_point_id);
+                            let centerPoint: Point | undefined = point.find(p => p.id == foundArc.center_point_id);
+                            let endPoint: Point | undefined = point.find(p => p.id == foundArc.end_point_id);
+
+                            if (startPoint && centerPoint && endPoint) {
+                                displayGessoCtx.beginPath();
+                                displayGessoCtx.arc(centerPoint.x, centerPoint.y, foundArc.radius, foundArc.startAngle, foundArc.endAngle, true);
+                                displayGessoCtx.stroke();
+                            }
+                        }
+                    } else if (fixedShape[i].type == ShapeTypeEnum.Pending) {
                         let fixedPoint = point.filter((p: Point) => p.shape_id == fixedShape[i].id && !p.is_deleted);
 
                         if (fixedPoint.length >= 2) {
@@ -65,7 +79,6 @@ const DisplayGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
                                 displayGessoCtx.stroke();
                             }
                         }
-
                     }
                 }
             }

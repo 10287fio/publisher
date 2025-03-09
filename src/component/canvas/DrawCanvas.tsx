@@ -20,6 +20,7 @@ import {
 } from '@/ts';
 import shapeUtil from '@/util/shape.util';
 import {OperationEnum, ToolEnum, ShapeStatusEnum, ShapeTypeEnum} from '@/store/enum/shape.enum';
+import {lineMoveCanvas} from '@/component/canvas/ts/drawMoveListener';
 
 const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): JSX.Element => {
         const drawCanvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -62,6 +63,11 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                         let curPoint: { x: number, y: number } = {x: offsetX, y: offsetY};
 
                         if (current?.tool == ToolEnum.Line) {
+                            // const test = {
+                            //     shapeStateProps, updateShapeStateProps, shapeId, curPoint, drawCtx
+                            // };
+                            // lineMoveCanvas(test);
+
                             foundPoint = point.findLast(p => p.id == current?.cur_point_id);
 
                             prePoint = foundPoint?.shape_id == shapeId ? {

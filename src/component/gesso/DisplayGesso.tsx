@@ -25,16 +25,16 @@ const DisplayGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
             const displayGesso: HTMLCanvasElement = displayGessoRef.current;
 
             const displayGessoCtx = displayGesso.getContext("2d");
-            console.log(arc);
+
             if (displayGessoCtx) {
                 displayGessoCtx.clearRect(0, 0, displayGesso.width, displayGesso.height);
                 displayGessoCtx.strokeStyle = "orange";
 
                 let fixedShape: ShapeArray = shape.filter((s: Shape) => !s.is_deleted);
-
+console.log(fixedShape);
                 for (let i = 0; i < fixedShape.length; i++) {
                     if (fixedShape[i].type == ShapeTypeEnum.Arc) {
-                        // console.log(fixedShape[i]);
+
 
                         let foundArc: Arc | undefined = arc.find(a => a.shape_id == fixedShape[i].id);
 
@@ -44,10 +44,6 @@ const DisplayGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
                             let centerPoint: Point | undefined = point.find(p => p.id == foundArc.center_point_id);
                             let endPoint: Point | undefined = point.find(p => p.id == foundArc.end_point_id);
 
-                            // console.log(foundArc);
-                            // console.log(startPoint);
-                            // console.log(centerPoint);
-                            // console.log(endPoint);
                             if (startPoint && centerPoint && endPoint) {
                                 displayGessoCtx.beginPath();
                                 displayGessoCtx.arc(centerPoint.x, centerPoint.y, foundArc.radius, foundArc.startAngle, foundArc.endAngle, true);

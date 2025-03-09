@@ -5,7 +5,14 @@ export interface CanvasComponentProps {
     updateShapeStateProps: UpdateShapeStateProps;
 }
 
-export interface CanvasListenerProps {
+export interface CanvasMoveListenerProps {
+    shapeStateProps: ShapeStateProps;
+    shapeId: string;
+    curPoint: { x: number, y: number };
+    drawCtx: CanvasRenderingContext2D;
+}
+
+export interface CanvasClickListenerProps {
     shapeStateProps: ShapeStateProps;
     updateShapeStateProps: UpdateShapeStateProps;
     shapeId: string;

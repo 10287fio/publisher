@@ -16,7 +16,7 @@ import {
     ArcArray,
     Current,
     ShapeStateProps,
-    CanvasComponentProps
+    CanvasComponentProps, CanvasMoveListenerProps
 } from '@/ts';
 import shapeUtil from '@/util/shape.util';
 import {OperationEnum, ToolEnum, ShapeStatusEnum, ShapeTypeEnum} from '@/store/enum/shape.enum';
@@ -63,10 +63,10 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                         let curPoint: { x: number, y: number } = {x: offsetX, y: offsetY};
 
                         if (current?.tool == ToolEnum.Line) {
-                            const canvasListenerProps = {
-                                shapeStateProps, updateShapeStateProps, shapeId, curPoint, drawCtx
+                            const canvasMoveListenerProps: CanvasMoveListenerProps = {
+                                shapeStateProps, shapeId, curPoint, drawCtx
                             };
-                            lineMoveCanvas(canvasListenerProps);
+                            lineMoveCanvas(canvasMoveListenerProps);
 
                             // foundPoint = point.findLast(p => p.id == current?.cur_point_id);
                             //

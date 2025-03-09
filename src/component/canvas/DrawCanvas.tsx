@@ -20,7 +20,6 @@ import {
 } from '@/ts';
 import shapeUtil from '@/util/shape.util';
 import {OperationEnum, ToolEnum, ShapeStatusEnum, ShapeTypeEnum} from '@/store/enum/shape.enum';
-import ShapeUtil from '@/util/shape.util';
 
 const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): JSX.Element => {
         const drawCanvasRef = useRef<HTMLCanvasElement | null>(null);

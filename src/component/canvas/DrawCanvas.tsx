@@ -367,13 +367,12 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                         //     x: prePoint2.x - prePoint.x,
                                         //     y: prePoint2.y - prePoint.y
                                         // };
-                                        //
                                         // let vectorB: { x: number, y: number } = {
                                         //     x: endPoint.x - prePoint2.x,
                                         //     y: endPoint.y - prePoint2.y
                                         // };
-                                        //
                                         // let angle: number | undefined = Math.acos((vectorA.x * vectorB.x + vectorA.y * vectorB.y) / (Math.sqrt(vectorA.x ** 2 + vectorA.y ** 2) * Math.sqrt(vectorB.x ** 2 + vectorB.y ** 2)));
+
                                         let endAngle: number = shapeUtil.calEndAngle(prePoint2, endPoint, startAngle);
 
                                         setPoint((prevPoints: PointArray) => [...prevPoints, {
@@ -404,6 +403,42 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                             pre_point_id3: prevState.pre_point_id2
                                         }));
                                     }
+                                } else {
+                                    shapeUtil.cleanedUpCurrent(setCurrent);
+
+                                    let shapeId = shapeUtil.shiftShape(current, setCurrent, shape, setShape);
+
+                                    let arcId: string | undefined = arc.at(-1)?.id;
+
+                                    arcId = shapeUtil.generationId("a", arcId);
+
+                                    setPoint((prevPoints: PointArray) => [...prevPoints, {
+                                        id: curPoint.id,
+                                        shape_id: current?.shape_id,
+                                        x: curPoint.x,
+                                        y: curPoint.y,
+                                        is_deleted: false,
+                                        to_close: false
+                                    }]);
+
+                                    setArc((prevState: ArcArray) => [...prevState, {
+                                        id: arcId,
+                                        shape_id: shapeId,
+                                        center_point_id: undefined,
+                                        start_point_id: curPoint.id,
+                                        end_point_id: undefined,
+                                        radius: undefined,
+                                        startAngle: undefined,
+                                        endAngle: undefined
+                                    }]);
+
+                                    setCurrent((prevState: Current) => ({
+                                        ...prevState,
+                                        cur_point_id: curPoint.id,
+                                        pre_point_id1: prevState.cur_point_id,
+                                        pre_point_id2: prevState.pre_point_id1,
+                                        pre_point_id3: prevState.pre_point_id2
+                                    }));
                                 }
                             }
                         } else if (current?.tool == ToolEnum.Circle) {
@@ -529,6 +564,14 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                         startAngle: undefined,
                                         endAngle: undefined
                                     }]);
+
+                                    setCurrent((prevState: Current) => ({
+                                        ...prevState,
+                                        cur_point_id: curPoint.id,
+                                        pre_point_id1: prevState.cur_point_id,
+                                        pre_point_id2: prevState.pre_point_id1,
+                                        pre_point_id3: prevState.pre_point_id2
+                                    }));
                                 }
                             }
                         }

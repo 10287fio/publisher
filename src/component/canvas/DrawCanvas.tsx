@@ -136,22 +136,21 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                             y: endPointY
                                         };
 
-                                        let startAngle: number = 0;
-                                        let endAngle: number = 0;
+                                        let startAngle: number | undefined = shapeUtil.calStartAngle(prePoint2, prePoint);
+                                        if (startAngle != undefined) {
+                                            let endAngle: number | undefined = shapeUtil.calEndAngle(prePoint2, endPoint, startAngle);
 
-                                        startAngle = shapeUtil.calStartAngle(prePoint2, prePoint);
-                                        endAngle = shapeUtil.calEndAngle(prePoint2, endPoint, startAngle);
+                                            if (endAngle != undefined) {
+                                                drawCtx.beginPath();
+                                                drawCtx.moveTo(prePoint2.x, prePoint2.y);
+                                                drawCtx.lineTo(endPoint.x, endPoint.y);
+                                                drawCtx.stroke();
 
-                                        if (startAngle != undefined && endAngle != undefined) {
-                                            drawCtx.beginPath();
-                                            drawCtx.moveTo(prePoint2.x, prePoint2.y);
-                                            drawCtx.lineTo(endPoint.x, endPoint.y);
-                                            drawCtx.stroke();
-
-                                            drawCtx.beginPath();
-                                            drawCtx.moveTo(prePoint2.x, prePoint2.y);
-                                            drawCtx.arc(prePoint2.x, prePoint2.y, radius, startAngle, endAngle, true);
-                                            drawCtx.fill();
+                                                drawCtx.beginPath();
+                                                drawCtx.moveTo(prePoint2.x, prePoint2.y);
+                                                drawCtx.arc(prePoint2.x, prePoint2.y, radius, startAngle, endAngle, true);
+                                                drawCtx.fill();
+                                            }
                                         }
                                     }
                                 }
@@ -302,35 +301,37 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
 
                                     if (prePoint != undefined) {
                                         radius = Math.sqrt((curPoint.x - prePoint.x) ** 2 + (prePoint.y - curPoint.y) ** 2);
-                                        let startAngle: number = shapeUtil.calStartAngle(curPoint, prePoint);
+                                        let startAngle: number | undefined = shapeUtil.calStartAngle(curPoint, prePoint);
 
-                                        setPoint((prevPoints: PointArray) => [...prevPoints, {
-                                            id: curPoint.id,
-                                            shape_id: current?.shape_id,
-                                            x: curPoint.x,
-                                            y: curPoint.y,
-                                            is_deleted: false,
-                                            to_close: false
-                                        }]);
+                                        if (startAngle != undefined) {
+                                            setPoint((prevPoints: PointArray) => [...prevPoints, {
+                                                id: curPoint.id,
+                                                shape_id: current?.shape_id,
+                                                x: curPoint.x,
+                                                y: curPoint.y,
+                                                is_deleted: false,
+                                                to_close: false
+                                            }]);
 
-                                        setArc((prevState: ArcArray) => prevState.map(arc => arc.id == foundArc.id ?
-                                            {
-                                                ...arc,
-                                                center_point_id: curPoint.id,
-                                                radius: radius,
-                                                startAngle: startAngle
-                                            } : arc));
+                                            setArc((prevState: ArcArray) => prevState.map(arc => arc.id == foundArc.id ?
+                                                {
+                                                    ...arc,
+                                                    center_point_id: curPoint.id,
+                                                    radius: radius,
+                                                    startAngle: startAngle
+                                                } : arc));
 
-                                        setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
-                                            {...shape, status: ShapeStatusEnum.Inprogress} : shape));
+                                            setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
+                                                {...shape, status: ShapeStatusEnum.Inprogress} : shape));
 
-                                        setCurrent((prevState: Current) => ({
-                                            ...prevState,
-                                            cur_point_id: curPoint.id,
-                                            pre_point_id1: prevState.cur_point_id,
-                                            pre_point_id2: prevState.pre_point_id1,
-                                            pre_point_id3: prevState.pre_point_id2
-                                        }));
+                                            setCurrent((prevState: Current) => ({
+                                                ...prevState,
+                                                cur_point_id: curPoint.id,
+                                                pre_point_id1: prevState.cur_point_id,
+                                                pre_point_id2: prevState.pre_point_id1,
+                                                pre_point_id3: prevState.pre_point_id2
+                                            }));
+                                        }
                                     }
                                 } else if (foundArc.end_point_id == undefined) {
                                     foundPoint = point.findLast(p => p.id == foundArc.start_point_id);
@@ -352,7 +353,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                     let radius: number | undefined = foundArc?.radius;
                                     let startAngle: number | undefined = foundArc?.startAngle;
 
-                                    if (prePoint && prePoint2 && radius && startAngle) {
+                                    if (prePoint != undefined && prePoint2 != undefined && radius != undefined && startAngle != undefined) {
                                         let d: number = Math.sqrt((curPoint.x - prePoint2.x) ** 2 + (prePoint2.y - curPoint.y) ** 2);
                                         let endPointX: number = prePoint2.x + radius * ((curPoint.x - prePoint2.x) / d);
                                         let endPointY: number = prePoint2.y + radius * ((curPoint.y - prePoint2.y) / d);
@@ -373,35 +374,37 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                                         // };
                                         // let angle: number | undefined = Math.acos((vectorA.x * vectorB.x + vectorA.y * vectorB.y) / (Math.sqrt(vectorA.x ** 2 + vectorA.y ** 2) * Math.sqrt(vectorB.x ** 2 + vectorB.y ** 2)));
 
-                                        let endAngle: number = shapeUtil.calEndAngle(prePoint2, endPoint, startAngle);
+                                        let endAngle: number | undefined = shapeUtil.calEndAngle(prePoint2, endPoint, startAngle);
 
-                                        setPoint((prevPoints: PointArray) => [...prevPoints, {
-                                            id: endPoint.id,
-                                            shape_id: current?.shape_id,
-                                            x: endPoint.x,
-                                            y: endPoint.y,
-                                            is_deleted: false,
-                                            to_close: false
-                                        }]);
+                                        if (endAngle != undefined) {
+                                            setPoint((prevPoints: PointArray) => [...prevPoints, {
+                                                id: endPoint.id,
+                                                shape_id: current?.shape_id,
+                                                x: endPoint.x,
+                                                y: endPoint.y,
+                                                is_deleted: false,
+                                                to_close: false
+                                            }]);
 
-                                        setArc((prevState: ArcArray) => prevState.map(arc => arc.shape_id == shapeId ?
-                                            {...arc, end_point_id: endPoint.id, endAngle: endAngle} : arc));
+                                            setArc((prevState: ArcArray) => prevState.map(arc => arc.shape_id == shapeId ?
+                                                {...arc, end_point_id: endPoint.id, endAngle: endAngle} : arc));
 
-                                        setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
-                                            {
-                                                ...shape,
-                                                type: ShapeTypeEnum.Arc,
-                                                status: ShapeStatusEnum.Closed,
-                                                is_closed: true
-                                            } : shape));
+                                            setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
+                                                {
+                                                    ...shape,
+                                                    type: ShapeTypeEnum.Arc,
+                                                    status: ShapeStatusEnum.Closed,
+                                                    is_closed: true
+                                                } : shape));
 
-                                        setCurrent((prevState: Current) => ({
-                                            ...prevState,
-                                            cur_point_id: endPoint.id,
-                                            pre_point_id1: prevState.cur_point_id,
-                                            pre_point_id2: prevState.pre_point_id1,
-                                            pre_point_id3: prevState.pre_point_id2
-                                        }));
+                                            setCurrent((prevState: Current) => ({
+                                                ...prevState,
+                                                cur_point_id: endPoint.id,
+                                                pre_point_id1: prevState.cur_point_id,
+                                                pre_point_id2: prevState.pre_point_id1,
+                                                pre_point_id3: prevState.pre_point_id2
+                                            }));
+                                        }
                                     }
                                 } else {
                                     shapeUtil.cleanedUpCurrent(setCurrent);

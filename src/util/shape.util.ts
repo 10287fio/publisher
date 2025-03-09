@@ -59,7 +59,10 @@ function calQuadCoord(prePoint: { x: number, y: number }, curPoint: {
     return "x";
 }
 
-function calStartAngle(centerPoint: { x: number, y: number }, startPoint: { x: number, y: number }): number {
+function calStartAngle(centerPoint: { x: number, y: number }, startPoint: {
+    x: number,
+    y: number
+}): number | undefined {
     let vectorA: { x: number, y: number } = {
         x: centerPoint.x - startPoint.x,
         y: centerPoint.y - startPoint.y
@@ -67,11 +70,11 @@ function calStartAngle(centerPoint: { x: number, y: number }, startPoint: { x: n
 
     let startQuadrant: number = determineQuadrant(centerPoint, startPoint);
 
-    let startAngle: number = 0;
+    let startAngle: number | undefined = 0;
     let rightAngle: number = Math.PI / 2;
 
     if (startQuadrant == 0 || startQuadrant == -99) {
-        startAngle = 0;
+        startAngle = undefined;
     } else if (startQuadrant == -1) {
         startAngle = rightAngle;
     } else if (startQuadrant == 1) {
@@ -97,7 +100,7 @@ function calStartAngle(centerPoint: { x: number, y: number }, startPoint: { x: n
 function calEndAngle(centerPoint: { x: number, y: number }, startPoint: {
     x: number,
     y: number
-}, startAngle: number): number {
+}, startAngle: number): number | undefined {
     let vectorB: { x: number, y: number } = {
         x: centerPoint.x - startPoint.x,
         y: centerPoint.y - startPoint.y
@@ -105,12 +108,12 @@ function calEndAngle(centerPoint: { x: number, y: number }, startPoint: {
 
     let endQuadrant: number = determineQuadrant(centerPoint, startPoint);
 
-    let endAngle: number = 0;
+    let endAngle: number | undefined = 0;
     let rightAngle: number = Math.PI / 2;
     let oneRotationAngle: number = Math.PI * 2;
 
     if (endQuadrant == 0 || endQuadrant == -99) {
-        endAngle = 0;
+        endAngle = undefined;
     } else if (endQuadrant == -1) {
         if (startAngle > rightAngle) {
             endAngle = rightAngle;

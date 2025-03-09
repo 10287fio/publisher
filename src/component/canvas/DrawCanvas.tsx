@@ -63,34 +63,34 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                         let curPoint: { x: number, y: number } = {x: offsetX, y: offsetY};
 
                         if (current?.tool == ToolEnum.Line) {
-                            // const test = {
-                            //     shapeStateProps, updateShapeStateProps, shapeId, curPoint, drawCtx
-                            // };
-                            // lineMoveCanvas(test);
+                            const canvasListenerProps = {
+                                shapeStateProps, updateShapeStateProps, shapeId, curPoint, drawCtx
+                            };
+                            lineMoveCanvas(canvasListenerProps);
 
-                            foundPoint = point.findLast(p => p.id == current?.cur_point_id);
-
-                            prePoint = foundPoint?.shape_id == shapeId ? {
-                                x: foundPoint.x,
-                                y: foundPoint.y
-                            } : undefined;
-
-                            if (prePoint != undefined) {
-                                if (current?.operation == OperationEnum.AP_Preset) {
-                                    if (shapeUtil.calQuadCoord(prePoint, curPoint) == "x") {
-                                        setX = curPoint.x;
-                                        setY = prePoint.y;
-                                    } else if (shapeUtil.calQuadCoord(prePoint, curPoint) == "y") {
-                                        setX = prePoint.x;
-                                        setY = curPoint.y;
-                                    }
-                                }
-
-                                drawCtx.beginPath();
-                                drawCtx.moveTo(prePoint.x, prePoint.y);
-                                drawCtx.lineTo(setX, setY);
-                                drawCtx.stroke();
-                            }
+                            // foundPoint = point.findLast(p => p.id == current?.cur_point_id);
+                            //
+                            // prePoint = foundPoint?.shape_id == shapeId ? {
+                            //     x: foundPoint.x,
+                            //     y: foundPoint.y
+                            // } : undefined;
+                            //
+                            // if (prePoint != undefined) {
+                            //     if (current?.operation == OperationEnum.AP_Preset) {
+                            //         if (shapeUtil.calQuadCoord(prePoint, curPoint) == "x") {
+                            //             setX = curPoint.x;
+                            //             setY = prePoint.y;
+                            //         } else if (shapeUtil.calQuadCoord(prePoint, curPoint) == "y") {
+                            //             setX = prePoint.x;
+                            //             setY = curPoint.y;
+                            //         }
+                            //     }
+                            //
+                            //     drawCtx.beginPath();
+                            //     drawCtx.moveTo(prePoint.x, prePoint.y);
+                            //     drawCtx.lineTo(setX, setY);
+                            //     drawCtx.stroke();
+                            // }
                         } else if (current?.tool == ToolEnum.Arc) {
                             let foundArc: Arc | undefined = arc.findLast(a => a.shape_id == shapeId);
 

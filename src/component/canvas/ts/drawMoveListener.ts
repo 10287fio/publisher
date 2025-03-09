@@ -4,29 +4,20 @@ import shapeUtil from '@/util/shape.util';
 import {Dispatch, SetStateAction} from 'react';
 
 
-export function lineMoveCanvas({shapeStateProps, updateShapeStateProps, shapeId, curPoint, drawCtx}: CanvasListenerProps) {
+export function lineMoveCanvas({
+                                   shapeStateProps,
+                                   updateShapeStateProps,
+                                   shapeId,
+                                   curPoint,
+                                   drawCtx
+                               }: CanvasListenerProps) {
 
-    const shape: ShapeArray = shapeStateProps.shape;
     const point: PointArray = shapeStateProps.point;
-    const line: LineArray = shapeStateProps.line;
-    const arc: ArcArray = shapeStateProps.arc;
     const current: Current | undefined = shapeStateProps.current;
-    const setShape: Dispatch<SetStateAction<ShapeArray>> = updateShapeStateProps.setShape;
-    const setPoint: Dispatch<SetStateAction<PointArray>> = updateShapeStateProps.setPoint;
-    const setLine: Dispatch<SetStateAction<LineArray>> = updateShapeStateProps.setLine;
-    const setArc: Dispatch<SetStateAction<ArcArray>> = updateShapeStateProps.setArc;
-    const setCurrent: Dispatch<SetStateAction<Current>> = updateShapeStateProps.setCurrent;
 
-    // useEffect(() => {
-    //
-    // }, [drawCtx])
-    let radius: number = 0;
     let foundPoint: Point | undefined;
     let prePoint: { x: number, y: number } | undefined;
-    let prePoint2: { x: number, y: number } | undefined;
 
-    // let offsetX: number = event.nativeEvent.offsetX;
-    // let offsetY: number = event.nativeEvent.offsetY;
     let setX: number = curPoint.x;
     let setY: number = curPoint.y;
 

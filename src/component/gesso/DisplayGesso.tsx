@@ -1,8 +1,9 @@
-import {Arc, ArcArray, Current, GessoComponentProps, Point, PointArray, Shape, ShapeArray} from '@/ts';
+import {ArcArray, Current, DisplayGessoPainterProps, GessoComponentProps, PointArray, Shape, ShapeArray} from '@/ts';
 import {ShapeTypeEnum} from '@/store/enum/shape.enum';
 import sketchbookStyle from '@/composition/sketchbook/Sketchbook.module.scss';
 import {useEffect, useRef} from 'react';
 import shapeUtil from '@/util/shape.util';
+import displayGessoPainter from '@/component/gesso/ts/displayGessoPainter';
 
 const DisplayGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
     const displayGessoRef = useRef<HTMLCanvasElement | null>(null);
@@ -31,55 +32,23 @@ const DisplayGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
                 displayGessoCtx.strokeStyle = "orange";
 
                 let fixedShape: ShapeArray = shape.filter((s: Shape) => !s.is_deleted);
-console.log(fixedShape);
+
                 for (let i = 0; i < fixedShape.length; i++) {
-                    if (fixedShape[i].type == ShapeTypeEnum.Arc) {
+                    let shapeId: string = fixedShape[i].id;
 
+                    const displayGessoPainterProps: DisplayGessoPainterProps = {
+                        shapeStateProps, shapeId, displayGessoCtx
+                    };
 
-                        let foundArc: Arc | undefined = arc.find(a => a.shape_id == fixedShape[i].id);
+                    if (fixedShape[i].type == ShapeTypeEnum.Line) {
+                        displayGessoPainter.linePainter(displayGessoPainterProps);
+                        
+                    } else if (fixedShape[i].type == ShapeTypeEnum.Arc) {
+                        displayGessoPainter.arcPaint(displayGessoPainterProps);
 
-                        if (foundArc != undefined && foundArc?.start_point_id && foundArc?.center_point_id && foundArc?.end_point_id && foundArc?.radius != undefined && foundArc?.startAngle != undefined && foundArc?.endAngle != undefined) {
-
-                            let startPoint: Point | undefined = point.find(p => p.id == foundArc.start_point_id);
-                            let centerPoint: Point | undefined = point.find(p => p.id == foundArc.center_point_id);
-                            let endPoint: Point | undefined = point.find(p => p.id == foundArc.end_point_id);
-
-                            if (startPoint && centerPoint && endPoint) {
-                                displayGessoCtx.beginPath();
-                                displayGessoCtx.arc(centerPoint.x, centerPoint.y, foundArc.radius, foundArc.startAngle, foundArc.endAngle, true);
-                                displayGessoCtx.stroke();
-                            }
-                        }
-                    } else if (fixedShape[i].type == ShapeTypeEnum.Pending) {
-                        // console.log(fixedShape[i]);
-                        let fixedPoint = point.filter((p: Point) => p.shape_id == fixedShape[i].id && !p.is_deleted);
-
-                        if (fixedPoint.length >= 2) {
-                            displayGessoCtx.beginPath();
-
-                            for (let i = 0; i < fixedPoint.length; i++) {
-                                if (i == 0) {
-                                    displayGessoCtx.moveTo(fixedPoint[i].x, fixedPoint[i].y);
-                                } else {
-                                    displayGessoCtx.lineTo(fixedPoint[i].x, fixedPoint[i].y);
-                                    displayGessoCtx.stroke();
-                                }
-                            }
-                        }
                     } else if (fixedShape[i].type == ShapeTypeEnum.Circle) {
-                        let foundArc: Arc | undefined = arc.find(a => a.shape_id == fixedShape[i].id);
+                        displayGessoPainter.circlePainter(displayGessoPainterProps);
 
-                        if (foundArc != undefined && foundArc?.center_point_id && foundArc?.end_point_id && foundArc?.radius) {
-
-                            let centerPoint: Point | undefined = point.find(p => p.id == foundArc.center_point_id);
-                            let radius: number = foundArc.radius;
-
-                            if (centerPoint != undefined) {
-                                displayGessoCtx.beginPath();
-                                displayGessoCtx.arc(centerPoint.x, centerPoint.y, radius, 0, 2 * Math.PI);
-                                displayGessoCtx.stroke();
-                            }
-                        }
                     }
                 }
             }

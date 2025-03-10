@@ -11,14 +11,7 @@ import {
 } from '@/ts';
 import shapeUtil from '@/util/shape.util';
 import {ToolEnum} from '@/store/enum/shape.enum';
-import {
-    arcClickListener,
-    arcMoveListener,
-    circleClickListener,
-    circleMoveListener,
-    lineClickListener,
-    lineMoveListener
-} from '@/component/canvas/ts/drawCanvasListener';
+import drawCanvasListener from '@/component/canvas/ts/drawCanvasListener';
 
 const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): JSX.Element => {
         const drawCanvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -56,20 +49,20 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                             let setPoint: {
                                 setX: number,
                                 setY: number
-                            } | undefined = lineMoveListener(drawCanvasMoveListenerProps);
+                            } | undefined = drawCanvasListener.lineMoveListener(drawCanvasMoveListenerProps);
 
                             if (setPoint != undefined) {
                                 setX = setPoint.setX;
                                 setY = setPoint.setY;
                             }
                         } else if (current?.tool == ToolEnum.Arc) {
-                            arcMoveListener(drawCanvasMoveListenerProps);
+                            drawCanvasListener.arcMoveListener(drawCanvasMoveListenerProps);
 
                         } else if (current?.tool == ToolEnum.Circle) {
                             let setPoint: {
                                 setX: number,
                                 setY: number
-                            } | undefined = circleMoveListener(drawCanvasMoveListenerProps);
+                            } | undefined = drawCanvasListener.circleMoveListener(drawCanvasMoveListenerProps);
 
                             if (setPoint != undefined) {
                                 setX = setPoint.setX;
@@ -115,13 +108,13 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                         };
 
                         if (current?.tool == ToolEnum.Line) {
-                            lineClickListener(drawCanvasClickListenerProps);
+                            drawCanvasListener.lineClickListener(drawCanvasClickListenerProps);
 
                         } else if (current?.tool == ToolEnum.Arc) {
-                            arcClickListener(drawCanvasClickListenerProps);
+                            drawCanvasListener.arcClickListener(drawCanvasClickListenerProps);
 
                         } else if (current?.tool == ToolEnum.Circle) {
-                            circleClickListener(drawCanvasClickListenerProps);
+                            drawCanvasListener.circleClickListener(drawCanvasClickListenerProps);
 
                         }
                     }

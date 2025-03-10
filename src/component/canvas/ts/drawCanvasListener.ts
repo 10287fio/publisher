@@ -11,7 +11,7 @@ import {ShapeTypeEnum, OperationEnum, ShapeStatusEnum} from '@/store/enum/shape.
 import shapeUtil from '@/util/shape.util';
 import {Dispatch, SetStateAction} from 'react';
 
-export function lineMoveListener({
+function lineMoveListener({
                                      shapeStateProps,
                                      shapeId,
                                      curPoint,
@@ -53,7 +53,7 @@ export function lineMoveListener({
     return {setX, setY};
 }
 
-export function arcMoveListener({
+function arcMoveListener({
                                     shapeStateProps,
                                     shapeId,
                                     curPoint,
@@ -138,7 +138,7 @@ export function arcMoveListener({
     }
 }
 
-export function circleMoveListener({
+function circleMoveListener({
                                        shapeStateProps,
                                        shapeId,
                                        curPoint,
@@ -179,7 +179,7 @@ export function circleMoveListener({
     return {setX, setY};
 }
 
-export function lineClickListener({
+function lineClickListener({
                                       shapeStateProps,
                                       updateShapeStateProps,
                                       shapeId,
@@ -232,7 +232,7 @@ export function lineClickListener({
     }));
 }
 
-export function arcClickListener({
+function arcClickListener({
                                      shapeStateProps,
                                      updateShapeStateProps,
                                      shapeId,
@@ -445,7 +445,7 @@ export function arcClickListener({
     }
 }
 
-export function circleClickListener({
+function circleClickListener({
                                         shapeStateProps,
                                         updateShapeStateProps,
                                         shapeId,
@@ -598,5 +598,13 @@ export function circleClickListener({
             }));
         }
     }
+}
 
+export default {
+    lineMoveListener,
+    arcMoveListener,
+    circleMoveListener,
+    lineClickListener,
+    arcClickListener,
+    circleClickListener
 }

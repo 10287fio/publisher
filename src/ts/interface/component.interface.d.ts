@@ -23,3 +23,9 @@ export interface DrawCanvasClickListenerProps {
 export interface GessoComponentProps {
     shapeStateProps: ShapeStateProps;
 }
+
+export interface DisplayGessoPainterProps {
+    shapeStateProps: ShapeStateProps;
+    shapeId: string;
+    displayGessoCtx: CanvasRenderingContext2D;
+}

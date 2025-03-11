@@ -12,11 +12,11 @@ import shapeUtil from '@/util/shape.util';
 import {Dispatch, SetStateAction} from 'react';
 
 function lineMoveListener({
-                                     shapeStateProps,
-                                     shapeId,
-                                     curPoint,
-                                     drawCtx
-                                 }: DrawCanvasMoveListenerProps): { setX: number, setY: number } {
+                              shapeStateProps,
+                              shapeId,
+                              curPoint,
+                              drawCtx
+                          }: DrawCanvasMoveListenerProps): { setX: number, setY: number } {
     const point: PointArray = shapeStateProps.point;
     const current: Current | undefined = shapeStateProps.current;
 
@@ -54,11 +54,11 @@ function lineMoveListener({
 }
 
 function arcMoveListener({
-                                    shapeStateProps,
-                                    shapeId,
-                                    curPoint,
-                                    drawCtx
-                                }: DrawCanvasMoveListenerProps) {
+                             shapeStateProps,
+                             shapeId,
+                             curPoint,
+                             drawCtx
+                         }: DrawCanvasMoveListenerProps) {
     const point: PointArray = shapeStateProps.point;
     const arc: ArcArray = shapeStateProps.arc;
 
@@ -139,11 +139,11 @@ function arcMoveListener({
 }
 
 function circleMoveListener({
-                                       shapeStateProps,
-                                       shapeId,
-                                       curPoint,
-                                       drawCtx
-                                   }: DrawCanvasMoveListenerProps): { setX: number, setY: number } {
+                                shapeStateProps,
+                                shapeId,
+                                curPoint,
+                                drawCtx
+                            }: DrawCanvasMoveListenerProps): { setX: number, setY: number } {
     const point: PointArray = shapeStateProps.point;
     const arc: ArcArray = shapeStateProps.arc;
 
@@ -180,12 +180,11 @@ function circleMoveListener({
 }
 
 function lineClickListener({
-                                      shapeStateProps,
-                                      updateShapeStateProps,
-                                      shapeId,
-                                      curPoint,
-                                      drawCtx
-                                  }: DrawCanvasClickListenerProps) {
+                               shapeStateProps,
+                               updateShapeStateProps,
+                               shapeId,
+                               curPoint
+                           }: DrawCanvasClickListenerProps) {
     const point: PointArray = shapeStateProps.point;
     const current: Current | undefined = shapeStateProps.current;
 
@@ -194,9 +193,11 @@ function lineClickListener({
 
     let prePoint: { id: string, x: number, y: number } | undefined;
 
+    let foundPointArray: PointArray | undefined;
     let foundPoint: Point | undefined;
 
-    foundPoint = point.findLast(p => p.id == current?.cur_point_id);
+    foundPointArray = point.filter(p => p.id == shapeId);
+    foundPoint = foundPointArray.findLast(p => p.id == current?.cur_point_id);
 
     prePoint = foundPoint ? {
         id: foundPoint.id,
@@ -214,31 +215,32 @@ function lineClickListener({
         }
     }
 
-    setPoint((prevPoints: PointArray) => [...prevPoints, {
-        id: curPoint.id,
-        shape_id: current?.shape_id,
-        x: curPoint.x,
-        y: curPoint.y,
-        is_deleted: false,
-        to_close: false
-    }]);
+    if ((prePoint?.x != curPoint.x) || (prePoint?.y != curPoint.y)) {
+        setPoint((prevPoints: PointArray) => [...prevPoints, {
+            id: curPoint.id,
+            shape_id: current?.shape_id,
+            x: curPoint.x,
+            y: curPoint.y,
+            is_deleted: false,
+            to_close: false
+        }]);
 
-    setCurrent((prevState: Current) => ({
-        ...prevState,
-        cur_point_id: curPoint.id,
-        pre_point_id1: prevState.cur_point_id,
-        pre_point_id2: prevState.pre_point_id1,
-        pre_point_id3: prevState.pre_point_id2
-    }));
+        setCurrent((prevState: Current) => ({
+            ...prevState,
+            cur_point_id: curPoint.id,
+            pre_point_id1: prevState.cur_point_id,
+            pre_point_id2: prevState.pre_point_id1,
+            pre_point_id3: prevState.pre_point_id2
+        }));
+    }
 }
 
 function arcClickListener({
-                                     shapeStateProps,
-                                     updateShapeStateProps,
-                                     shapeId,
-                                     curPoint,
-                                     drawCtx
-                                 }: DrawCanvasClickListenerProps) {
+                              shapeStateProps,
+                              updateShapeStateProps,
+                              shapeId,
+                              curPoint
+                          }: DrawCanvasClickListenerProps) {
     const shape: ShapeArray = shapeStateProps.shape;
     const point: PointArray = shapeStateProps.point;
     const arc: ArcArray = shapeStateProps.arc;
@@ -446,12 +448,11 @@ function arcClickListener({
 }
 
 function circleClickListener({
-                                        shapeStateProps,
-                                        updateShapeStateProps,
-                                        shapeId,
-                                        curPoint,
-                                        drawCtx
-                                    }: DrawCanvasClickListenerProps) {
+                                 shapeStateProps,
+                                 updateShapeStateProps,
+                                 shapeId,
+                                 curPoint
+                             }: DrawCanvasClickListenerProps) {
     const shape: ShapeArray = shapeStateProps.shape;
     const point: PointArray = shapeStateProps.point;
     const arc: ArcArray = shapeStateProps.arc;

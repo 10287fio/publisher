@@ -17,7 +17,6 @@ export interface DrawCanvasClickListenerProps {
     updateShapeStateProps: UpdateShapeStateProps;
     shapeId: string;
     curPoint: { id: string, x: number, y: number };
-    drawCtx: CanvasRenderingContext2D;
 }
 
 export interface GessoComponentProps {

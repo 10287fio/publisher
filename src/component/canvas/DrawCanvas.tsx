@@ -104,7 +104,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                         };
 
                         const drawCanvasClickListenerProps: DrawCanvasClickListenerProps = {
-                            shapeStateProps, updateShapeStateProps, shapeId, curPoint, drawCtx
+                            shapeStateProps, updateShapeStateProps, shapeId, curPoint
                         };
 
                         if (current?.tool == ToolEnum.Line) {

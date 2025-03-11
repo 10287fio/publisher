@@ -12,13 +12,13 @@ import {Dispatch, SetStateAction} from 'react';
 function invertYAxis(canvas: HTMLCanvasElement | null) {
     if (canvas) {
         if (canvas.getContext) {
-            const drawCtx = canvas.getContext("2d");
+            const ctx = canvas.getContext("2d");
 
-            if (drawCtx) {
-                drawCtx.translate(0, canvas.height);
-                drawCtx.scale(1, -1);
+            if (ctx) {
+                ctx.translate(0, canvas.height);
+                ctx.scale(1, -1);
 
-                drawCtx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
             }
         }
     }
@@ -42,18 +42,22 @@ function calQuadCoord(prePoint: { x: number, y: number }, curPoint: {
     x: number,
     y: number
 }): "x" | "y" {
-    if (((prePoint?.x < curPoint.x) && (prePoint?.y > curPoint.y)) || ((prePoint?.x > curPoint.x) && (prePoint?.y < curPoint.y))) {
+    if (((prePoint.x < curPoint.x) && (prePoint.y > curPoint.y)) || ((prePoint.x > curPoint.x) && (prePoint.y < curPoint.y))) {
         if ((Math.round((curPoint.y - prePoint?.y) / (curPoint.x - prePoint?.x) * 10) / 10) > -1) {
             return "x";
         } else {
             return "y";
         }
-    } else if (((prePoint?.x < curPoint.x) && (prePoint?.y < curPoint.y)) || ((prePoint?.x > curPoint.x) && (prePoint?.y > curPoint.y))) {
-        if ((Math.round((curPoint.y - prePoint?.y) / (curPoint.x - prePoint?.x) * 10) / 10) < 1) {
+    } else if (((prePoint.x < curPoint.x) && (prePoint.y < curPoint.y)) || ((prePoint.x > curPoint.x) && (prePoint.y > curPoint.y))) {
+        if ((Math.round((curPoint.y - prePoint.y) / (curPoint.x - prePoint.x) * 10) / 10) < 1) {
             return "x";
         } else {
             return "y";
         }
+    } else if ((prePoint.x == curPoint.x) && (prePoint.y != curPoint.y)) {
+        return "y";
+    } else if ((prePoint.x != curPoint.x) && (prePoint.y == curPoint.y)) {
+        return "x";
     }
 
     return "x";

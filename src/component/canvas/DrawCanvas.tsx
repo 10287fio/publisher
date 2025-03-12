@@ -23,7 +23,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
 
             const shapeId: string | undefined = current?.shape_id;
 
-            if (current != undefined && shapeId != undefined && !shapeUtil.checkFinal(current.shape_status)) {
+            if (current != undefined && shapeId != undefined) {
                 if (drawCanvas.getContext) {
                     const drawCtx = drawCanvas.getContext("2d");
 
@@ -83,7 +83,7 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
 
             const shapeId: string | undefined = current?.shape_id;
 
-            if (current != undefined && shapeId != undefined && !shapeUtil.checkFinal(current.shape_status)) {
+            if (current != undefined && shapeId != undefined) {
                 if (drawCanvas.getContext) {
                     const drawCtx = drawCanvas.getContext("2d");
 

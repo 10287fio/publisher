@@ -35,7 +35,7 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
         setTool(event.currentTarget.id);
 
         if (checkShift(current, event.currentTarget.id, shape)) {
-            shapeUtil.shiftTool(event.currentTarget.id, setCurrent, shape, setShape);
+            shapeUtil.shiftTool(shape, setShape, event.currentTarget.id, setCurrent);
 
         } else {
             setModalOpenFlag(true);
@@ -50,7 +50,7 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
             <ConfirmModal isOpen={modalOpenFlag}
                           onYes={() => {
                               shapeUtil.cleanedUpShape(current, setCurrent, setShape, setPoint);
-                              shapeUtil.shiftTool(tool, setCurrent, shape, setShape);
+                              shapeUtil.shiftTool(shape, setShape, tool, setCurrent);
                               setModalOpenFlag(false);
                           }}
                           onNo={() => {

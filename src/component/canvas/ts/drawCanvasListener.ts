@@ -188,6 +188,7 @@ function lineClickListener({
     const point: PointArray = shapeStateProps.point;
     const current: Current | undefined = shapeStateProps.current;
 
+    const setShape: Dispatch<SetStateAction<ShapeArray>> = updateShapeStateProps.setShape;
     const setPoint: Dispatch<SetStateAction<PointArray>> = updateShapeStateProps.setPoint;
     const setCurrent: Dispatch<SetStateAction<Current>> = updateShapeStateProps.setCurrent;
 
@@ -216,6 +217,9 @@ function lineClickListener({
     }
 
     if ((prePoint?.x != curPoint.x) || (prePoint?.y != curPoint.y)) {
+        setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
+            {...shape, status: ShapeStatusEnum.Inprogress} : shape));
+
         setPoint((prevPoints: PointArray) => [...prevPoints, {
             id: curPoint.id,
             shape_id: current?.shape_id,
@@ -227,6 +231,7 @@ function lineClickListener({
 
         setCurrent((prevState: Current) => ({
             ...prevState,
+            shape_status: ShapeStatusEnum.Inprogress,
             cur_point_id: curPoint.id,
             pre_point_id1: prevState.cur_point_id,
             pre_point_id2: prevState.pre_point_id1,
@@ -263,6 +268,9 @@ function arcClickListener({
 
         arcId = shapeUtil.generationId("a", arcId);
 
+        setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
+            {...shape, status: ShapeStatusEnum.Inprogress} : shape));
+
         setPoint((prevPoints: PointArray) => [...prevPoints, {
             id: curPoint.id,
             shape_id: current?.shape_id,
@@ -285,6 +293,7 @@ function arcClickListener({
 
         setCurrent((prevState: Current) => ({
             ...prevState,
+            shape_status: ShapeStatusEnum.Inprogress,
             cur_point_id: curPoint.id,
             pre_point_id1: prevState.cur_point_id,
             pre_point_id2: prevState.pre_point_id1,
@@ -305,6 +314,9 @@ function arcClickListener({
                 let startAngle: number | undefined = shapeUtil.calStartAngle(curPoint, startPoint);
 
                 if (startAngle != undefined) {
+                    setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
+                        {...shape, status: ShapeStatusEnum.Inprogress} : shape));
+
                     setPoint((prevPoints: PointArray) => [...prevPoints, {
                         id: curPoint.id,
                         shape_id: current?.shape_id,
@@ -322,11 +334,9 @@ function arcClickListener({
                             startAngle: startAngle
                         } : arc));
 
-                    setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
-                        {...shape, status: ShapeStatusEnum.Inprogress} : shape));
-
                     setCurrent((prevState: Current) => ({
                         ...prevState,
+                        shape_status: ShapeStatusEnum.Inprogress,
                         cur_point_id: curPoint.id,
                         pre_point_id1: prevState.cur_point_id,
                         pre_point_id2: prevState.pre_point_id1,
@@ -378,6 +388,14 @@ function arcClickListener({
                 let endAngle: number | undefined = shapeUtil.calEndAngle(centerPoint, endPoint, startAngle);
 
                 if (endAngle != undefined) {
+                    setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
+                        {
+                            ...shape,
+                            type: ShapeTypeEnum.Arc,
+                            status: ShapeStatusEnum.Closed,
+                            is_closed: true
+                        } : shape));
+
                     setPoint((prevPoints: PointArray) => [...prevPoints, {
                         id: endPoint.id,
                         shape_id: current?.shape_id,
@@ -390,16 +408,9 @@ function arcClickListener({
                     setArc((prevState: ArcArray) => prevState.map(arc => arc.shape_id == shapeId ?
                         {...arc, end_point_id: endPoint.id, endAngle: endAngle} : arc));
 
-                    setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
-                        {
-                            ...shape,
-                            type: ShapeTypeEnum.Arc,
-                            status: ShapeStatusEnum.Closed,
-                            is_closed: true
-                        } : shape));
-
                     setCurrent((prevState: Current) => ({
                         ...prevState,
+                        shape_status: ShapeStatusEnum.Closed,
                         cur_point_id: endPoint.id,
                         pre_point_id1: prevState.cur_point_id,
                         pre_point_id2: prevState.pre_point_id1,
@@ -408,13 +419,14 @@ function arcClickListener({
                 }
             }
         } else {
-            shapeUtil.cleanedUpCurrent(setCurrent);
-
-            let shapeId = shapeUtil.shiftShape(current, setCurrent, shape, setShape);
+            let shapeId = shapeUtil.shiftShape(shape, setShape, current, setCurrent);
 
             let arcId: string | undefined = arc.at(-1)?.id;
 
             arcId = shapeUtil.generationId("a", arcId);
+
+            setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
+                {...shape, status: ShapeStatusEnum.Inprogress} : shape));
 
             setPoint((prevPoints: PointArray) => [...prevPoints, {
                 id: curPoint.id,
@@ -438,6 +450,7 @@ function arcClickListener({
 
             setCurrent((prevState: Current) => ({
                 ...prevState,
+                shape_status: ShapeStatusEnum.Inprogress,
                 cur_point_id: curPoint.id,
                 pre_point_id1: prevState.cur_point_id,
                 pre_point_id2: prevState.pre_point_id1,
@@ -474,6 +487,9 @@ function circleClickListener({
 
         arcId = shapeUtil.generationId("a", arcId);
 
+        setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
+            {...shape, status: ShapeStatusEnum.Inprogress} : shape));
+
         setPoint((prevPoints: PointArray) => [...prevPoints, {
             id: curPoint.id,
             shape_id: current?.shape_id,
@@ -496,6 +512,7 @@ function circleClickListener({
 
         setCurrent((prevState: Current) => ({
             ...prevState,
+            shape_status: ShapeStatusEnum.Inprogress,
             cur_point_id: curPoint.id,
             pre_point_id1: prevState.cur_point_id,
             pre_point_id2: prevState.pre_point_id1,
@@ -503,6 +520,9 @@ function circleClickListener({
         }));
     } else {
         if (foundArc.center_point_id == undefined) {
+            setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
+                {...shape, status: ShapeStatusEnum.Inprogress} : shape));
+
             setPoint((prevPoints: PointArray) => [...prevPoints, {
                 id: curPoint.id,
                 shape_id: current?.shape_id,
@@ -517,6 +537,7 @@ function circleClickListener({
 
             setCurrent((prevState: Current) => ({
                 ...prevState,
+                shape_status: ShapeStatusEnum.Inprogress,
                 cur_point_id: curPoint.id,
                 pre_point_id1: prevState.cur_point_id,
                 pre_point_id2: prevState.pre_point_id1,
@@ -534,6 +555,9 @@ function circleClickListener({
             if (centerPoint != undefined) {
                 radius = Math.sqrt((curPoint.x - centerPoint.x) ** 2 + (centerPoint.y - curPoint.y) ** 2);
 
+                setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
+                    {...shape, status: ShapeStatusEnum.Closed, is_closed: true} : shape));
+
                 setPoint((prevPoints: PointArray) => [...prevPoints, {
                     id: curPoint.id,
                     shape_id: current?.shape_id,
@@ -550,11 +574,9 @@ function circleClickListener({
                         radius: radius
                     } : arc));
 
-                setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
-                    {...shape, status: ShapeStatusEnum.Closed, is_closed: true} : shape));
-
                 setCurrent((prevState: Current) => ({
                     ...prevState,
+                    shape_status: ShapeStatusEnum.Closed,
                     cur_point_id: curPoint.id,
                     pre_point_id1: prevState.cur_point_id,
                     pre_point_id2: prevState.pre_point_id1,
@@ -562,13 +584,14 @@ function circleClickListener({
                 }));
             }
         } else {
-            shapeUtil.cleanedUpCurrent(setCurrent);
-
-            let shapeId = shapeUtil.shiftShape(current, setCurrent, shape, setShape);
+            let shapeId = shapeUtil.shiftShape(shape, setShape, current, setCurrent);
 
             let arcId: string | undefined = arc.at(-1)?.id;
 
             arcId = shapeUtil.generationId("a", arcId);
+
+            setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
+                {...shape, status: ShapeStatusEnum.Inprogress} : shape));
 
             setPoint((prevPoints: PointArray) => [...prevPoints, {
                 id: curPoint.id,
@@ -592,6 +615,7 @@ function circleClickListener({
 
             setCurrent((prevState: Current) => ({
                 ...prevState,
+                shape_status: ShapeStatusEnum.Inprogress,
                 cur_point_id: curPoint.id,
                 pre_point_id1: prevState.cur_point_id,
                 pre_point_id2: prevState.pre_point_id1,

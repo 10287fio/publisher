@@ -1,4 +1,4 @@
-import {ArcArray, Current, DisplayGessoPainterProps, GessoComponentProps, PointArray, Shape, ShapeArray} from '@/ts';
+import {DisplayGessoPainterProps, GessoComponentProps, Shape, ShapeArray} from '@/ts';
 import {ShapeTypeEnum} from '@/store/enum/shape.enum';
 import sketchbookStyle from '@/composition/sketchbook/Sketchbook.module.scss';
 import {useEffect, useRef} from 'react';
@@ -8,10 +8,7 @@ import displayGessoPainter from '@/component/gesso/ts/displayGessoPainter';
 const DisplayGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
     const displayGessoRef = useRef<HTMLCanvasElement | null>(null);
     const shape: ShapeArray = shapeStateProps.shape;
-    const point: PointArray = shapeStateProps.point;
-    const arc: ArcArray = shapeStateProps.arc;
-    const current: Current = shapeStateProps.current;
-
+    const current = shapeStateProps.current;
 
     useEffect(() => {
         shapeUtil.invertYAxis(displayGessoRef.current);
@@ -42,7 +39,7 @@ const DisplayGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
 
                     if (fixedShape[i].type == ShapeTypeEnum.Line) {
                         displayGessoPainter.linePainter(displayGessoPainterProps);
-                        
+
                     } else if (fixedShape[i].type == ShapeTypeEnum.Arc) {
                         displayGessoPainter.arcPaint(displayGessoPainterProps);
 

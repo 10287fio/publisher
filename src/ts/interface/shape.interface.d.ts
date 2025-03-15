@@ -59,7 +59,11 @@ export interface PointArray extends Array<Point> {
 export interface Line {
     id: string;
     shape_id: string | undefined;
-    equation: string | undefined;
+    slope_x: number | undefined;
+    slope_y: number | undefined;
+    y_intercept: number | undefined;
+    vertical: boolean | undefined;
+    horizontal: boolean | undefined;
     pre_point_id: string;
     post_point_id: string;
 }

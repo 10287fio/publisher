@@ -1,28 +1,10 @@
 import sketchbookStyle from '@/composition/sketchbook/Sketchbook.module.scss';
 import {useEffect, useState} from 'react';
-import {
-    Draw,
-    Reserve,
-    ReserveArray,
-    Result,
-    Shape,
-    ShapeArray,
-    Point,
-    PointArray,
-    Line,
-    LineArray,
-    Arc,
-    ArcArray,
-    Current
-} from '@/ts';
+import {ArcArray, Current, Draw, LineArray, PointArray, ReserveArray, Result, ShapeArray} from '@/ts';
 import ReserveCanvas from '@/component/canvas/ReserveCanvas';
-import DisplayGesso from '@/component/gesso/DisplayGesso';
-import ResultCanvas from '@/component/canvas/ResultCanvas';
 import DrawCanvas from '@/component/canvas/DrawCanvas';
 import Tool from '@/composition/tool/Tool';
 import Operation from '@/composition/operation/Operation';
-import canvasStyle from '@/component/canvas/Canvas.module.scss';
-import {OperationEnum, ShapeStatusEnum, ToolEnum} from '@/store/enum/shape.enum';
 
 const Sketchbook = (props: any): JSX.Element => {
     const [draw, setDraw] = useState<Draw>({id: "d1", article_id: "a1"});

@@ -1,4 +1,4 @@
-import {PointArray, Point, Arc, DisplayGessoPainterProps, ArcArray} from '@/ts';
+import {PointArray, Point, LineArray, Line, Arc, DisplayGessoPainterProps, ArcArray} from '@/ts';
 
 function linePainter({
                          shapeStateProps,
@@ -6,6 +6,7 @@ function linePainter({
                          displayGessoCtx
                      }: DisplayGessoPainterProps) {
     const point: PointArray = shapeStateProps.point;
+    const line : LineArray = shapeStateProps.line;
 
     let fixedPoint = point.filter((p: Point) => p.shape_id == shapeId && !p.is_deleted);
 

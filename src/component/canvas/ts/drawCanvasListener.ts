@@ -5,7 +5,7 @@ import {
     Point,
     PointArray,
     Arc,
-    DrawCanvasClickListenerProps, ShapeArray
+    DrawCanvasClickListenerProps, ShapeArray, LineArray
 } from '@/ts';
 import {ShapeTypeEnum, OperationEnum, ShapeStatusEnum} from '@/store/enum/shape.enum';
 import shapeUtil from '@/util/shape.util';
@@ -186,10 +186,12 @@ function lineClickListener({
                                curPoint
                            }: DrawCanvasClickListenerProps) {
     const point: PointArray = shapeStateProps.point;
+    const line: LineArray = shapeStateProps.line;
     const current: Current | undefined = shapeStateProps.current;
 
     const setShape: Dispatch<SetStateAction<ShapeArray>> = updateShapeStateProps.setShape;
     const setPoint: Dispatch<SetStateAction<PointArray>> = updateShapeStateProps.setPoint;
+    const setLine: Dispatch<SetStateAction<LineArray>> = updateShapeStateProps.setLine;
     const setCurrent: Dispatch<SetStateAction<Current>> = updateShapeStateProps.setCurrent;
 
     let prePoint: { id: string, x: number, y: number } | undefined;
@@ -197,7 +199,11 @@ function lineClickListener({
     let foundPointArray: PointArray | undefined;
     let foundPoint: Point | undefined;
 
-    foundPointArray = point.filter(p => p.id == shapeId);
+    let slope_x: number | undefined;
+    let slope_y: number | undefined;
+    let y_intercept: number | undefined;
+
+    foundPointArray = point.filter(p => p.shape_id == shapeId);
     foundPoint = foundPointArray.findLast(p => p.id == current?.cur_point_id);
 
     prePoint = foundPoint ? {
@@ -214,20 +220,45 @@ function lineClickListener({
                 curPoint.x = prePoint.x;
             }
         }
+
+        slope_x = curPoint.x - prePoint.x;
+        slope_y = curPoint.y - prePoint.y;
+
+        if (slope_x != 0 && slope_y != 0) {
+            y_intercept = Math.round((curPoint.y - (slope_y / slope_x * curPoint.x)) * 1000) / 1000;
+        }
     }
 
     if ((prePoint?.x != curPoint.x) || (prePoint?.y != curPoint.y)) {
         setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
             {...shape, status: ShapeStatusEnum.Inprogress} : shape));
 
-        setPoint((prevPoints: PointArray) => [...prevPoints, {
+        setPoint((prevState: PointArray) => [...prevState, {
             id: curPoint.id,
-            shape_id: current?.shape_id,
+            shape_id: shapeId,
             x: curPoint.x,
             y: curPoint.y,
             is_deleted: false,
             to_close: false
         }]);
+
+        if (prePoint != undefined) {
+            let lineId: string | undefined = line.at(-1)?.id;
+
+            lineId = shapeUtil.generationId("l", lineId);
+
+            setLine((prevState: LineArray) => [...prevState, {
+                id: lineId,
+                shape_id: shapeId,
+                slope_x: slope_x,
+                slope_y: slope_y,
+                y_intercept: y_intercept,
+                vertical: slope_x == 0,
+                horizontal: slope_y == 0,
+                pre_point_id: prePoint.id,
+                post_point_id: curPoint.id
+            }]);
+        }
 
         setCurrent((prevState: Current) => ({
             ...prevState,

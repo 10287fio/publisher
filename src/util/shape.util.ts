@@ -215,7 +215,7 @@ function checkAtomicity(current: Current, toolId: String): Boolean {
     let preToolAtomicity: boolean = false;
     let postToolAtomicity: boolean = false;
 
-    if (current != undefined && current.tool) {
+    if (current?.tool) {
         preToolAtomicity = getAtomicityByToolId(current.tool);
         postToolAtomicity = getAtomicityByToolId(toolId);
 
@@ -281,7 +281,7 @@ function shiftTool(shape: ShapeArray, setShape: Dispatch<SetStateAction<ShapeArr
         is_deleted: false
     }]);
 
-    let toolType = ToolEnum[tool as keyof typeof ToolEnum]
+    let toolType = ToolEnum[tool as keyof typeof ToolEnum];
 
     setCurrent((prevState: Current) => ({
         tool: toolType,
@@ -294,6 +294,26 @@ function shiftTool(shape: ShapeArray, setShape: Dispatch<SetStateAction<ShapeArr
         pre_point_id1: undefined,
         pre_point_id2: undefined,
         pre_point_id3: undefined
+    }));
+}
+
+function carryOnTool(tool: string, setShape: Dispatch<SetStateAction<ShapeArray>>, current: Current, setCurrent: Dispatch<SetStateAction<Current>>) {
+    setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == current.shape_id ?
+        {
+            ...shape,
+            type: ShapeTypeEnum.Composition,
+            status: ShapeStatusEnum.Inprogress,
+            pre_status: shape.status
+        } : shape));
+
+    let toolType = ToolEnum[tool as keyof typeof ToolEnum];
+
+    setCurrent((prevState: Current) => ({
+        tool: toolType,
+        pre_tool: prevState.tool,
+        shape_status: ShapeStatusEnum.Inprogress,
+        operation: OperationEnum.AP_Free,
+        pre_operation: prevState.operation,
     }));
 }
 
@@ -370,6 +390,7 @@ export default {
     cleanedUpCurrent,
     cleanedUpShape,
     shiftTool,
+    carryOnTool,
     shiftShape,
     determineQuadrant
 };

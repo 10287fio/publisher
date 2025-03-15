@@ -7,12 +7,15 @@ import toolStyle from './Tool.module.scss';
 
 function checkShift(current: Current, toolId: String, shape: ShapeArray): boolean {
     let is_shift: boolean = false;
+    let shift_type: number = 0;
 
-    if (shapeUtil.checkAtomicity(current, toolId)) {
+    if (current?.tool == undefined) {
+
+    } else if (!shapeUtil.checkAtomicity(current, toolId)) {
         is_shift = shapeUtil.checkClosed(current, shape);
 
-    } else {
-        is_shift = true;
+    } else if (shapeUtil.checkAtomicity(current, toolId)){
+        is_shift = shapeUtil.checkClosed(current, shape);
     }
     return is_shift;
 }

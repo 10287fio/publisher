@@ -209,7 +209,7 @@ function getAtomicityByToolId(toolId: String): boolean {
     return resultFlag;
 }
 
-function checkAtomicity(current: Current, toolId: String): Boolean {
+function checkAtomicity(current: Current, toolId: String): boolean {
     let resultFlag: boolean = false;
 
     let preToolAtomicity: boolean = false;
@@ -309,6 +309,7 @@ function carryOnTool(tool: string, setShape: Dispatch<SetStateAction<ShapeArray>
     let toolType = ToolEnum[tool as keyof typeof ToolEnum];
 
     setCurrent((prevState: Current) => ({
+        ...prevState,
         tool: toolType,
         pre_tool: prevState.tool,
         shape_status: ShapeStatusEnum.Inprogress,

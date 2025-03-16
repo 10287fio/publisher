@@ -6,21 +6,32 @@ function linePainter({
                          displayGessoCtx
                      }: DisplayGessoPainterProps) {
     const point: PointArray = shapeStateProps.point;
-    const line : LineArray = shapeStateProps.line;
+    const line: LineArray = shapeStateProps.line;
 
-    let fixedPoint = point.filter((p: Point) => p.shape_id == shapeId && !p.is_deleted);
+    let foundLine: LineArray = line.filter(l => l.shape_id == shapeId);
+    let foundPoint: Point | undefined;
 
-    if (fixedPoint.length >= 2) {
-        displayGessoCtx.beginPath();
-
-        for (let i = 0; i < fixedPoint.length; i++) {
+    if (foundLine.length >= 1) {
+        for (let i = 0; i < foundLine.length; i++) {
             if (i == 0) {
-                displayGessoCtx.moveTo(fixedPoint[i].x, fixedPoint[i].y);
+                foundPoint = point.find((p: Point) => p.id == foundLine[i].pre_point_id);
+                if (foundPoint != undefined) {
+                    displayGessoCtx.beginPath();
+                    displayGessoCtx.moveTo(foundPoint.x, foundPoint.y);
+                }
+                foundPoint = point.find((p: Point) => p.id == foundLine[i].post_point_id);
+                if (foundPoint != undefined) {
+                    displayGessoCtx.lineTo(foundPoint.x, foundPoint.y);
+                }
             } else {
-                displayGessoCtx.lineTo(fixedPoint[i].x, fixedPoint[i].y);
-                displayGessoCtx.stroke();
+                foundPoint = point.find((p: Point) => p.id == foundLine[i].post_point_id);
+                if (foundPoint != undefined) {
+                    displayGessoCtx.lineTo(foundPoint.x, foundPoint.y);
+                }
             }
         }
+
+        displayGessoCtx.stroke();
     }
 }
 
@@ -28,7 +39,7 @@ function arcPaint({
                       shapeStateProps,
                       shapeId,
                       displayGessoCtx
-                  }: DisplayGessoPainterProps){
+                  }: DisplayGessoPainterProps) {
     const point: PointArray = shapeStateProps.point;
     const arc: ArcArray = shapeStateProps.arc;
 
@@ -52,7 +63,7 @@ function circlePainter({
                            shapeStateProps,
                            shapeId,
                            displayGessoCtx
-                       }: DisplayGessoPainterProps){
+                       }: DisplayGessoPainterProps) {
     const point: PointArray = shapeStateProps.point;
     const arc: ArcArray = shapeStateProps.arc;
 

@@ -1,4 +1,4 @@
-import {DisplayGessoPainterProps, GessoComponentProps, Shape, ShapeArray} from '@/ts';
+import {ArcArray, DisplayGessoPainterProps, GessoComponentProps, LineArray, PointArray, Shape, ShapeArray} from '@/ts';
 import {ShapeTypeEnum} from '@/store/enum/shape.enum';
 import sketchbookStyle from '@/composition/sketchbook/Sketchbook.module.scss';
 import {useEffect, useRef} from 'react';
@@ -8,6 +8,9 @@ import displayGessoPainter from '@/component/gesso/ts/displayGessoPainter';
 const DisplayGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
     const displayGessoRef = useRef<HTMLCanvasElement | null>(null);
     const shape: ShapeArray = shapeStateProps.shape;
+    const point: PointArray = shapeStateProps.point;
+    const line: LineArray = shapeStateProps.line;
+    const arc: ArcArray = shapeStateProps.arc;
     const current = shapeStateProps.current;
 
     useEffect(() => {
@@ -36,11 +39,15 @@ const DisplayGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
                     const displayGessoPainterProps: DisplayGessoPainterProps = {
                         shapeStateProps, shapeId, displayGessoCtx
                     };
-
+console.log(fixedShape[i].type);
                     if (fixedShape[i].type == ShapeTypeEnum.Line) {
                         displayGessoPainter.linePainter(displayGessoPainterProps);
 
                     } else if (fixedShape[i].type == ShapeTypeEnum.Arc) {
+                        displayGessoPainter.arcPaint(displayGessoPainterProps);
+
+                    } else if (fixedShape[i].type == ShapeTypeEnum.Composition) {
+                        displayGessoPainter.linePainter(displayGessoPainterProps);
                         displayGessoPainter.arcPaint(displayGessoPainterProps);
 
                     } else if (fixedShape[i].type == ShapeTypeEnum.Circle) {

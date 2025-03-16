@@ -2,6 +2,7 @@ import {
     ArcArray,
     Current,
     DrawCanvasMoveListenerProps,
+    Shape,
     Point,
     PointArray,
     Arc,
@@ -289,8 +290,11 @@ function arcClickListener({
 
     let startPoint: { id: string, x: number, y: number } | undefined;
     let centerPoint: { id: string, x: number, y: number } | undefined;
-    let radius: number = 0;
+    let radius: number | undefined;
+    let startAngle: number | undefined;
+    let endAngle: number | undefined;
 
+    let foundShape: Shape | undefined = shape.findLast(s => s.id == shapeId);
     let foundPoint: Point | undefined;
     let foundArc: Arc | undefined = arc.findLast(a => a.shape_id == shapeId);
 
@@ -311,14 +315,36 @@ function arcClickListener({
             to_close: false
         }]);
 
+        let startPointId: string | undefined = curPoint.id;
+        let centerPointId: string | undefined;
+
+        if (foundShape?.type == ShapeTypeEnum.Composition && foundShape?.status == ShapeStatusEnum.Inprogress) {
+            startPointId = current.cur_point_id;
+            centerPointId = curPoint.id;
+
+            foundPoint = point.findLast(p => p.id == startPointId);
+
+            startPoint = foundPoint ? {
+                id: foundPoint.id,
+                x: foundPoint.x,
+                y: foundPoint.y
+            } : undefined;
+
+            if (startPoint != undefined) {
+                radius = Math.sqrt((curPoint.x - startPoint.x) ** 2 + (startPoint.y - curPoint.y) ** 2);
+                startAngle = shapeUtil.calStartAngle(curPoint, startPoint);
+            }
+
+        }
+
         setArc((prevState: ArcArray) => [...prevState, {
             id: arcId,
             shape_id: shapeId,
-            center_point_id: undefined,
-            start_point_id: curPoint.id,
+            start_point_id: startPointId,
+            center_point_id: centerPointId,
             end_point_id: undefined,
-            radius: undefined,
-            startAngle: undefined,
+            radius: radius,
+            startAngle: startAngle,
             endAngle: undefined
         }]);
 
@@ -342,7 +368,7 @@ function arcClickListener({
 
             if (startPoint != undefined) {
                 radius = Math.sqrt((curPoint.x - startPoint.x) ** 2 + (startPoint.y - curPoint.y) ** 2);
-                let startAngle: number | undefined = shapeUtil.calStartAngle(curPoint, startPoint);
+                startAngle = shapeUtil.calStartAngle(curPoint, startPoint);
 
                 if (startAngle != undefined) {
                     setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
@@ -392,8 +418,8 @@ function arcClickListener({
                 y: foundPoint.y
             } : undefined;
 
-            let radius: number | undefined = foundArc?.radius;
-            let startAngle: number | undefined = foundArc?.startAngle;
+            radius = foundArc?.radius;
+            startAngle = foundArc?.startAngle;
 
             if (startPoint != undefined && centerPoint != undefined && radius != undefined && startAngle != undefined) {
                 let d: number = Math.sqrt((curPoint.x - centerPoint.x) ** 2 + (centerPoint.y - curPoint.y) ** 2);
@@ -416,13 +442,12 @@ function arcClickListener({
                 // };
                 // let angle: number | undefined = Math.acos((vectorA.x * vectorB.x + vectorA.y * vectorB.y) / (Math.sqrt(vectorA.x ** 2 + vectorA.y ** 2) * Math.sqrt(vectorB.x ** 2 + vectorB.y ** 2)));
 
-                let endAngle: number | undefined = shapeUtil.calEndAngle(centerPoint, endPoint, startAngle);
+                endAngle = shapeUtil.calEndAngle(centerPoint, endPoint, startAngle);
 
                 if (endAngle != undefined) {
                     setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
                         {
                             ...shape,
-                            type: ShapeTypeEnum.Arc,
                             status: ShapeStatusEnum.Closed,
                             is_closed: true
                         } : shape));

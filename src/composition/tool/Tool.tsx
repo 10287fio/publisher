@@ -5,19 +5,22 @@ import {ToolEnum, ToolObjectEnum} from '@/store/enum/shape.enum';
 import ConfirmModal from '@/composition/modal/ConfirmModal';
 import toolStyle from './Tool.module.scss';
 
-function checkShift(current: Current, toolId: String, shape: ShapeArray): boolean {
-    let is_shift: boolean = false;
+function checkShift(current: Current, toolId: String, shape: ShapeArray): number {
     let shift_type: number = 0;
 
     if (current?.tool == undefined) {
-
-    } else if (!shapeUtil.checkAtomicity(current, toolId)) {
-        is_shift = shapeUtil.checkClosed(current, shape);
-
-    } else if (shapeUtil.checkAtomicity(current, toolId)){
-        is_shift = shapeUtil.checkClosed(current, shape);
+        shift_type = 1;
+    } else if (shapeUtil.checkClosed(current, shape)) {
+        shift_type = 1;
+    } else if (!shapeUtil.checkClosed(current, shape)) {
+        if (shapeUtil.checkAtomicity(current, toolId)) {
+            shift_type = 2;
+        } else if (!shapeUtil.checkAtomicity(current, toolId)) {
+            shift_type = 3;
+        }
     }
-    return is_shift;
+
+    return shift_type;
 }
 
 const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): JSX.Element => {
@@ -37,11 +40,18 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
     function toolClickEventListener(event: React.MouseEvent<HTMLButtonElement>) {
         setTool(event.currentTarget.id);
 
-        if (checkShift(current, event.currentTarget.id, shape)) {
+        let shift_type: number = 0;
+
+        shift_type = checkShift(current, event.currentTarget.id, shape);
+
+        if (shift_type == 1) {
             shapeUtil.shiftTool(shape, setShape, event.currentTarget.id, setCurrent);
 
-        } else {
+        } else if(shift_type == 2){
             setModalOpenFlag(true);
+
+        } else if(shift_type == 3){
+            shapeUtil.carryOnTool(event.currentTarget.id, setShape, current, setCurrent);
         }
     }
 

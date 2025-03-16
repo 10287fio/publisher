@@ -22,6 +22,13 @@ const DisplayGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
     }, []);
 
     useEffect(() => {
+
+        // console.log(shape);
+        // console.log(point);
+        // console.log(line);
+        // console.log(arc);
+        // console.log(current);
+
         if (displayGessoRef.current) {
             const displayGesso: HTMLCanvasElement = displayGessoRef.current;
 
@@ -39,7 +46,7 @@ const DisplayGesso: React.FC<GessoComponentProps> = ({shapeStateProps}) => {
                     const displayGessoPainterProps: DisplayGessoPainterProps = {
                         shapeStateProps, shapeId, displayGessoCtx
                     };
-console.log(fixedShape[i].type);
+
                     if (fixedShape[i].type == ShapeTypeEnum.Line) {
                         displayGessoPainter.linePainter(displayGessoPainterProps);
 

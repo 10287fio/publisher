@@ -13,26 +13,19 @@ function linePainter({
 
     if (foundLine.length >= 1) {
         for (let i = 0; i < foundLine.length; i++) {
-            if (i == 0) {
-                foundPoint = point.find((p: Point) => p.id == foundLine[i].pre_point_id);
-                if (foundPoint != undefined) {
-                    displayGessoCtx.beginPath();
-                    displayGessoCtx.moveTo(foundPoint.x, foundPoint.y);
-                }
-                foundPoint = point.find((p: Point) => p.id == foundLine[i].post_point_id);
-                if (foundPoint != undefined) {
-                    displayGessoCtx.lineTo(foundPoint.x, foundPoint.y);
-                }
-            } else {
-                foundPoint = point.find((p: Point) => p.id == foundLine[i].post_point_id);
-                if (foundPoint != undefined) {
-                    displayGessoCtx.lineTo(foundPoint.x, foundPoint.y);
-                }
+            displayGessoCtx.beginPath();
+            foundPoint = point.find((p: Point) => p.id == foundLine[i].pre_point_id);
+            if (foundPoint != undefined) {
+                displayGessoCtx.moveTo(foundPoint.x, foundPoint.y);
             }
+            foundPoint = point.find((p: Point) => p.id == foundLine[i].post_point_id);
+            if (foundPoint != undefined) {
+                displayGessoCtx.lineTo(foundPoint.x, foundPoint.y);
+            }
+            displayGessoCtx.stroke();
         }
-
-        displayGessoCtx.stroke();
     }
+
 }
 
 function arcPaint({

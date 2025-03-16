@@ -7,7 +7,7 @@ import {
     Current,
     DrawCanvasClickListenerProps,
     DrawCanvasMoveListenerProps,
-    PointArray
+    PointArray, ShapeArray
 } from '@/ts';
 import shapeUtil from '@/util/shape.util';
 import {ToolEnum} from '@/store/enum/shape.enum';

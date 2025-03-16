@@ -334,7 +334,6 @@ function arcClickListener({
                 radius = Math.sqrt((curPoint.x - startPoint.x) ** 2 + (startPoint.y - curPoint.y) ** 2);
                 startAngle = shapeUtil.calStartAngle(curPoint, startPoint);
             }
-
         }
 
         setArc((prevState: ArcArray) => [...prevState, {
@@ -445,12 +444,12 @@ function arcClickListener({
                 endAngle = shapeUtil.calEndAngle(centerPoint, endPoint, startAngle);
 
                 if (endAngle != undefined) {
-                    setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
-                        {
-                            ...shape,
-                            status: ShapeStatusEnum.Closed,
-                            is_closed: true
-                        } : shape));
+                    // setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
+                    //     {
+                    //         ...shape,
+                    //         status: ShapeStatusEnum.Closed,
+                    //         is_closed: true
+                    //     } : shape));
 
                     setPoint((prevPoints: PointArray) => [...prevPoints, {
                         id: endPoint.id,
@@ -466,7 +465,7 @@ function arcClickListener({
 
                     setCurrent((prevState: Current) => ({
                         ...prevState,
-                        shape_status: ShapeStatusEnum.Closed,
+                        // shape_status: ShapeStatusEnum.Closed,
                         cur_point_id: endPoint.id,
                         pre_point_id1: prevState.cur_point_id,
                         pre_point_id2: prevState.pre_point_id1,

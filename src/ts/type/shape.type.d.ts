@@ -11,4 +11,12 @@ export type Current = Partial<{
     pre_point_id1: string;
     pre_point_id2: string;
     pre_point_id3: string;
+    cur_line_id: string;
+    pre_line_id1: string;
+    pre_line_id2: string;
+    pre_line_id3: string;
+    cur_arc_id: string;
+    pre_arc_id1: string;
+    pre_arc_id2: string;
+    pre_arc_id3: string;
 }>;

@@ -308,6 +308,12 @@ function carryOnTool(tool: string, setShape: Dispatch<SetStateAction<ShapeArray>
 
     let toolType = ToolEnum[tool as keyof typeof ToolEnum];
 
+    if(toolType == ToolEnum.Arc){
+        // let arcId: string | undefined = arc.at(-1)?.id;
+        //
+        // arcId = generationId("a", arcId);
+    }
+
     setCurrent((prevState: Current) => ({
         ...prevState,
         tool: toolType,

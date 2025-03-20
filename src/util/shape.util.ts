@@ -263,7 +263,7 @@ function cleanedUpShape(current: Current, setCurrent: Dispatch<SetStateAction<Cu
     }));
 }
 
-function shiftTool(shape: ShapeArray, setShape: Dispatch<SetStateAction<ShapeArray>>, tool: string, setCurrent: Dispatch<SetStateAction<Current>>) {
+function shiftShape(shape: ShapeArray, setShape: Dispatch<SetStateAction<ShapeArray>>, tool: string, setCurrent: Dispatch<SetStateAction<Current>>) {
     let shapeId: string | undefined = shape?.at(-1)?.id;
 
     shapeId = generationId("s", shapeId);
@@ -297,7 +297,7 @@ function shiftTool(shape: ShapeArray, setShape: Dispatch<SetStateAction<ShapeArr
     }));
 }
 
-function carryOnTool(tool: string, setShape: Dispatch<SetStateAction<ShapeArray>>, current: Current, setCurrent: Dispatch<SetStateAction<Current>>) {
+function carryOnShape(tool: string, setShape: Dispatch<SetStateAction<ShapeArray>>, current: Current, setCurrent: Dispatch<SetStateAction<Current>>) {
     setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == current.shape_id ?
         {
             ...shape,
@@ -307,12 +307,6 @@ function carryOnTool(tool: string, setShape: Dispatch<SetStateAction<ShapeArray>
         } : shape));
 
     let toolType = ToolEnum[tool as keyof typeof ToolEnum];
-
-    if(toolType == ToolEnum.Arc){
-        // let arcId: string | undefined = arc.at(-1)?.id;
-        //
-        // arcId = generationId("a", arcId);
-    }
 
     setCurrent((prevState: Current) => ({
         ...prevState,
@@ -324,7 +318,7 @@ function carryOnTool(tool: string, setShape: Dispatch<SetStateAction<ShapeArray>
     }));
 }
 
-function shiftShape(shape: ShapeArray, setShape: Dispatch<SetStateAction<ShapeArray>>, current: Current, setCurrent: Dispatch<SetStateAction<Current>>): string {
+function appendShape(shape: ShapeArray, setShape: Dispatch<SetStateAction<ShapeArray>>, current: Current, setCurrent: Dispatch<SetStateAction<Current>>): string {
     let shapeId: string | undefined = shape?.at(-1)?.id;
 
     shapeId = generationId("s", shapeId);
@@ -344,16 +338,17 @@ function shiftShape(shape: ShapeArray, setShape: Dispatch<SetStateAction<ShapeAr
 
     let toolType = ToolEnum[current.tool as keyof typeof ToolEnum];
 
-    cleanedUpCurrent(setCurrent);
-
     setCurrent((prevState: Current) => ({
-        ...prevState,
         tool: toolType,
-        pre_tool: prevState.tool,
+        pre_tool: prevState?.tool,
         shape_id: shapeId,
         shape_status: ShapeStatusEnum.New,
         operation: OperationEnum.AP_Free,
-        pre_operation: prevState.operation
+        pre_operation: prevState.operation,
+        cur_point_id: undefined,
+        pre_point_id1: undefined,
+        pre_point_id2: undefined,
+        pre_point_id3: undefined
     }));
 
     return shapeId;
@@ -396,8 +391,8 @@ export default {
     checkAtomicity,
     cleanedUpCurrent,
     cleanedUpShape,
-    shiftTool,
-    carryOnTool,
     shiftShape,
+    carryOnShape,
+    appendShape,
     determineQuadrant
 };

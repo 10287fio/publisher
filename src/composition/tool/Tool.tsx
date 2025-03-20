@@ -5,8 +5,11 @@ import {ToolEnum, ToolObjectEnum} from '@/store/enum/shape.enum';
 import ConfirmModal from '@/composition/modal/ConfirmModal';
 import toolStyle from './Tool.module.scss';
 
-function checkShift(current: Current, toolId: String, shape: ShapeArray): number {
+function checkShift(current: Current, toolId: string, shape: ShapeArray): number {
     let shift_type: number = 0;
+
+    let pre_tool: string | undefined = current?.tool;
+    let cur_tool: string = toolId;
 
     if (current?.tool == undefined) {
         shift_type = 1;
@@ -16,7 +19,11 @@ function checkShift(current: Current, toolId: String, shape: ShapeArray): number
         if (shapeUtil.checkAtomicity(current, toolId)) {
             shift_type = 2;
         } else if (!shapeUtil.checkAtomicity(current, toolId)) {
-            shift_type = 3;
+            if (pre_tool == cur_tool) {
+                shift_type = 2;
+            } else if (pre_tool != cur_tool) {
+                shift_type = 3;
+            }
         }
     }
 
@@ -45,13 +52,13 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
         shift_type = checkShift(current, event.currentTarget.id, shape);
 
         if (shift_type == 1) {
-            shapeUtil.shiftTool(shape, setShape, event.currentTarget.id, setCurrent);
+            shapeUtil.shiftShape(shape, setShape, event.currentTarget.id, setCurrent);
 
-        } else if(shift_type == 2){
+        } else if (shift_type == 2) {
             setModalOpenFlag(true);
 
-        } else if(shift_type == 3){
-            shapeUtil.carryOnTool(event.currentTarget.id, setShape, current, setCurrent);
+        } else if (shift_type == 3) {
+            shapeUtil.carryOnShape(event.currentTarget.id, setShape, current, setCurrent);
         }
     }
 
@@ -63,7 +70,7 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
             <ConfirmModal isOpen={modalOpenFlag}
                           onYes={() => {
                               shapeUtil.cleanedUpShape(current, setCurrent, setShape, setPoint);
-                              shapeUtil.shiftTool(shape, setShape, tool, setCurrent);
+                              shapeUtil.shiftShape(shape, setShape, tool, setCurrent);
                               setModalOpenFlag(false);
                           }}
                           onNo={() => {

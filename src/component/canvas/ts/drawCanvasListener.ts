@@ -474,7 +474,7 @@ function arcClickListener({
                 }
             }
         } else {
-            let shapeId = shapeUtil.shiftShape(shape, setShape, current, setCurrent);
+            let shapeId = shapeUtil.appendShape(shape, setShape, current, setCurrent);
 
             let arcId: string | undefined = arc.at(-1)?.id;
 
@@ -639,7 +639,7 @@ function circleClickListener({
                 }));
             }
         } else {
-            let shapeId = shapeUtil.shiftShape(shape, setShape, current, setCurrent);
+            let shapeId = shapeUtil.appendShape(shape, setShape, current, setCurrent);
 
             let arcId: string | undefined = arc.at(-1)?.id;
 

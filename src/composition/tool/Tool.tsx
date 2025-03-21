@@ -52,7 +52,7 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
         shift_type = checkShift(current, event.currentTarget.id, shape);
 
         if (shift_type == 1) {
-            shapeUtil.shiftShape(shape, setShape, event.currentTarget.id, setCurrent);
+            shapeUtil.appendShape(event.currentTarget.id, shape, setShape, setCurrent);
 
         } else if (shift_type == 2) {
             setModalOpenFlag(true);
@@ -70,7 +70,7 @@ const Tool = ({shapeStateProps, updateShapeStateProps}: CanvasComponentProps): J
             <ConfirmModal isOpen={modalOpenFlag}
                           onYes={() => {
                               shapeUtil.cleanedUpShape(current, setCurrent, setShape, setPoint);
-                              shapeUtil.shiftShape(shape, setShape, tool, setCurrent);
+                              shapeUtil.appendShape(tool, shape, setShape, setCurrent);
                               setModalOpenFlag(false);
                           }}
                           onNo={() => {

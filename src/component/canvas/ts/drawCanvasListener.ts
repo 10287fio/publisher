@@ -291,12 +291,14 @@ function arcClickListener({
     let startPoint: { id: string, x: number, y: number } | undefined;
     let centerPoint: { id: string, x: number, y: number } | undefined;
     let radius: number | undefined;
+    let startPointId: string | undefined = curPoint.id;
+    let centerPointId: string | undefined;
     let startAngle: number | undefined;
     let endAngle: number | undefined;
 
     let foundShape: Shape | undefined = shape.findLast(s => s.id == shapeId);
     let foundPoint: Point | undefined;
-    let foundArc: Arc | undefined = arc.findLast(a => a.shape_id == shapeId);
+    let foundArc: Arc | undefined = arc.findLast(a => a.end_point_id == current.cur_point_id || a.center_point_id == current.cur_point_id || a.start_point_id == current.cur_point_id);
 
     if (foundArc == undefined) {
         let arcId: string | undefined = arc.at(-1)?.id;
@@ -314,9 +316,6 @@ function arcClickListener({
             is_deleted: false,
             to_close: false
         }]);
-
-        let startPointId: string | undefined = curPoint.id;
-        let centerPointId: string | undefined;
 
         if (foundShape?.type == ShapeTypeEnum.Composition && foundShape?.status == ShapeStatusEnum.Inprogress) {
             startPointId = current.cur_point_id;
@@ -444,13 +443,6 @@ function arcClickListener({
                 endAngle = shapeUtil.calEndAngle(centerPoint, endPoint, startAngle);
 
                 if (endAngle != undefined) {
-                    // setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
-                    //     {
-                    //         ...shape,
-                    //         status: ShapeStatusEnum.Closed,
-                    //         is_closed: true
-                    //     } : shape));
-
                     setPoint((prevPoints: PointArray) => [...prevPoints, {
                         id: endPoint.id,
                         shape_id: current?.shape_id,
@@ -460,7 +452,7 @@ function arcClickListener({
                         to_close: false
                     }]);
 
-                    setArc((prevState: ArcArray) => prevState.map(arc => arc.shape_id == shapeId ?
+                    setArc((prevState: ArcArray) => prevState.map(arc => arc.id == foundArc.id ?
                         {...arc, end_point_id: endPoint.id, endAngle: endAngle} : arc));
 
                     setCurrent((prevState: Current) => ({
@@ -474,43 +466,97 @@ function arcClickListener({
                 }
             }
         } else {
-            let shapeId = shapeUtil.appendShape(shape, setShape, current, setCurrent);
+            if (foundShape?.is_closed != undefined && foundShape?.is_closed) {
+                let shapeId = shapeUtil.appendShape(current?.tool, shape, setShape, setCurrent);
 
-            let arcId: string | undefined = arc.at(-1)?.id;
+                let arcId: string | undefined = arc.at(-1)?.id;
 
-            arcId = shapeUtil.generationId("a", arcId);
+                arcId = shapeUtil.generationId("a", arcId);
 
-            setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
-                {...shape, status: ShapeStatusEnum.Inprogress} : shape));
+                setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
+                    {...shape, status: ShapeStatusEnum.Inprogress} : shape));
 
-            setPoint((prevPoints: PointArray) => [...prevPoints, {
-                id: curPoint.id,
-                shape_id: current?.shape_id,
-                x: curPoint.x,
-                y: curPoint.y,
-                is_deleted: false,
-                to_close: false
-            }]);
+                setPoint((prevPoints: PointArray) => [...prevPoints, {
+                    id: curPoint.id,
+                    shape_id: current?.shape_id,
+                    x: curPoint.x,
+                    y: curPoint.y,
+                    is_deleted: false,
+                    to_close: false
+                }]);
 
-            setArc((prevState: ArcArray) => [...prevState, {
-                id: arcId,
-                shape_id: shapeId,
-                center_point_id: undefined,
-                start_point_id: curPoint.id,
-                end_point_id: undefined,
-                radius: undefined,
-                startAngle: undefined,
-                endAngle: undefined
-            }]);
+                setArc((prevState: ArcArray) => [...prevState, {
+                    id: arcId,
+                    shape_id: shapeId,
+                    center_point_id: undefined,
+                    start_point_id: curPoint.id,
+                    end_point_id: undefined,
+                    radius: undefined,
+                    startAngle: undefined,
+                    endAngle: undefined
+                }]);
 
-            setCurrent((prevState: Current) => ({
-                ...prevState,
-                shape_status: ShapeStatusEnum.Inprogress,
-                cur_point_id: curPoint.id,
-                pre_point_id1: prevState.cur_point_id,
-                pre_point_id2: prevState.pre_point_id1,
-                pre_point_id3: prevState.pre_point_id2
-            }));
+                setCurrent((prevState: Current) => ({
+                    ...prevState,
+                    shape_status: ShapeStatusEnum.Inprogress,
+                    cur_point_id: curPoint.id,
+                    pre_point_id1: prevState.cur_point_id,
+                    pre_point_id2: prevState.pre_point_id1,
+                    pre_point_id3: prevState.pre_point_id2
+                }));
+            } else if (foundShape?.is_closed != undefined && foundShape?.is_closed == false) {
+                let arcId: string | undefined = arc.at(-1)?.id;
+
+                arcId = shapeUtil.generationId("a", arcId);
+
+                setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
+                    {...shape, status: ShapeStatusEnum.Inprogress} : shape));
+
+                setPoint((prevPoints: PointArray) => [...prevPoints, {
+                    id: curPoint.id,
+                    shape_id: current?.shape_id,
+                    x: curPoint.x,
+                    y: curPoint.y,
+                    is_deleted: false,
+                    to_close: false
+                }]);
+
+                startPointId = current.cur_point_id;
+                centerPointId = curPoint.id;
+
+                foundPoint = point.findLast(p => p.id == startPointId);
+
+                startPoint = foundPoint ? {
+                    id: foundPoint.id,
+                    x: foundPoint.x,
+                    y: foundPoint.y
+                } : undefined;
+
+                if (startPoint != undefined) {
+                    radius = Math.sqrt((curPoint.x - startPoint.x) ** 2 + (startPoint.y - curPoint.y) ** 2);
+                    startAngle = shapeUtil.calStartAngle(curPoint, startPoint);
+                }
+
+                setArc((prevState: ArcArray) => [...prevState, {
+                    id: arcId,
+                    shape_id: shapeId,
+                    start_point_id: startPointId,
+                    center_point_id: centerPointId,
+                    end_point_id: undefined,
+                    radius: radius,
+                    startAngle: startAngle,
+                    endAngle: undefined
+                }]);
+
+                setCurrent((prevState: Current) => ({
+                    ...prevState,
+                    shape_status: ShapeStatusEnum.Inprogress,
+                    cur_point_id: curPoint.id,
+                    pre_point_id1: prevState.cur_point_id,
+                    pre_point_id2: prevState.pre_point_id1,
+                    pre_point_id3: prevState.pre_point_id2
+                }));
+            }
         }
     }
 }
@@ -639,7 +685,7 @@ function circleClickListener({
                 }));
             }
         } else {
-            let shapeId = shapeUtil.appendShape(shape, setShape, current, setCurrent);
+            let shapeId = shapeUtil.appendShape(current?.tool, shape, setShape, setCurrent);
 
             let arcId: string | undefined = arc.at(-1)?.id;
 

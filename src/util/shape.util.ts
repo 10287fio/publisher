@@ -263,7 +263,7 @@ function cleanedUpShape(current: Current, setCurrent: Dispatch<SetStateAction<Cu
     }));
 }
 
-function shiftShape(shape: ShapeArray, setShape: Dispatch<SetStateAction<ShapeArray>>, tool: string, setCurrent: Dispatch<SetStateAction<Current>>) {
+function appendShape(tool: string | undefined, shape: ShapeArray, setShape: Dispatch<SetStateAction<ShapeArray>>, setCurrent: Dispatch<SetStateAction<Current>>): string {
     let shapeId: string | undefined = shape?.at(-1)?.id;
 
     shapeId = generationId("s", shapeId);
@@ -295,6 +295,8 @@ function shiftShape(shape: ShapeArray, setShape: Dispatch<SetStateAction<ShapeAr
         pre_point_id2: undefined,
         pre_point_id3: undefined
     }));
+
+    return shapeId;
 }
 
 function carryOnShape(tool: string, setShape: Dispatch<SetStateAction<ShapeArray>>, current: Current, setCurrent: Dispatch<SetStateAction<Current>>) {
@@ -316,42 +318,6 @@ function carryOnShape(tool: string, setShape: Dispatch<SetStateAction<ShapeArray
         operation: OperationEnum.AP_Free,
         pre_operation: prevState.operation,
     }));
-}
-
-function appendShape(shape: ShapeArray, setShape: Dispatch<SetStateAction<ShapeArray>>, current: Current, setCurrent: Dispatch<SetStateAction<Current>>): string {
-    let shapeId: string | undefined = shape?.at(-1)?.id;
-
-    shapeId = generationId("s", shapeId);
-
-    let shapeType: ShapeTypeEnum | undefined;
-
-    shapeType = Object.values(ShapeTypeEnum).find(shapeType => shapeType == current.tool) ?? ShapeTypeEnum.Pending;
-
-    setShape((prevShapes: ShapeArray) => [...prevShapes, {
-        id: shapeId,
-        type: shapeType,
-        status: ShapeStatusEnum.New,
-        pre_status: undefined,
-        is_closed: false,
-        is_deleted: false
-    }]);
-
-    let toolType = ToolEnum[current.tool as keyof typeof ToolEnum];
-
-    setCurrent((prevState: Current) => ({
-        tool: toolType,
-        pre_tool: prevState?.tool,
-        shape_id: shapeId,
-        shape_status: ShapeStatusEnum.New,
-        operation: OperationEnum.AP_Free,
-        pre_operation: prevState.operation,
-        cur_point_id: undefined,
-        pre_point_id1: undefined,
-        pre_point_id2: undefined,
-        pre_point_id3: undefined
-    }));
-
-    return shapeId;
 }
 
 function determineQuadrant(centerPoint: { x: number, y: number }, objectPoint: { x: number, y: number }): number {
@@ -391,7 +357,6 @@ export default {
     checkAtomicity,
     cleanedUpCurrent,
     cleanedUpShape,
-    shiftShape,
     carryOnShape,
     appendShape,
     determineQuadrant

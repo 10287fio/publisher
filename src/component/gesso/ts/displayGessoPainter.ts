@@ -35,19 +35,23 @@ function arcPaint({
                   }: DisplayGessoPainterProps) {
     const point: PointArray = shapeStateProps.point;
     const arc: ArcArray = shapeStateProps.arc;
+    let foundArcArray: ArcArray = arc.filter(a => a.shape_id == shapeId);
+    let foundArc: Arc;
 
-    let foundArc: Arc | undefined = arc.find(a => a.shape_id == shapeId);
+    console.log(foundArcArray);
+    for (let i = 0; i < foundArcArray.length; i++) {
+        foundArc = foundArcArray[i];
 
-    if (foundArc != undefined && foundArc?.start_point_id != undefined && foundArc?.center_point_id != undefined && foundArc?.end_point_id != undefined && foundArc?.radius != undefined && foundArc?.startAngle != undefined && foundArc?.endAngle != undefined) {
+        if (foundArc != undefined && foundArc?.start_point_id != undefined && foundArc?.center_point_id != undefined && foundArc?.end_point_id != undefined && foundArc?.radius != undefined && foundArc?.startAngle != undefined && foundArc?.endAngle != undefined) {
+            let startPoint: Point | undefined = point.find(p => p.id == foundArc.start_point_id);
+            let centerPoint: Point | undefined = point.find(p => p.id == foundArc.center_point_id);
+            let endPoint: Point | undefined = point.find(p => p.id == foundArc.end_point_id);
 
-        let startPoint: Point | undefined = point.find(p => p.id == foundArc.start_point_id);
-        let centerPoint: Point | undefined = point.find(p => p.id == foundArc.center_point_id);
-        let endPoint: Point | undefined = point.find(p => p.id == foundArc.end_point_id);
-
-        if (startPoint && centerPoint && endPoint) {
-            displayGessoCtx.beginPath();
-            displayGessoCtx.arc(centerPoint.x, centerPoint.y, foundArc.radius, foundArc.startAngle, foundArc.endAngle, true);
-            displayGessoCtx.stroke();
+            if (startPoint && centerPoint && endPoint) {
+                displayGessoCtx.beginPath();
+                displayGessoCtx.arc(centerPoint.x, centerPoint.y, foundArc.radius, foundArc.startAngle, foundArc.endAngle, true);
+                displayGessoCtx.stroke();
+            }
         }
     }
 }

@@ -38,7 +38,6 @@ function arcPaint({
     let foundArcArray: ArcArray = arc.filter(a => a.shape_id == shapeId);
     let foundArc: Arc;
 
-    console.log(foundArcArray);
     for (let i = 0; i < foundArcArray.length; i++) {
         foundArc = foundArcArray[i];
 

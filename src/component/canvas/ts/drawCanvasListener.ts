@@ -11,6 +11,7 @@ import {
 import {ShapeTypeEnum, OperationEnum, ShapeStatusEnum} from '@/store/enum/shape.enum';
 import shapeUtil from '@/util/shape.util';
 import {Dispatch, SetStateAction} from 'react';
+import {ConfirmEnum} from '@/store/enum/system.enum';
 
 function lineMoveListener({
                               shapeStateProps,
@@ -72,8 +73,6 @@ function arcMoveListener({
     let foundShape: Shape | undefined = shape.findLast(s => s.id == shapeId);
     let foundPoint: Point | undefined;
     let foundArc: Arc | undefined = arc.findLast(a => a.end_point_id == current.cur_point_id || a.center_point_id == current.cur_point_id || a.start_point_id == current.cur_point_id);
-    console.log(foundArc);
-
 
     let condition: number | undefined;
 
@@ -629,7 +628,7 @@ function circleClickListener({
             id: arcId,
             shape_id: shapeId,
             center_point_id: curPoint.id,
-            start_point_id: undefined,
+            start_point_id: ConfirmEnum.None,
             end_point_id: undefined,
             radius: undefined,
             startAngle: undefined,
@@ -732,7 +731,7 @@ function circleClickListener({
                 id: arcId,
                 shape_id: shapeId,
                 center_point_id: curPoint.id,
-                start_point_id: undefined,
+                start_point_id: ConfirmEnum.None,
                 end_point_id: undefined,
                 radius: undefined,
                 startAngle: undefined,

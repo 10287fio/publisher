@@ -60,18 +60,45 @@ function arcMoveListener({
                              curPoint,
                              drawCtx
                          }: DrawCanvasMoveListenerProps) {
+    const shape: ShapeArray = shapeStateProps.shape;
     const point: PointArray = shapeStateProps.point;
     const arc: ArcArray = shapeStateProps.arc;
+    const current: Current = shapeStateProps.current;
 
     let startPoint: { x: number, y: number } | undefined;
     let centerPoint: { x: number, y: number } | undefined;
-    let radius: number = 0;
+    let radius: number | undefined = 0;
 
+    let foundShape: Shape | undefined = shape.findLast(s => s.id == shapeId);
     let foundPoint: Point | undefined;
-    let foundArc: Arc | undefined = arc.findLast(a => a.shape_id == shapeId);
+    let foundArc: Arc | undefined = arc.findLast(a => a.end_point_id == current.cur_point_id || a.center_point_id == current.cur_point_id || a.start_point_id == current.cur_point_id);
+    console.log(foundArc);
 
-    if (foundArc?.start_point_id != undefined && foundArc?.center_point_id == undefined && foundArc?.end_point_id == undefined) {
-        foundPoint = point.findLast(p => p.id == foundArc.start_point_id);
+
+    let condition: number | undefined;
+
+    if (foundArc == undefined && foundShape?.type == ShapeTypeEnum.Composition && foundShape?.status == ShapeStatusEnum.Inprogress) {
+        condition = 0;
+    } else if (foundArc?.start_point_id != undefined && foundArc?.center_point_id == undefined && foundArc?.end_point_id == undefined) {
+        condition = 1;
+    } else if (foundArc?.start_point_id != undefined && foundArc?.center_point_id != undefined && foundArc?.end_point_id != undefined && foundShape?.is_closed == false) {
+        condition = 2;
+    } else if (foundArc?.start_point_id != undefined && foundArc?.center_point_id != undefined && foundArc?.radius != undefined && foundArc?.end_point_id == undefined) {
+        condition = 3;
+    }
+
+    if (condition == 0 || condition == 1 || condition == 2) {
+        let startPointId: string | undefined;
+
+        if (condition == 0) {
+            startPointId = current.cur_point_id;
+        } else if (condition == 1) {
+            startPointId = foundArc?.start_point_id;
+        } else if (condition == 2) {
+            startPointId = foundArc?.end_point_id;
+        }
+
+        foundPoint = point.findLast(p => p.id == startPointId);
 
         startPoint = foundPoint ? {
             x: foundPoint.x,
@@ -84,55 +111,53 @@ function arcMoveListener({
             drawCtx.lineTo(curPoint.x, curPoint.y);
             drawCtx.stroke();
         }
-    } else if (foundArc?.start_point_id != undefined && foundArc?.center_point_id != undefined && foundArc?.radius != undefined && foundArc?.end_point_id == undefined) {
-        foundPoint = point.findLast(p => p.id == foundArc.start_point_id);
+    } else if (condition == 3) {
+        foundPoint = point.findLast(p => p.id == foundArc?.start_point_id);
 
         startPoint = foundPoint ? {
             x: foundPoint.x,
             y: foundPoint.y
         } : undefined;
 
-        foundPoint = point.findLast(p => p.id == foundArc.center_point_id);
+        foundPoint = point.findLast(p => p.id == foundArc?.center_point_id);
 
         centerPoint = foundPoint ? {
             x: foundPoint.x,
             y: foundPoint.y
         } : undefined;
 
-        radius = foundArc.radius;
+        radius = foundArc?.radius;
 
-        if (startPoint != undefined && centerPoint != undefined) {
+        if (startPoint != undefined && centerPoint != undefined && radius != undefined) {
             drawCtx.beginPath();
             drawCtx.moveTo(startPoint.x, startPoint.y);
             drawCtx.lineTo(centerPoint.x, centerPoint.y);
             drawCtx.stroke();
 
-            if (startPoint && radius) {
-                let d: number = Math.sqrt((curPoint.x - centerPoint.x) ** 2 + (centerPoint.y - curPoint.y) ** 2);
-                let endPointX: number = centerPoint.x + radius * ((curPoint.x - centerPoint.x) / d);
-                let endPointY: number = centerPoint.y + radius * ((curPoint.y - centerPoint.y) / d);
+            let d: number = Math.sqrt((curPoint.x - centerPoint.x) ** 2 + (centerPoint.y - curPoint.y) ** 2);
+            let endPointX: number = centerPoint.x + radius * ((curPoint.x - centerPoint.x) / d);
+            let endPointY: number = centerPoint.y + radius * ((curPoint.y - centerPoint.y) / d);
 
-                let endPoint: { x: number, y: number } = {
-                    x: endPointX,
-                    y: endPointY
-                };
+            let endPoint: { x: number, y: number } = {
+                x: endPointX,
+                y: endPointY
+            };
 
-                let startAngle: number | undefined = shapeUtil.calStartAngle(centerPoint, startPoint);
+            let startAngle: number | undefined = shapeUtil.calStartAngle(centerPoint, startPoint);
 
-                if (startAngle != undefined) {
-                    let endAngle: number | undefined = shapeUtil.calEndAngle(centerPoint, endPoint, startAngle);
+            if (startAngle != undefined) {
+                let endAngle: number | undefined = shapeUtil.calEndAngle(centerPoint, endPoint, startAngle);
 
-                    if (endAngle != undefined) {
-                        drawCtx.beginPath();
-                        drawCtx.moveTo(centerPoint.x, centerPoint.y);
-                        drawCtx.lineTo(endPoint.x, endPoint.y);
-                        drawCtx.stroke();
+                if (endAngle != undefined) {
+                    drawCtx.beginPath();
+                    drawCtx.moveTo(centerPoint.x, centerPoint.y);
+                    drawCtx.lineTo(endPoint.x, endPoint.y);
+                    drawCtx.stroke();
 
-                        drawCtx.beginPath();
-                        drawCtx.moveTo(centerPoint.x, centerPoint.y);
-                        drawCtx.arc(centerPoint.x, centerPoint.y, radius, startAngle, endAngle, true);
-                        drawCtx.fill();
-                    }
+                    drawCtx.beginPath();
+                    drawCtx.moveTo(centerPoint.x, centerPoint.y);
+                    drawCtx.arc(centerPoint.x, centerPoint.y, radius, startAngle, endAngle, true);
+                    drawCtx.fill();
                 }
             }
         }
@@ -281,7 +306,7 @@ function arcClickListener({
     const shape: ShapeArray = shapeStateProps.shape;
     const point: PointArray = shapeStateProps.point;
     const arc: ArcArray = shapeStateProps.arc;
-    const current: Current | undefined = shapeStateProps.current;
+    const current: Current = shapeStateProps.current;
 
     const setShape: Dispatch<SetStateAction<ShapeArray>> = updateShapeStateProps.setShape;
     const setPoint: Dispatch<SetStateAction<PointArray>> = updateShapeStateProps.setPoint;

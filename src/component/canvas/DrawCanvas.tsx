@@ -113,6 +113,9 @@ const DrawCanvas = ({shapeStateProps, updateShapeStateProps}: CanvasComponentPro
                         } else if (current?.tool == ToolEnum.Arc) {
                             drawCanvasListener.arcClickListener(drawCanvasClickListenerProps);
 
+                        } else if (current?.tool == ToolEnum.Quadrangle) {
+                            drawCanvasListener.polygonClickListener(drawCanvasClickListenerProps);
+
                         } else if (current?.tool == ToolEnum.Circle) {
                             drawCanvasListener.circleClickListener(drawCanvasClickListenerProps);
 

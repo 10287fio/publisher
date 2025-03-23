@@ -85,6 +85,18 @@ export interface Arc {
 export interface ArcArray extends Array<Arc> {
 }
 
+export interface Polygon {
+    id: string;
+    shape_id: string;
+    start_point_id: string | undefined;
+    end_point_id: string | undefined;
+    lines: Array<string> | undefined;
+    angle: number | undefined;
+}
+
+export interface PolygonArray extends Array<Polygon> {
+}
+
 export interface ShapeStateProps {
     draw: Draw;
     reserve: ReserveArray;

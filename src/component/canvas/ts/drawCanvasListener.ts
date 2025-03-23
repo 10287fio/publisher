@@ -8,7 +8,7 @@ import {
     Arc,
     DrawCanvasClickListenerProps, ShapeArray, LineArray
 } from '@/ts';
-import {ShapeTypeEnum, OperationEnum, ShapeStatusEnum} from '@/store/enum/shape.enum';
+import {ShapeTypeEnum, OperationEnum, ShapeStatusEnum, ToolEnum} from '@/store/enum/shape.enum';
 import shapeUtil from '@/util/shape.util';
 import {Dispatch, SetStateAction} from 'react';
 import {ConfirmEnum} from '@/store/enum/system.enum';
@@ -585,6 +585,20 @@ function arcClickListener({
     }
 }
 
+function polygonClickListener({
+                                  shapeStateProps,
+                                  updateShapeStateProps,
+                                  shapeId,
+                                  curPoint
+                              }: DrawCanvasClickListenerProps) {
+    const current: Current = shapeStateProps.current;
+    let tool: string | undefined = current?.tool;
+
+    if(tool == ToolEnum.Quadrangle){
+        console.log(curPoint);
+    }
+}
+
 function circleClickListener({
                                  shapeStateProps,
                                  updateShapeStateProps,
@@ -594,7 +608,7 @@ function circleClickListener({
     const shape: ShapeArray = shapeStateProps.shape;
     const point: PointArray = shapeStateProps.point;
     const arc: ArcArray = shapeStateProps.arc;
-    const current: Current | undefined = shapeStateProps.current;
+    const current: Current = shapeStateProps.current;
 
     const setShape: Dispatch<SetStateAction<ShapeArray>> = updateShapeStateProps.setShape;
     const setPoint: Dispatch<SetStateAction<PointArray>> = updateShapeStateProps.setPoint;
@@ -756,5 +770,6 @@ export default {
     circleMoveListener,
     lineClickListener,
     arcClickListener,
+    polygonClickListener,
     circleClickListener
 }

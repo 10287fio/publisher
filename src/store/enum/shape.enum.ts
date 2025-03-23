@@ -76,8 +76,9 @@ export const ToolObjectEnum: { key: string, value: string, atomicity: boolean, o
     {key: "Arc", value: "Arc", atomicity: false, order: 2},
     {key: "Triangle", value: "Triangle", atomicity: true, order: 3},
     {key: "Quadrangle", value: "Quadrangle", atomicity: true, order: 4},
-    {key: "Sector", value: "Sector", atomicity: true, order: 5},
-    {key: "Circle", value: "Circle", atomicity: true, order: 6}
+    {key: "Polygon", value:"Polygon", atomicity:true, order:5},
+    {key: "Sector", value: "Sector", atomicity: true, order: 6},
+    {key: "Circle", value: "Circle", atomicity: true, order: 7}
 ] as const;
 
 const sortedToolObjectEnum = sortEnumByOrder(ToolObjectEnum);

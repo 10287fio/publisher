@@ -6,7 +6,7 @@ import {
     Point,
     PointArray,
     Arc,
-    DrawCanvasClickListenerProps, ShapeArray, LineArray
+    DrawCanvasClickListenerProps, ShapeArray, LineArray, PolygonArray, Polygon
 } from '@/ts';
 import {ShapeTypeEnum, OperationEnum, ShapeStatusEnum, ToolEnum} from '@/store/enum/shape.enum';
 import shapeUtil from '@/util/shape.util';
@@ -591,10 +591,32 @@ function polygonClickListener({
                                   shapeId,
                                   curPoint
                               }: DrawCanvasClickListenerProps) {
+    const polygon: PolygonArray = shapeStateProps.polygon;
     const current: Current = shapeStateProps.current;
-    let tool: string | undefined = current?.tool;
 
-    if(tool == ToolEnum.Quadrangle){
+    const setShape: Dispatch<SetStateAction<ShapeArray>> = updateShapeStateProps.setShape;
+
+    let tool: string | undefined = current?.tool;
+    let foundPolygon: Polygon | undefined = polygon.findLast(p => p.shape_id == shapeId);
+
+    if (tool == ToolEnum.Quadrangle) {
+        if (foundPolygon == undefined) {
+            let polygonId: string | undefined = polygon.at(-1)?.id;
+
+            polygonId = shapeUtil.generationId("pg", polygonId);
+
+            setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
+                {...shape, status: ShapeStatusEnum.Inprogress} : shape));
+        } else {
+            if (foundPolygon?.start_point_id == undefined) {
+
+            } else if (foundPolygon?.end_point_id == undefined) {
+
+            } else {
+
+            }
+        }
+        console.log(tool);
         console.log(curPoint);
     }
 }

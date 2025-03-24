@@ -1,6 +1,6 @@
 import sketchbookStyle from '@/composition/sketchbook/Sketchbook.module.scss';
 import {useEffect, useState} from 'react';
-import {ArcArray, Current, Draw, LineArray, PointArray, ReserveArray, Result, ShapeArray} from '@/ts';
+import {ArcArray, Current, Draw, LineArray, PointArray, PolygonArray, ReserveArray, Result, ShapeArray} from '@/ts';
 import ReserveCanvas from '@/component/canvas/ReserveCanvas';
 import DrawCanvas from '@/component/canvas/DrawCanvas';
 import Tool from '@/composition/tool/Tool';
@@ -14,6 +14,7 @@ const Sketchbook = (props: any): JSX.Element => {
     const [point, setPoint] = useState<PointArray>([]);
     const [line, setLine] = useState<LineArray>([]);
     const [arc, setArc] = useState<ArcArray>([]);
+    const [polygon, setPolygon] = useState<PolygonArray>([]);
     const [current, setCurrent] = useState<Current>({
         tool: undefined,
         pre_tool: undefined,
@@ -28,11 +29,11 @@ const Sketchbook = (props: any): JSX.Element => {
     });
 
     const shapeStateProps = {
-        draw, reserve, result, shape, point, line, arc, current
+        draw, reserve, result, shape, point, line, arc, polygon, current
     };
 
     const updateShapeStateProps = {
-        setDraw, setReserve, setResult, setShape, setPoint, setLine, setArc, setCurrent
+        setDraw, setReserve, setResult, setShape, setPoint, setLine, setArc, setPolygon, setCurrent
     };
 
     useEffect(() => {

@@ -105,6 +105,7 @@ export interface ShapeStateProps {
     point: PointArray;
     line: LineArray;
     arc: ArcArray;
+    polygon: PolygonArray;
     current: Current;
 }
 
@@ -116,5 +117,6 @@ export interface UpdateShapeStateProps {
     setPoint: Dispatch<SetStateAction<PointArray>>;
     setLine: Dispatch<SetStateAction<LineArray>>;
     setArc: Dispatch<SetStateAction<ArcArray>>;
+    setPolygon: Dispatch<SetStateAction<PolygonArray>>;
     setCurrent: Dispatch<SetStateAction<Current>>;
 }

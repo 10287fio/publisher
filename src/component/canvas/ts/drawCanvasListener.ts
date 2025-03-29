@@ -332,9 +332,9 @@ function arcClickListener({
         setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
             {...shape, status: ShapeStatusEnum.Inprogress} : shape));
 
-        setPoint((prevPoints: PointArray) => [...prevPoints, {
+        setPoint((prevState: PointArray) => [...prevState, {
             id: curPoint.id,
-            shape_id: current?.shape_id,
+            shape_id: shapeId,
             x: curPoint.x,
             y: curPoint.y,
             is_deleted: false,
@@ -396,9 +396,9 @@ function arcClickListener({
                     setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
                         {...shape, status: ShapeStatusEnum.Inprogress} : shape));
 
-                    setPoint((prevPoints: PointArray) => [...prevPoints, {
+                    setPoint((prevState: PointArray) => [...prevState, {
                         id: curPoint.id,
-                        shape_id: current?.shape_id,
+                        shape_id: shapeId,
                         x: curPoint.x,
                         y: curPoint.y,
                         is_deleted: false,
@@ -467,9 +467,9 @@ function arcClickListener({
                 endAngle = shapeUtil.calEndAngle(centerPoint, endPoint, startAngle);
 
                 if (endAngle != undefined) {
-                    setPoint((prevPoints: PointArray) => [...prevPoints, {
+                    setPoint((prevState: PointArray) => [...prevState, {
                         id: endPoint.id,
-                        shape_id: current?.shape_id,
+                        shape_id: shapeId,
                         x: endPoint.x,
                         y: endPoint.y,
                         is_deleted: false,
@@ -500,9 +500,9 @@ function arcClickListener({
                 setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
                     {...shape, status: ShapeStatusEnum.Inprogress} : shape));
 
-                setPoint((prevPoints: PointArray) => [...prevPoints, {
+                setPoint((prevState: PointArray) => [...prevState, {
                     id: curPoint.id,
-                    shape_id: current?.shape_id,
+                    shape_id: shapeId,
                     x: curPoint.x,
                     y: curPoint.y,
                     is_deleted: false,
@@ -536,9 +536,9 @@ function arcClickListener({
                 setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
                     {...shape, status: ShapeStatusEnum.Inprogress} : shape));
 
-                setPoint((prevPoints: PointArray) => [...prevPoints, {
+                setPoint((prevState: PointArray) => [...prevState, {
                     id: curPoint.id,
-                    shape_id: current?.shape_id,
+                    shape_id: shapeId,
                     x: curPoint.x,
                     y: curPoint.y,
                     is_deleted: false,
@@ -595,6 +595,9 @@ function polygonClickListener({
     const current: Current = shapeStateProps.current;
 
     const setShape: Dispatch<SetStateAction<ShapeArray>> = updateShapeStateProps.setShape;
+    const setPoint: Dispatch<SetStateAction<PointArray>> = updateShapeStateProps.setPoint;
+    const setLine: Dispatch<SetStateAction<LineArray>> = updateShapeStateProps.setLine;
+    const setPolygon: Dispatch<SetStateAction<PolygonArray>> = updateShapeStateProps.setPolygon;
 
     let tool: string | undefined = current?.tool;
     let foundPolygon: Polygon | undefined = polygon.findLast(p => p.shape_id == shapeId);
@@ -607,8 +610,41 @@ function polygonClickListener({
 
             setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
                 {...shape, status: ShapeStatusEnum.Inprogress} : shape));
+
+            setPoint((prevState: PointArray) => [...prevState, {
+                id: curPoint.id,
+                shape_id: shapeId,
+                x: curPoint.x,
+                y: curPoint.y,
+                is_deleted: false,
+                to_close: false
+            }]);
+
+            setPolygon((prevState: PolygonArray) => [...prevState, {
+                id: polygonId,
+                shape_id: shapeId,
+                start_point_id: curPoint.id,
+                end_point_id: undefined,
+                lines: undefined,
+                n_gon: 4
+            }]);
+
         } else {
             if (foundPolygon?.start_point_id == undefined) {
+                setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
+                    {...shape, status: ShapeStatusEnum.Inprogress} : shape));
+
+                setPoint((prevState: PointArray) => [...prevState, {
+                    id: curPoint.id,
+                    shape_id: shapeId,
+                    x: curPoint.x,
+                    y: curPoint.y,
+                    is_deleted: false,
+                    to_close: false
+                }]);
+
+                setPolygon((prevState: PolygonArray) => prevState.map(polygon => polygon.id == foundPolygon?.id ?
+                    {...polygon, start_point_id: curPoint.id} : polygon));
 
             } else if (foundPolygon?.end_point_id == undefined) {
 
@@ -651,9 +687,9 @@ function circleClickListener({
         setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
             {...shape, status: ShapeStatusEnum.Inprogress} : shape));
 
-        setPoint((prevPoints: PointArray) => [...prevPoints, {
+        setPoint((prevState: PointArray) => [...prevState, {
             id: curPoint.id,
-            shape_id: current?.shape_id,
+            shape_id: shapeId,
             x: curPoint.x,
             y: curPoint.y,
             is_deleted: false,
@@ -684,9 +720,9 @@ function circleClickListener({
             setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
                 {...shape, status: ShapeStatusEnum.Inprogress} : shape));
 
-            setPoint((prevPoints: PointArray) => [...prevPoints, {
+            setPoint((prevState: PointArray) => [...prevState, {
                 id: curPoint.id,
-                shape_id: current?.shape_id,
+                shape_id: shapeId,
                 x: curPoint.x,
                 y: curPoint.y,
                 is_deleted: false,
@@ -719,9 +755,9 @@ function circleClickListener({
                 setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
                     {...shape, status: ShapeStatusEnum.Closed, is_closed: true} : shape));
 
-                setPoint((prevPoints: PointArray) => [...prevPoints, {
+                setPoint((prevState: PointArray) => [...prevState, {
                     id: curPoint.id,
-                    shape_id: current?.shape_id,
+                    shape_id: shapeId,
                     x: curPoint.x,
                     y: curPoint.y,
                     is_deleted: false,
@@ -754,9 +790,9 @@ function circleClickListener({
             setShape((prevState: ShapeArray) => prevState.map(shape => shape.id == shapeId ?
                 {...shape, status: ShapeStatusEnum.Inprogress} : shape));
 
-            setPoint((prevPoints: PointArray) => [...prevPoints, {
+            setPoint((prevState: PointArray) => [...prevState, {
                 id: curPoint.id,
-                shape_id: current?.shape_id,
+                shape_id: shapeId,
                 x: curPoint.x,
                 y: curPoint.y,
                 is_deleted: false,

@@ -91,7 +91,7 @@ export interface Polygon {
     start_point_id: string | undefined;
     end_point_id: string | undefined;
     lines: Array<string> | undefined;
-    angle: number | undefined;
+    n_gon: number | undefined;
 }
 
 export interface PolygonArray extends Array<Polygon> {

@@ -647,6 +647,10 @@ function polygonClickListener({
                     {...polygon, start_point_id: curPoint.id} : polygon));
 
             } else if (foundPolygon?.end_point_id == undefined) {
+                let p1: { id: string, x: number, y: number } | undefined;
+                let p2: { id: string, x: number, y: number } | undefined;
+                let p3: { id: string, x: number, y: number } | undefined;
+                let p4: { id: string, x: number, y: number } | undefined;
 
             } else {
 
